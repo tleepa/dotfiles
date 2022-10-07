@@ -1,5 +1,5 @@
 {{ if eq .chezmoi.os "windows" }}
-if (Get-Command -Name scoop -ErrorAction SilentlyContinue) {
+if ((Get-Command -Name scoop -ErrorAction SilentlyContinue) -and ($PSVersionTable.PSEdition -eq "Desktop")) {
     $tools = @{
         "cat" = "bat"
         "curl" = "curl"
