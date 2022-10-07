@@ -1,0 +1,12 @@
+# ansible inventory plugin
+export AZURE_CLIENT_ID="{{ keepassxcAttribute "P&C Azure MSDN SP" "appId" }}"
+export AZURE_SECRET="{{ (keepassxc "P&C Azure MSDN SP").Password }}"
+export AZURE_SUBSCRIPTION_ID="{{ keepassxcAttribute "P&C Azure MSDN SP" "subscriptionId" }}"
+export AZURE_TENANT="{{ keepassxcAttribute "P&C Azure MSDN SP" "tenantId" }}"
+
+# terraform
+export ARM_CLIENT_ID="{{ keepassxcAttribute "P&C Azure MSDN SP" "appId" }}"
+export ARM_CLIENT_SECRET="{{ (keepassxc "P&C Azure MSDN SP").Password }}"
+export ARM_SUBSCRIPTION_ID="{{ keepassxcAttribute "P&C Azure MSDN SP" "subscriptionId" }}"
+export ARM_TENANT_ID="{{ keepassxcAttribute "P&C Azure MSDN SP" "tenantId" }}"
+

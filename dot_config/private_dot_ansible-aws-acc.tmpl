@@ -1,0 +1,6 @@
+# ansible inventory plugin
+# terraform
+export AWS_ACCESS_KEY_ID={{ (keepassxc "P&C AWS access key").UserName }}
+export AWS_SECRET_ACCESS_KEY={{ (keepassxc "P&C AWS access key").Password }}
+export AWS_REGION={{ keepassxcAttribute "P&C AWS access key" "region" }}
+

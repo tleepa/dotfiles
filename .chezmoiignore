@@ -1,0 +1,18 @@
+LICENSE.md
+README.md
+
+{{ if eq .chezmoi.os "windows" -}}
+.config/aliasrc
+.config/ansible.cfg
+.config/powershell
+.oh-my-zsh/
+.p10k.zsh
+.zshrc
+.zprofile
+.nass.credentials
+bin/*.sh
+bin/msysgit2unix*
+{{ else if eq .chezmoi.os "linux" -}}
+**/*.zwc
+Documents
+{{ end -}}

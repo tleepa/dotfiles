@@ -1,0 +1,57 @@
+if has("win32")
+  set encoding=utf-8
+  set termguicolors
+  :lang en_US.UTF-8
+  set rtp+=~/.vim,~/.vim/pack/plugins/start/dracula-theme,~/.vim/pack/plugins/start/vim-airline,~/.vim/pack/plugins/start/vim-fugitive,~/.vim/pack/plugins/start/vim-devicons,~/.vim/pack/plugins/start/vim-jenkinsfile,~/.vim/pack/plugins/start/vim-hcl,~/.vim/pack/plugins/start/vim-black
+else
+  packadd! dracula-theme
+endif
+
+if has("gui_running")
+  set guifont=MesloLGS_NF:h12
+  set guioptions-=m  "no menu bar
+  set guioptions-=T  "no toolbar
+  set lines=55
+  set columns=160
+endif
+
+let &t_SI="\e[5 q"
+let &t_SR="\e[4 q"
+let &t_EI="\e[1 q"
+
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+
+if !isdirectory("~/.local/pipx/venvs/black")
+  let g:black_virtualenv = "~/.local/pipx/venvs/black"
+endif
+
+set t_u7=
+set laststatus=2 " Always display the statusline in all windows
+set showtabline=2 " Always display the tabline, even if there is only one tab
+set noshowmode " Hide the default mode text (e.g. -- INSERT -- below the statusline)
+set t_Co=256
+set backupdir=~/.vim/backup//
+set directory=~/.vim/swap//
+set undodir=~/.vim/undo//
+set backspace=indent,eol,start
+
+set mouse=a
+
+syntax on
+set incsearch
+
+set ts=2
+set sts=2
+set sw=2
+set expandtab
+
+set number relativenumber
+augroup numbertoggle
+  autocmd!
+  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+augroup END
+
+colorscheme dracula
+

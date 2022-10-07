@@ -1,0 +1,40 @@
+{{- $autoCrLf := "input" -}}
+{{- $credHelper := "store" -}}
+{{- if eq .chezmoi.os "windows" }}
+{{- $autoCrLf = "true" -}}
+{{- $credHelper = "manager-core" -}}
+{{-   if and (index .chezmoi.kernel "osrelease") (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+{{-   $credHelper = output "command" "-v" "git-credential-manager-core.exe" | trim -}}
+{{-   end -}}
+{{- else -}}
+{{- end -}}
+
+[core]
+    pager = delta
+    autocrlf = {{ $autoCrLf }}
+{{- if eq .chezmoi.os "windows" }}
+    quotepath = false
+    commitGraph = true
+    longpaths = true
+
+[credential "helperselector"]
+    selected = manager-core
+
+{{- end }}
+
+[credential]
+    helper = {{ $credHelper }}
+
+[delta]
+    line-numbers = true
+    side-by-side = true
+    syntax-theme = Dracula
+{{ if and (index . "git") (or (index .git "email") (index .git "user")) }}
+[user]
+{{-   if index .git "email" }}
+    email = {{ .git.email }}
+{{-   end }}
+{{-   if index .git "user" }}
+    user = {{ .git.user }}
+{{-   end }}
+{{- end }}

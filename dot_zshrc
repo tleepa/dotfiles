@@ -1,0 +1,56 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+export ZSH="$HOME/.oh-my-zsh"
+
+ZSH_THEME=powerlevel10k/powerlevel10k
+DISABLE_AUTO_UPDATE="true"
+COMPLETION_WAITING_DOTS="true"
+
+plugins=(zoxide fzf git zsh-autosuggestions zsh-syntax-highlighting sudo)
+source $ZSH/oh-my-zsh.sh
+
+# User configuration
+export LANGUAGE=en_US.UTF-8
+export LANG=en_US.UTF-8
+
+setopt inc_append_history
+setopt share_history
+setopt hist_ignore_all_dups
+setopt hist_save_no_dups
+setopt extended_glob
+
+[ -f ~/.p10k.zsh ] && source ~/.p10k.zsh
+
+export SHELL=/bin/zsh
+export EDITOR=vim
+export PAGER=less
+
+export FZF_DEFAULT_OPTS='--color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9 --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6 --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4'
+export DBX_CONTAINER_NAME=fedora-toolbox-36
+# export DISPLAY=127.0.0.1:0
+
+# Secrets
+[ -f "$HOME/.config/ansible.cfg" ] && command -v ansible >/dev/null && export ANSIBLE_CONFIG="$HOME/.config/ansible.cfg"
+[ -f "$HOME/.config/.ansible-vault-pwd" ] && command -v ansible-vault >/dev/null && export ANSIBLE_VAULT_PASSWORD_FILE="$HOME/.config/.ansible-vault-pwd"
+[ -f "$HOME/.config/.github-token" ] && command -v git >/dev/null && source "$HOME/.config/.github-token"
+command -v terraform >/dev/null && export TF_CLI_CONFIG_FILE="$HOME/.config/.terraformrc"
+
+# Completions
+autoload -U +X compinit && compinit
+autoload -U +X bashcompinit && bashcompinit
+
+[ -f /etc/bash_completion.d/azure-cli ] && source /etc/bash_completion.d/azure-cli
+[ -f /usr/lib64/google-cloud-sdk/completion.zsh.inc ] && source /usr/lib64/google-cloud-sdk/completion.zsh.inc
+command -v aws_completer && complete -C "$(command -v aws_completer)" aws
+command -v minikube >/dev/null && source <(minikube completion zsh)
+command -v kubectl >/dev/null && source <(kubectl completion zsh)
+command -v pipx >/dev/null && command -v register-python-argcomplete >/dev/null && eval "$(register-python-argcomplete pipx)"
+command -v terraform >/dev/null && complete -o nospace -C "$(command -v terraform)" terraform
+command -v packer >/dev/null && complete -o nospace -C "$(command -v packer)" packer
+command -v terramate >/dev/null && complete -o nospace -C "$(command -v terramate)" terramate
+
+# Aliases
+[ -f "$HOME/.config/aliasrc" ] && source "$HOME/.config/aliasrc"
