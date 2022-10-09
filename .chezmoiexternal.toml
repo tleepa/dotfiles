@@ -43,6 +43,11 @@
     stripComponents = 1
     refreshPeriod = "168h"
 {{ end -}}
+["bin/gov.py"]
+    type = "file"
+    executable = true
+    url = "https://gist.github.com/tleepa/72a11fec0071e78b61f58d8e5768af99/raw"
+    refreshPeriod = "168h"
 [".vim/pack/plugins/start/dracula-theme"]
     type = "archive"
     url = "https://github.com/dracula/vim/archive/master.tar.gz"
