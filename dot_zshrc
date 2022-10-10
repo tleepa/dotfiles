@@ -44,7 +44,7 @@ autoload -U +X bashcompinit && bashcompinit
 
 [ -f /etc/bash_completion.d/azure-cli ] && source /etc/bash_completion.d/azure-cli
 [ -f /usr/lib64/google-cloud-sdk/completion.zsh.inc ] && source /usr/lib64/google-cloud-sdk/completion.zsh.inc
-command -v aws_completer && complete -C "$(command -v aws_completer)" aws
+command -v aws_completer >/dev/null && complete -C "$(command -v aws_completer)" aws
 command -v minikube >/dev/null && source <(minikube completion zsh)
 command -v kubectl >/dev/null && source <(kubectl completion zsh)
 command -v pipx >/dev/null && command -v register-python-argcomplete >/dev/null && eval "$(register-python-argcomplete pipx)"
