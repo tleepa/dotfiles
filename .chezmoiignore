@@ -3,6 +3,7 @@ README.md
 
 {{ if eq .chezmoi.os "windows" -}}
 .config/aliasrc
+.config/btop
 .config/ansible.cfg
 .config/powershell
 .oh-my-zsh/
