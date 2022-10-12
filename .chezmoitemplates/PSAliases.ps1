@@ -37,4 +37,8 @@ if (scoop shim list privoxy) {
         Pop-Location
     }
 }
+
+if (scoop shim list wsl-ssh-agent) {
+    "$(scoop prefix wsl-ssh-agent) wsl-ssh-agent-gui -socket $env:USERPROFILE.\.keepassxc.sock" | Invoke-Expression
+}
 {{- end -}}

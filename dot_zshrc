@@ -32,6 +32,9 @@ export FZF_DEFAULT_OPTS='--color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 --color=fg+:#f
 export DBX_CONTAINER_NAME=fedora-toolbox-36
 # export DISPLAY=127.0.0.1:0
 
+# WSL SSH agent
+[ -f "$HOME/winhome/.keepassxc.sock" ] && export SSH_AUTH_SOCK="$HOME/winhome/.keepassxc.sock"
+
 # Secrets
 [ -f "$HOME/.config/ansible.cfg" ] && command -v ansible >/dev/null && export ANSIBLE_CONFIG="$HOME/.config/ansible.cfg"
 [ -f "$HOME/.config/.ansible-vault-pwd" ] && command -v ansible-vault >/dev/null && export ANSIBLE_VAULT_PASSWORD_FILE="$HOME/.config/.ansible-vault-pwd"
