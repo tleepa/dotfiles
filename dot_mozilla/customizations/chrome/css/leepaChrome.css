@@ -1,0 +1,39 @@
+#tabbrowser-tabs { visibility: collapse !important; }
+/*#nav-bar {
+  border-top: 0px !important;
+  margin-right: 144px;
+  margin-top: -30px;
+}*/
+
+/* remove icons from bookmar bar */
+#personal-bookmarks .bookmark-item > .toolbarbutton-icon {display:none!important}
+
+@-moz-document url(chrome://browser/content/browser.xul) {
+  /* Remove " - Visit" or " - Search with" bar in the drop-down */
+  #PopupAutoCompleteRichResult richlistitem:first-of-type[type*="heuristic"],
+  #PopupAutoCompleteRichResult richlistitem:first-of-type[actiontype="searchengine"],
+  #PopupAutoCompleteRichResult richlistitem:first-of-type[actiontype="visiturl"],
+  #PopupAutoCompleteRichResult richlistitem:first-of-type[actiontype="keyword"] {
+    display:none !important;
+  }
+
+  #PopupAutoCompleteRichResult .autocomplete-richlistbox {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  /* EXCEPTION: Show "Search with" for keyworded search engines */
+  #PopupAutoCompleteRichResult richlistitem:first-of-type[actiontype="searchengine"][displayurl*=',"alias":'],
+  #PopupAutoCompleteRichResult richlistitem:first-of-type[actiontype="searchengine"][url*=',"alias":']{
+    display:-moz-box !important;
+  }
+
+  /* Hide sidebar header */
+  #sidebar-header {
+    display: none !important;
+  }
+
+  .tabbrowser-tab[notselectedsinceload="true"] {
+    color: crimson !important;
+  }
+}

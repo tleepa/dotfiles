@@ -42,6 +42,27 @@
     exact = true
     stripComponents = 1
     refreshPeriod = "168h"
+["bin/fx-user-js-updater.sh"]
+    type = "file"
+    executable = true
+    url = "https://raw.githubusercontent.com/arkenfox/user.js/master/updater.sh"
+    refreshPeriod = "168h"
+["bin/fx-prefs-cleaner.sh"]
+    type = "file"
+    executable = true
+    url = "https://raw.githubusercontent.com/arkenfox/user.js/master/prefsCleaner.sh"
+    refreshPeriod = "168h"
+{{ else -}}
+["bin/fx-user-js-updater.bat"]
+    type = "file"
+    executable = true
+    url = "https://raw.githubusercontent.com/arkenfox/user.js/master/updater.bat"
+    refreshPeriod = "168h"
+["bin/fx-prefs-cleaner.bat"]
+    type = "file"
+    executable = true
+    url = "https://raw.githubusercontent.com/arkenfox/user.js/master/prefsCleaner.bat"
+    refreshPeriod = "168h"
 {{ end -}}
 ["bin/gov.py"]
     type = "file"
