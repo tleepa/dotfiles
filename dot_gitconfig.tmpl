@@ -3,10 +3,10 @@
 {{- if eq .chezmoi.os "windows" }}
 {{- $autoCrLf = "true" -}}
 {{- $credHelper = "manager-core" -}}
+{{- else -}}
 {{-   if and (index .chezmoi.kernel "osrelease") (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 {{-   $credHelper = output "command" "-v" "git-credential-manager-core.exe" | trim -}}
 {{-   end -}}
-{{- else -}}
 {{- end -}}
 
 [core]
