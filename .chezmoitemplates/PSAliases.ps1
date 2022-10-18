@@ -6,7 +6,8 @@ if ((Get-Command -Name scoop -ErrorAction SilentlyContinue) -and ($PSVersionTabl
         "diff" = "delta"
     }
     $tools.Keys | ForEach-Object {
-        $scoop_shim = $(scoop shim list $tools.$_)
+        $tool = $tools.$_
+        $scoop_shim = $(scoop shim list | Where-Object {$_.Name -eq $tool})
         if ($scoop_shim) {
             Set-Alias -Name $_ -Value $scoop_shim.Path -Force
         }
@@ -17,7 +18,7 @@ if (Get-Command -Name bat -ErrorAction SilentlyContinue) {
     $env:BAT_CONFIG_PATH = "$($env:USERPROFILE)\.config\bat\config"
 }
 
-if (scoop shim list privoxy) {
+if (scoop shim list | Where-Object {$_.Name -eq "privoxy"}) {
     function privoxy_start {
         param (
             [string]$config_file
@@ -38,7 +39,7 @@ if (scoop shim list privoxy) {
     }
 }
 
-if (scoop shim list wsl-ssh-agent) {
+if (scoop shim list | Where-Object {$_.Name -eq "wsl-ssh-agent"}) {
     "$(scoop prefix wsl-ssh-agent)\wsl-ssh-agent-gui -socket $env:USERPROFILE.\.keepassxc.sock" | Invoke-Expression
 }
 {{- end -}}
