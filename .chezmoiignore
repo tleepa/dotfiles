@@ -13,6 +13,10 @@ README.md
 .nass.credentials
 bin/*.sh
 bin/msysgit2unix*
+{{-   if eq .chezmoi.fqdnHostname (keepassxcAttribute "CWID Primary" "wvd_hostname") }}
+.config/.*
+Documents/WindowsPowerShell
+{{-   end }}
 {{- else if eq .chezmoi.os "linux" }}
 {{-   if and (index .chezmoi.kernel "osrelease") (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 .mozilla

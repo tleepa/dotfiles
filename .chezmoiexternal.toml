@@ -124,3 +124,7 @@
     type = "file"
     url = "https://raw.githubusercontent.com/psf/black/stable/plugin/black.vim"
     refreshPeriod = "168h"
+[".vim/plugin/cool.vim"]
+    type = "file"
+    url = "https://raw.githubusercontent.com/romainl/vim-cool/master/plugin/cool.vim"
+    refreshPeriod = "168h"
