@@ -52,7 +52,7 @@
     executable = true
     url = "https://raw.githubusercontent.com/arkenfox/user.js/master/prefsCleaner.sh"
     refreshPeriod = "168h"
-{{ else -}}
+{{ else if ne .chezmoi.fqdnHostname (keepassxcAttribute "CWID Primary" "wvd_hostname") -}}
 ["bin/fx-user-js-updater.bat"]
     type = "file"
     executable = true
@@ -63,7 +63,6 @@
     executable = true
     url = "https://raw.githubusercontent.com/arkenfox/user.js/master/prefsCleaner.bat"
     refreshPeriod = "168h"
-{{ end -}}
 ["bin/gov.py"]
     type = "file"
     executable = true
@@ -74,6 +73,7 @@
     executable = true
     url = "https://gist.github.com/tleepa/58472e948115de7733d59ccf4adccf55/raw"
     refreshPeriod = "168h"
+{{- else }}
 [".vim/pack/plugins/start/dracula-theme"]
     type = "archive"
     url = "https://github.com/dracula/vim/archive/master.tar.gz"
@@ -128,3 +128,4 @@
     type = "file"
     url = "https://raw.githubusercontent.com/romainl/vim-cool/master/plugin/cool.vim"
     refreshPeriod = "168h"
+{{- end -}}
