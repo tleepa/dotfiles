@@ -1,3 +1,1 @@
-{{- if ne .chezmoi.fqdnHostname (keepassxcAttribute "CWID Primary" "wvd_hostname") }}
 {{- template "Microsoft.PowerShell_profile.ps1" . -}}
-{{- end -}}
