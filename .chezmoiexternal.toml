@@ -1,13 +1,10 @@
 {{ if ne .chezmoi.os "windows" -}}
-["bin/update-tools.py"]
-    type = "file"
-    executable = true
-    url = "https://raw.githubusercontent.com/tleepa/update-tools/main/update-tools.py"
+["bin"]
+    type = "archive"
+    url = "https://github.com/tleepa/update-tools/archive/main.tar.gz"
+    stripComponents = 1
     refreshPeriod = "168h"
-["bin/update-tools.yaml"]
-    type = "file"
-    url = "https://raw.githubusercontent.com/tleepa/update-tools/main/update-tools.yaml"
-    refreshPeriod = "168h"
+    include = ["*/update-tools*"]
 ["bin/libvirt-inventory.py"]
     type = "file"
     executable = true
