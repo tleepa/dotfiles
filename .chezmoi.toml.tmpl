@@ -1,5 +1,3 @@
-{{ $gitEmail := promptString "git email" -}}
-{{ $gitUser := promptString "git user" -}}
 {{ $keepassXcDbPath := promptString "path to KeePassXC database" -}}
 {{ $keepassXcKeyFilePath := promptString "path to KeePassXC key file" -}}
 [diff]
@@ -12,12 +10,3 @@
 {{- if $keepassXcKeyFilePath }}
     args = ["-k", {{ $keepassXcKeyFilePath | quote }}]
 {{- end }}
-{{ if or $gitEmail $gitUser }}
-[data.git]
-{{-  if $gitUser }}
-{{-   end }}
-    user = {{ $gitUser | quote }}
-{{-   if $gitEmail }}
-    email = {{ $gitEmail | quote }}
-{{-   end -}}
-{{- end -}}
