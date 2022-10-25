@@ -15,53 +15,6 @@ function Get-SshSessions {
         | Select-Object -Property Id, Name, CommandLine
 }
 
-function Update-AzureCli {
-    param (
-        [Switch] $DownloadOnly,
-        [String] $DownloadDir = $dlDir
-    )
-
-    if (Test-Path $DownloadDir) {
-        Start-BitsTransfer -Source 'https://aka.ms/installazurecliwindows' -Destination $DownloadDir\AzureCLI.msi
-        if (-not $DownloadOnly) {
-            Start-Process msiexec.exe -Wait -ArgumentList "/I $DownloadDir\AzureCLI.msi /quiet"
-        }
-    } else {
-        Write-Error "Path $DownloadDir not found!"
-    }
-}
-
-function Update-AwsCli {
-    param (
-        [Switch] $DownloadOnly,
-        [String] $DownloadDir = $dlDir
-    )
-
-    if (Test-Path $DownloadDir) {
-        Start-BitsTransfer -Source 'https://awscli.amazonaws.com/AWSCLIV2.msi' -Destination $DownloadDir\AWSCLIV2.msi
-        if (-not $DownloadOnly) {
-            Start-Process msiexec.exe -Wait -ArgumentList "/I $DownloadDir\AWSCLIV2.msi /quiet"
-        }
-    } else {
-        Write-Error "Path $DownloadDir not found!"
-    }
-}
-
-function Update-GcpCli {
-    param (
-        [Switch] $DownloadOnly,
-        [String] $DownloadDir = $dlDir
-    )
-
-    if (Test-Path $DownloadDir) {
-        Start-BitsTransfer -Source 'https://dl.google.com/dl/cloudsdk/channels/rapid/GoogleCloudSDKInstaller.exe' -Destination $DownloadDir\GoogleCloudSDKInstaller.exe
-        if (-not $DownloadOnly) {
-            Start-Process $DownloadDir\GoogleCloudSDKInstaller.exe -Wait -ArgumentList "/S /norepporting /nodesktop /allusers"
-        }
-    } else {
-        Write-Error "Path $DownloadDir not found!"
-    }
-}
 
 function Check-DO {
 param (
