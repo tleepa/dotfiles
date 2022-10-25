@@ -2,7 +2,7 @@ $env:POSH_SESSION_DEFAULT_USER = "{{ .chezmoi.username }}"
 {{ if eq .chezmoi.os "windows" -}}
 $env:PATH = "{{ .chezmoi.homeDir }}/bin;$($env:PATH)"
 
-if (!(Get-InstalledModule -Name ZLocation -ErrorAction SilentlyContinue)) {
+if (!(Get-Module -Name ZLocation -ListAvailable -ErrorAction SilentlyContinue)) {
     Install-Module -Name ZLocation -Scope CurrentUser
 }
 Import-Module -Name ZLocation
