@@ -15,6 +15,7 @@ bin/*.sh
 bin/msysgit2unix*
 {{-   if eq .chezmoi.fqdnHostname (keepassxcAttribute "CWID Primary" "wvd_hostname") }}
 .config/.*
+.gitconfig-prv
 .mozilla
 Documents/WindowsPowerShell
 {{-   end }}
