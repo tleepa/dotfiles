@@ -1,6 +1,16 @@
 {{ if eq .chezmoi.os "windows" }}
 if (Get-Command -Name scoop -ErrorAction SilentlyContinue) {
+    $scoop_root = $(scoop config).root_path
     $scoop_shims = $(scoop shim list)
+
+    function get_scoop_app_path {
+        param (
+            [string]$shim
+        )
+
+        $app_name = ($scoop_shims | Where-Object {$_.Type -eq "Application" -and $_.Name -eq $shim}).Source
+        return ("{0}\apps\{1}\current" -f $scoop_root, $app_name)
+    }
 }
 
 if ((Get-Command -Name scoop -ErrorAction SilentlyContinue) -and ($PSVersionTable.PSEdition -ne "Desktop")) {
@@ -29,7 +39,7 @@ if ($scoop_shims | Where-Object {$_.Name -eq "privoxy"}) {
         )
 
         Push-Location
-        cd $(scoop prefix privoxy)
+        cd (get_scoop_app_path "privoxy")
         if (Test-Path -Path "conf.d\$config_file") {
             $config_file = "conf.d\$config_file"
         }
@@ -44,6 +54,6 @@ if ($scoop_shims | Where-Object {$_.Name -eq "privoxy"}) {
 }
 
 if ($scoop_shims | Where-Object {$_.Name -eq "wsl-ssh-agent-gui"}) {
-    "$(scoop prefix wsl-ssh-agent)\wsl-ssh-agent-gui -socket $env:USERPROFILE.\.keepassxc.sock" | Invoke-Expression
+    "$(get_scoop_app_path "wsl-ssh-agent")\wsl-ssh-agent-gui -socket $env:USERPROFILE.\.keepassxc.sock" | Invoke-Expression
 }
 {{- end -}}
