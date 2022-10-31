@@ -56,11 +56,23 @@
         --checkbox-checked-hover-bgcolor: rgb(214, 172, 255) !important;
         --checkbox-checked-active-bgcolor: rgb(214, 172, 255) !important;
         --newtab-primary-action-background: rgb(214, 172, 255) !important;
+        --newtab-primary-action-background-hover: rgb(214, 172, 255) !important;
+    }
+    body {
+        --in-content-primary-button-background: rgb(189, 147, 249) !important;
+        --in-content-primary-button-background-hover: rgb(214, 172, 255) !important;
+        --in-content-primary-button-background-active: rgb(214, 172, 255) !important;
+        --in-content-table-header-background: rgb(255, 121, 198) !important;
+        --checkbox-checked-bgcolor: rgb(189, 147, 249) !important;
+        --checkbox-checked-hover-bgcolor: rgb(214, 172, 255) !important;
+        --checkbox-checked-active-bgcolor: rgb(214, 172, 255) !important;
+        --newtab-primary-action-background: rgb(214, 172, 255) !important;
+        --newtab-primary-action-background-hover: rgb(214, 172, 255) !important;
     }
 }
 
 @media (prefers-color-scheme: dark) {
-    :root {
+    :host, :root {
         --in-content-primary-button-background: rgb(189, 147, 249) !important;
         --in-content-primary-button-background-hover: rgb(214, 172, 255) !important;
         --in-content-primary-button-background-active: rgb(214, 172, 255) !important;
