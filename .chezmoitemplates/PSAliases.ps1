@@ -54,6 +54,6 @@ if ($scoop_shims | Where-Object {$_.Name -eq "privoxy"}) {
 }
 
 if ($scoop_shims | Where-Object {$_.Name -eq "wsl-ssh-agent-gui"}) {
-    "$(get_scoop_app_path "wsl-ssh-agent")\wsl-ssh-agent-gui -socket $env:USERPROFILE.\.keepassxc.sock" | Invoke-Expression
+    "$(get_scoop_app_path "wsl-ssh-agent-gui")\wsl-ssh-agent-gui -socket $env:USERPROFILE.\.keepassxc.sock" | Invoke-Expression
 }
 {{- end -}}
