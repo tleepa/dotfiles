@@ -1,6 +1,6 @@
 // leepa overrides
 
-user_pref("accessibility.typeaheadfind", true);
+user_pref("accessibility.typeaheadfind", false);
 user_pref("browser.ctrlTab.sortByRecentlyUsed", false);
 user_pref("browser.display.use_system_colors", true);
 user_pref("browser.download.alwaysOpenPanel", true);

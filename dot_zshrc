@@ -57,3 +57,4 @@ command -v terramate >/dev/null && complete -o nospace -C "$(command -v terramat
 
 # Aliases
 [ -f "$HOME/.config/aliasrc" ] && source "$HOME/.config/aliasrc"
+
