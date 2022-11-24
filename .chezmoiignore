@@ -3,8 +3,9 @@ README.md
 
 {{- if eq .chezmoi.os "windows" }}
 .config/aliasrc
-.config/btop
 .config/ansible.cfg
+.config/btop
+.config/lf
 .config/powershell
 .oh-my-zsh/
 .p10k.zsh
