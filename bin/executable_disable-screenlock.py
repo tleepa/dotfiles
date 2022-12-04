@@ -26,8 +26,7 @@ def parse_duration(duration: str) -> int:
 def parse_args(argv=None) -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "-t",
-        "--time",
+        "duration",
         help="how long should screen lock be disabled; use values with units (e.g., 30s, 5m, 1h)",
         type=str,
         default="5m",
@@ -36,22 +35,24 @@ def parse_args(argv=None) -> argparse.Namespace:
     return parser.parse_args(argv)
 
 
-def main():
+def main() -> None:
     try:
-        argvals = None
-        args = parse_args(argvals)
-        duration_sec = parse_duration(args.time)
+        args = parse_args()
+        duration_sec = parse_duration(args.duration)
 
         if args.debug:
-            print(f"disable lock for          = {args.time}")
+            print(f"disable lock for          = {args.duration}")
             print(f"disable lock for seconds  = {duration_sec}")
 
-        item = "org.freedesktop.Notifications"
-        dbus_iface = dbus.Interface(
-            dbus.SessionBus().get_object(item, "/" + item.replace(".", "/")), item
+        bus = dbus.SessionBus()
+
+        notifier = bus.get_object(
+            "org.freedesktop.Notifications", "/org/freedesktop/Notifications"
+        )
+        notifier_iface = dbus.Interface(
+            notifier, dbus_interface="org.freedesktop.Notifications"
         )
 
-        bus = dbus.SessionBus()
         saver = bus.get_object("org.freedesktop.ScreenSaver", "/ScreenSaver")
         saver_interface = dbus.Interface(
             saver, dbus_interface="org.freedesktop.ScreenSaver"
@@ -69,7 +70,7 @@ def main():
             else:
                 sleep_more = interval
 
-            dbus_iface.Notify(
+            notifier_iface.Notify(
                 "Reminder",
                 0,
                 "",
@@ -88,7 +89,7 @@ def main():
         # restore
         saver_interface.UnInhibit(cookie)
 
-    except SystemExit:
+    except KeyboardInterrupt:
         pass
     except Exception as e:
         print(f"Error: {e}\n")
