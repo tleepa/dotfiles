@@ -7,9 +7,6 @@ user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
 // Proton Enabled #127 || Removed at 97 #328 (Maintained for compatibility with ESR)
 user_pref("browser.proton.enabled", true);
 
-// Proton Tooltip
-user_pref("browser.proton.places-tooltip.enabled", true);
-
 // Fill SVG Color
 user_pref("svg.context-properties.content.enabled", true);
 
@@ -51,7 +48,6 @@ user_pref("userChrome.tab.newtab_button_proton",      false); // Proton
 
 user_pref("userChrome.icon.panel_full",                true); // Original, Proton
 user_pref("userChrome.icon.panel_photon",             false); // Photon
-user_pref("userChrome.icon.panel_sparse",             false); // Just option
 
 // Original Only
 user_pref("userChrome.tab.box_shadow",                 true);
@@ -164,6 +160,8 @@ user_pref("userChrome.rounding.square_tab",           false);
 // -- User Content -------------------------------------------------------------
 // user_pref("userContent.player.ui.twoline",                  true);
 
+// user_pref("userContent.newTab.hidden_logo",                 true);
+
 // user_pref("userContent.page.proton_color.dark_blue_accent", true);
 // user_pref("userContent.page.proton_color.system_accent",    true);
 // user_pref("userContent.page.monospace",                     true);
@@ -226,12 +224,12 @@ user_pref("userContent.player.size",           true);
 user_pref("userContent.player.click_to_play",  true);
 user_pref("userContent.player.animate",        true);
 
-user_pref("userContent.newTab.field_border",   true);
 user_pref("userContent.newTab.full_icon",      true);
 user_pref("userContent.newTab.animate",        true);
 user_pref("userContent.newTab.pocket_to_last", true);
 user_pref("userContent.newTab.searchbar",      true);
 
+user_pref("userContent.page.field_border",     true);
 user_pref("userContent.page.illustration",     true);
 user_pref("userContent.page.proton_color",     true);
 user_pref("userContent.page.dark_mode",        true); // Need proton_color
