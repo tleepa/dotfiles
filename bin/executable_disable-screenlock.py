@@ -62,7 +62,7 @@ def main() -> None:
         cookie = saver_interface.Inhibit("user", "disable screen lock on demand")
 
         timeout_start = time.time()
-        interval = 30
+        interval = 60
         while time.time() - timeout_start < duration_sec:
             elapsed = time.time() - timeout_start
             if (duration_sec - elapsed) // interval == 0:
