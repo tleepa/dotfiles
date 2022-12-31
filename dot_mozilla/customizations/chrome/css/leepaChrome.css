@@ -1,9 +1,14 @@
-#tabbrowser-tabs { visibility: collapse !important; }
-/*#nav-bar {
+#TabsToolbar-customization-target {
+  visibility: collapse;
+}
+
+/* Windows only
+#nav-bar {
   border-top: 0px !important;
   margin-right: 144px;
   margin-top: -30px;
-}*/
+}
+*/
 
 /* remove icons from bookmar bar */
 #personal-bookmarks .bookmark-item > .toolbarbutton-icon {display:none!important}
