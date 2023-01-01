@@ -33,6 +33,9 @@ export FZF_DEFAULT_OPTS='--color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 --color=fg+:#f
 export DBX_CONTAINER_NAME=fedora-toolbox-36
 # export DISPLAY=127.0.0.1:0
 
+# docker
+systemctl --user is-active podman.socket >/dev/null && export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/podman/podman.sock
+
 # WSL SSH agent
 [ -f "$HOME/winhome/.keepassxc.sock" ] && export SSH_AUTH_SOCK="$HOME/winhome/.keepassxc.sock"
 
