@@ -52,3 +52,12 @@ dialog, .dialogBox {
   --checkbox-checked-hover-bgcolor: rgb(214, 172, 255) !important;
   --checkbox-checked-active-bgcolor: rgb(214, 172, 255) !important;
 }
+
+@media not (prefers-contrast) {
+    @media (prefers-color-scheme: dark) {
+        :root:-moz-lwtheme {
+            --focus-outline-color: rgb(214, 172, 255) !important;
+        }
+    }
+}
+
