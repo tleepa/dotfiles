@@ -30,6 +30,9 @@
     side-by-side = true
     syntax-theme = Dracula
 
+[alias]
+    rank = "shortlog -s -n --no-merges"
+
 [includeIf "gitdir:~/Repos/Work/"]
     path = ~/.gitconfig-work
 {{ if ne .chezmoi.fqdnHostname (keepassxcAttribute "CWID Primary" "wvd_hostname") }}
