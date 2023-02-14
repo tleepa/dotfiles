@@ -2,13 +2,13 @@
   visibility: collapse;
 }
 
-/* Windows only
+{{ if eq .chezmoi.os "windows" -}}
 #nav-bar {
   border-top: 0px !important;
   margin-right: 144px;
   margin-top: -30px;
 }
-*/
+{{ end -}}
 
 /* remove icons from bookmar bar */
 #personal-bookmarks .bookmark-item > .toolbarbutton-icon {display:none!important}
