@@ -77,6 +77,18 @@
       "alignment": "right",
       "segments": [
         {
+          "type": "az",
+          "properties": {
+            "source": "pwsh"
+          },
+          "style": "powerline",
+          "invert_powerline": true,
+          "powerline_symbol": "\ue0b2",
+          "foreground": "#000000",
+          "background": "#9ec3f0",
+          "template": " \uFD03 {{ .Name }} "
+        },
+        {
           "background": "#f1fa8c",
           "foreground": "#282a36",
           "invert_powerline": true,
