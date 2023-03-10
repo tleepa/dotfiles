@@ -16,9 +16,9 @@ if (Get-Module -Name Az.Accounts -ListAvailable -ErrorAction SilentlyContinue) {
     $env:POSH_AZURE_ENABLED = $true
 }
 
-if (Get-Module -Name VMware.VimAutomation.Core -ListAvailable -ErrorAction SilentlyContinue) {
-    Set-PowerCLIConfiguration -Scope User -ParticipateInCEIP $false -Confirm:$false | Out-Null
-}
+# if (Get-Module -Name VMware.VimAutomation.Core -ListAvailable -ErrorAction SilentlyContinue) {
+#     Set-PowerCLIConfiguration -Scope User -ParticipateInCEIP $false -Confirm:$false | Out-Null
+# }
 
 Set-PSReadLineKeyHandler -Chord 'Ctrl+RightArrow' -Function ForwardWord
 Set-PSReadLineKeyHandler -Chord 'Ctrl+LeftArrow' -Function BackwardWord
