@@ -15,6 +15,7 @@ user_pref("browser.tabs.closeWindowWithLastTab", false);
 user_pref("browser.tabs.firefox-view", false);
 user_pref("browser.tabs.tabmanager.enabled", false);
 user_pref("browser.urlbar.suggest.searches", true);
+user_pref("browser.vpn_promo.enabled", false);
 // user_pref("cookiebanners.service.mode", 2);
 // user_pref("cookiebanners.service.mode.privateBrowsing", 2);
 user_pref("extensions.formautofill.addresses.enabled", false);
