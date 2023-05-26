@@ -14,6 +14,7 @@ oh-my-posh init pwsh --config {{ .chezmoi.homeDir }}/.config/powershell/myparado
 
 if (Get-Module -Name Az.Accounts -ListAvailable -ErrorAction SilentlyContinue) {
     $env:POSH_AZURE_ENABLED = $true
+    Clear-AzContext -Scope Process
 }
 
 # if (Get-Module -Name VMware.VimAutomation.Core -ListAvailable -ErrorAction SilentlyContinue) {
