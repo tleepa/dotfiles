@@ -45,3 +45,4 @@ user_pref("services.sync.prefs.sync-seen.browser.newtabpage.activity-stream.sect
 user_pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.section.highlights.includePocket", false);
 user_pref("signon.rememberSignons", false);
 user_pref("webgl.disabled", false);
+user_pref("widget.use-xdg-desktop-portal.file-picker", 1);
