@@ -35,7 +35,5 @@
 
 [includeIf "gitdir:~/Repos/Work/"]
     path = ~/.gitconfig-work
-{{ if ne .chezmoi.fqdnHostname (keepassxcAttribute "CWID Primary" "wvd_hostname") }}
 [includeIf "gitdir:~/Repos/_{{ keepassxcAttribute "Google prv" "name" }}/"]
     path = ~/.gitconfig-prv
-{{- end }}

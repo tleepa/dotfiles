@@ -15,7 +15,6 @@ function Get-SshSessions {
         | Select-Object -Property Id, Name, CommandLine
 }
 
-{{- if ne .chezmoi.fqdnHostname (keepassxcAttribute "CWID Primary" "wvd_hostname") }}
 function Check-DO {
 param (
     [Parameter(Mandatory=$true)]
@@ -84,4 +83,3 @@ param (
 
     return $Out
 }
-{{ end }}
