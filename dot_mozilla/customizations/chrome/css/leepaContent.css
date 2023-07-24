@@ -29,6 +29,10 @@
         margin-top: -28px !important;
     }
 
+    .toggle-button[aria-pressed="true"] {
+        background: rgb(189, 147, 249) !important;
+    }
+
     .toolbarbutton-icon {
         padding: 0px 2px !important;
         margin-left: -8px !important;
