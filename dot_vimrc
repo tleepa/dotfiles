@@ -2,7 +2,7 @@ if has("win32")
   set encoding=utf-8
   set termguicolors
   :lang en_US.UTF-8
-  set rtp+=~/.vim,~/.vim/pack/plugins/start/dracula-theme,~/.vim/pack/plugins/start/vim-airline,~/.vim/pack/plugins/start/vim-fugitive,~/.vim/pack/plugins/start/vim-devicons,~/.vim/pack/plugins/start/vim-jenkinsfile,~/.vim/pack/plugins/start/vim-hcl,~/.vim/pack/plugins/start/vim-black
+  set rtp+=~/.vim,~/.vim/pack/plugins/start/dracula-theme,~/.vim/pack/plugins/start/vim-airline,~/.vim/pack/plugins/start/vim-fugitive,~/.vim/pack/plugins/start/vim-devicons,~/.vim/pack/plugins/start/vim-jenkinsfile,~/.vim/pack/plugins/start/vim-hcl,~/.vim/pack/plugins/start/vim-black,~/.vim/pack/plugins/start/vim-commentary,~/.vim/pack/plugins/start/vim-cool
 else
   packadd! dracula-theme
 endif
@@ -40,6 +40,7 @@ set pastetoggle=<Insert>
 set mouse=a
 
 syntax on
+set hlsearch
 set incsearch
 
 set ts=2
