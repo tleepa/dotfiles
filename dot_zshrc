@@ -58,6 +58,7 @@ command -v pipx >/dev/null && command -v register-python-argcomplete >/dev/null 
 command -v terraform >/dev/null && complete -o nospace -C "$(command -v terraform)" terraform
 command -v packer >/dev/null && complete -o nospace -C "$(command -v packer)" packer
 command -v terramate >/dev/null && complete -o nospace -C "$(command -v terramate)" terramate
+command -v zoxide &>/dev/null && eval "$(zoxide init zsh)"
 
 # Aliases
 [ -f "$HOME/.config/aliasrc" ] && source "$HOME/.config/aliasrc"
