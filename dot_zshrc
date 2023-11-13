@@ -10,7 +10,12 @@ ZSH_THEME=powerlevel10k/powerlevel10k
 DISABLE_AUTO_UPDATE="true"
 COMPLETION_WAITING_DOTS="true"
 
-plugins=(zoxide fzf git zsh-autosuggestions zsh-syntax-highlighting sudo)
+plugins=(sudo)
+command -v zoxide >/dev/null && plugins+=('zoxide')
+command -v fzf >/dev/null && plugins+=('fzf')
+command -v git >/dev/null && plugins+=('git')
+[ -d "$ZSH/custom/plugins/zsh-autosuggestions" ] && plugins+=('zsh-autosuggestions')
+[ -d "$ZSH/custom/plugins/zsh-syntax-highlighting" ] && plugins+=('zsh-syntax-highlighting')
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
@@ -30,7 +35,7 @@ export EDITOR=vim
 export PAGER=less
 
 export FZF_DEFAULT_OPTS='--color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9 --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6 --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4'
-export DBX_CONTAINER_NAME=fedora-toolbox-36
+export DBX_CONTAINER_NAME=fedora-toolbox-39
 # export DISPLAY=127.0.0.1:0
 
 # docker
@@ -54,7 +59,7 @@ autoload -U +X bashcompinit && bashcompinit
 command -v aws_completer >/dev/null && complete -C "$(command -v aws_completer)" aws
 command -v minikube >/dev/null && source <(minikube completion zsh)
 command -v kubectl >/dev/null && source <(kubectl completion zsh)
-command -v pipx >/dev/null && command -v register-python-argcomplete >/dev/null && eval "$(register-python-argcomplete pipx)"
+[ ! "$CONTAINER_ID" ] && command -v pipx >/dev/null && command -v register-python-argcomplete >/dev/null && eval "$(register-python-argcomplete pipx)"
 command -v terraform >/dev/null && complete -o nospace -C "$(command -v terraform)" terraform
 command -v packer >/dev/null && complete -o nospace -C "$(command -v packer)" packer
 command -v terramate >/dev/null && complete -o nospace -C "$(command -v terramate)" terramate
