@@ -1,5 +1,5 @@
-// leepa overrides
 
+// leepa overrides
 user_pref("accessibility.typeaheadfind", false);
 user_pref("browser.contentblocking.category", "standard");
 user_pref("browser.ctrlTab.sortByRecentlyUsed", false);
@@ -16,8 +16,8 @@ user_pref("browser.tabs.firefox-view", false);
 user_pref("browser.tabs.tabmanager.enabled", false);
 user_pref("browser.urlbar.suggest.searches", true);
 user_pref("browser.vpn_promo.enabled", false);
-user_pref("cookiebanners.service.mode", 2);
 user_pref("cookiebanners.service.mode.privateBrowsing", 2);
+user_pref("cookiebanners.service.mode", 2);
 user_pref("extensions.formautofill.addresses.enabled", false);
 user_pref("extensions.formautofill.creditCards.available", false);
 user_pref("extensions.formautofill.creditCards.enabled", false);
@@ -39,12 +39,16 @@ user_pref("media.wmf.zero-copy-nv12-texture", false);
 user_pref("network.cookie.lifetimePolicy", 0);
 user_pref("privacy.cpd.history", false);
 user_pref("privacy.cpd.sessions", false);
-user_pref("privacy.resistFingerprinting", false);
 user_pref("privacy.resistFingerprinting.letterboxing", false);
 user_pref("privacy.resistFingerprinting.pbmode", false);
+user_pref("privacy.resistFingerprinting", false);
 user_pref("privacy.sanitize.sanitizeOnShutdown", false);
 user_pref("services.sync.prefs.sync-seen.browser.newtabpage.activity-stream.section.highlights.includePocket", false);
 user_pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.section.highlights.includePocket", false);
 user_pref("signon.rememberSignons", false);
+user_pref("userChrome.compatibility.os.linux_non_native_titlebar_button", false);
+user_pref("userChrome.icon.global_menubar", false);
+user_pref("userChrome.padding.global_menubar", false);
+user_pref("userChrome.theme.non_native_menu", false);
 user_pref("webgl.disabled", false);
 user_pref("widget.use-xdg-desktop-portal.file-picker", 1);
