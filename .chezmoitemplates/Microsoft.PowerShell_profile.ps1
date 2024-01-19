@@ -12,7 +12,7 @@ oh-my-posh init pwsh --config "{{ .chezmoi.homeDir }}/Documents/Powershell/mypar
 oh-my-posh init pwsh --config {{ .chezmoi.homeDir }}/.config/powershell/myparadox.omp.json | Invoke-Expression
 {{ end -}}
 
-if (Get-Module -Name Az.Accounts -ListAvailable -ErrorAction SilentlyContinue) {
+if (Get-Command -Name Get-AzContext -ErrorAction SilentlyContinue) {
     $env:POSH_AZURE_ENABLED = $true
     Clear-AzContext -Scope Process
 }
