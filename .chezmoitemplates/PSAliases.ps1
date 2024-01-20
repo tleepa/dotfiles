@@ -9,7 +9,7 @@ if (Get-Command -Name scoop -ErrorAction SilentlyContinue) {
         )
 
         $app_name = ($scoop_shims | Where-Object {$_.Type -eq "Application" -and $_.Name -eq $shim})
-        if ($app_name -and ($app_exists.Source -like "$($scoop_root)*")) {
+        if ($app_name) {
             return ("{0}\apps\{1}\current" -f $scoop_root, $app_name.Source)
         } else {
             return ""
