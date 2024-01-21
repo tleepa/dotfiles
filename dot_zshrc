@@ -26,6 +26,7 @@ setopt inc_append_history
 setopt share_history
 setopt hist_ignore_all_dups
 setopt hist_save_no_dups
+setopt hist_ignore_space
 setopt extended_glob
 
 [ -f ~/.p10k.zsh ] && source ~/.p10k.zsh
