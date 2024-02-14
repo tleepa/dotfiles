@@ -53,7 +53,8 @@ Set-PSReadlineOption -Color @{
 }
 
 . "{{ .chezmoi.homeDir }}/bin/PSFunctions.ps1"
-{{ if eq .chezmoi.os "windows" -}}
-. "{{ .chezmoi.homeDir }}/bin/PSCompletions.ps1"
-{{- end }}
+if (Test-Path -Path "{{ .chezmoi.homeDir }}/bin/PSCompletions.ps1") {
+    . "{{ .chezmoi.homeDir }}/bin/PSCompletions.ps1"
+}
+
 {{ template "PSAliases.ps1" . }}
