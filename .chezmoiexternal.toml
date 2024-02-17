@@ -39,6 +39,11 @@
     exact = true
     stripComponents = 1
     refreshPeriod = "168h"
+["bin/dotnet-install.sh"]
+    type = "file"
+    executable = true
+    url = "https://dot.net/v1/dotnet-install.sh"
+    refreshPeriod = "168h"
 ["bin/fx-user-js-updater.sh"]
     type = "file"
     executable = true
