@@ -92,3 +92,8 @@ if command -v pwsh >/dev/null; then
   export POWERSHELL_UPDATECHECK_OPTOUT=1
 fi
 
+# DotNet
+if [ -d "$HOME/.dotnet" ]; then
+  export DOTNET_ROOT=$HOME/.dotnet
+  export PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools
+fi
