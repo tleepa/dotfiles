@@ -1,5 +1,4 @@
-// lepton fixes https://github.com/black7375/Firefox-UI-Fix/
-
+/// Lepton v8.6.1
 // ** Theme Default Options ****************************************************
 // userchrome.css usercontent.css activate
 user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
