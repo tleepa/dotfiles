@@ -1,63 +1,12 @@
-{{ if ne .chezmoi.os "windows" -}}
-["bin"]
-    type = "archive"
-    url = "https://github.com/tleepa/update-tools/archive/main.tar.gz"
-    stripComponents = 1
-    refreshPeriod = "168h"
-    include = ["*/update-tools*"]
-["bin/libvirt-inventory.py"]
-    type = "file"
-    executable = true
-    url = "https://raw.githubusercontent.com/tleepa/libvirt-inventory/master/libvirt-inventory.py"
-    refreshPeriod = "168h"
 ["bin/pynapi.py"]
     type = "file"
     executable = true
     url = "https://raw.githubusercontent.com/tleepa/pynapi/master/pynapi.py"
     refreshPeriod = "168h"
-[".oh-my-zsh"]
-    type = "archive"
-    url = "https://github.com/ohmyzsh/ohmyzsh/archive/master.tar.gz"
-    exact = false
-    stripComponents = 1
-    refreshPeriod = "168h"
-[".oh-my-zsh/custom/plugins/zsh-syntax-highlighting"]
-    type = "archive"
-    url = "https://github.com/zsh-users/zsh-syntax-highlighting/archive/master.tar.gz"
-    exact = true
-    stripComponents = 1
-    refreshPeriod = "168h"
-[".oh-my-zsh/custom/plugins/zsh-autosuggestions"]
-    type = "archive"
-    url = "https://github.com/zsh-users/zsh-autosuggestions/archive/master.tar.gz"
-    exact = true
-    stripComponents = 1
-    refreshPeriod = "168h"
-[".oh-my-zsh/custom/themes/powerlevel10k"]
-    type = "archive"
-    url = "https://github.com/romkatv/powerlevel10k/archive/master.tar.gz"
-    exact = true
-    stripComponents = 1
-    refreshPeriod = "168h"
-["bin/fx-user-js-updater.sh"]
-    type = "file"
-    executable = true
-    url = "https://raw.githubusercontent.com/arkenfox/user.js/master/updater.sh"
-    refreshPeriod = "168h"
-["bin/fx-prefs-cleaner.sh"]
-    type = "file"
-    executable = true
-    url = "https://raw.githubusercontent.com/arkenfox/user.js/master/prefsCleaner.sh"
-    refreshPeriod = "168h"
 ["bin/gov.py"]
     type = "file"
     executable = true
     url = "https://gist.github.com/tleepa/72a11fec0071e78b61f58d8e5768af99/raw"
-    refreshPeriod = "168h"
-["bin/httpsrv.py"]
-    type = "file"
-    executable = true
-    url = "https://gist.github.com/tleepa/58472e948115de7733d59ccf4adccf55/raw"
     refreshPeriod = "168h"
 [".vim/pack/plugins/start/dracula-theme"]
     type = "archive"
@@ -74,6 +23,12 @@
 [".vim/pack/plugins/start/vim-airline"]
     type = "archive"
     url = "https://github.com/vim-airline/vim-airline/archive/master.tar.gz"
+    exact = true
+    stripComponents = 1
+    refreshPeriod = "168h"
+[".vim/pack/plugins/start/vim-bicep"]
+    type = "archive"
+    url = "https://github.com/carlsmedstad/vim-bicep/archive/master.tar.gz"
     exact = true
     stripComponents = 1
     refreshPeriod = "168h"
@@ -118,6 +73,57 @@
 [".vim/pack/plugins/start/vim-cool/plugin/cool.vim"]
     type = "file"
     url = "https://raw.githubusercontent.com/romainl/vim-cool/master/plugin/cool.vim"
+    refreshPeriod = "168h"
+{{ if ne .chezmoi.os "windows" -}}
+["bin"]
+    type = "archive"
+    url = "https://github.com/tleepa/update-tools/archive/main.tar.gz"
+    stripComponents = 1
+    refreshPeriod = "168h"
+    include = ["*/update-tools*"]
+["bin/libvirt-inventory.py"]
+    type = "file"
+    executable = true
+    url = "https://raw.githubusercontent.com/tleepa/libvirt-inventory/master/libvirt-inventory.py"
+    refreshPeriod = "168h"
+[".oh-my-zsh"]
+    type = "archive"
+    url = "https://github.com/ohmyzsh/ohmyzsh/archive/master.tar.gz"
+    exact = false
+    stripComponents = 1
+    refreshPeriod = "168h"
+[".oh-my-zsh/custom/plugins/zsh-syntax-highlighting"]
+    type = "archive"
+    url = "https://github.com/zsh-users/zsh-syntax-highlighting/archive/master.tar.gz"
+    exact = true
+    stripComponents = 1
+    refreshPeriod = "168h"
+[".oh-my-zsh/custom/plugins/zsh-autosuggestions"]
+    type = "archive"
+    url = "https://github.com/zsh-users/zsh-autosuggestions/archive/master.tar.gz"
+    exact = true
+    stripComponents = 1
+    refreshPeriod = "168h"
+[".oh-my-zsh/custom/themes/powerlevel10k"]
+    type = "archive"
+    url = "https://github.com/romkatv/powerlevel10k/archive/master.tar.gz"
+    exact = true
+    stripComponents = 1
+    refreshPeriod = "168h"
+["bin/fx-user-js-updater.sh"]
+    type = "file"
+    executable = true
+    url = "https://raw.githubusercontent.com/arkenfox/user.js/master/updater.sh"
+    refreshPeriod = "168h"
+["bin/fx-prefs-cleaner.sh"]
+    type = "file"
+    executable = true
+    url = "https://raw.githubusercontent.com/arkenfox/user.js/master/prefsCleaner.sh"
+    refreshPeriod = "168h"
+["bin/httpsrv.py"]
+    type = "file"
+    executable = true
+    url = "https://gist.github.com/tleepa/58472e948115de7733d59ccf4adccf55/raw"
     refreshPeriod = "168h"
 {{- else }}
 ["bin/fx-user-js-updater.bat"]
