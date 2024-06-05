@@ -13,6 +13,7 @@
     pager = delta
     autocrlf = {{ $autoCrLf }}
 {{- if eq .chezmoi.os "windows" }}
+    sshCommand = C:/Windows/System32/OpenSSH/ssh.exe
     quotepath = false
     commitGraph = true
     longpaths = true
