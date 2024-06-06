@@ -1,12 +1,9 @@
 $env:POSH_SESSION_DEFAULT_USER = "{{ .chezmoi.username }}"
-{{ if eq .chezmoi.os "windows" -}}
-$env:PATH = "{{ .chezmoi.homeDir }}/bin;$($env:PATH)"
 
 $AllModules = Get-Module -ListAvailable
 
-if (Get-Command -Name zoxide -ErrorAction SilentlyContinue) {
-    Invoke-Expression (& { (zoxide init --cmd cd powershell | Out-String) })
-}
+{{ if eq .chezmoi.os "windows" -}}
+$env:PATH = "{{ .chezmoi.homeDir }}/bin;$($env:PATH)"
 
 oh-my-posh init pwsh --config "{{ .chezmoi.homeDir }}/Documents/Powershell/myparadox.omp.json" | Invoke-Expression
 {{ else if eq .chezmoi.os "linux" -}}
@@ -20,6 +17,10 @@ if (Get-Command -Name Get-AzContext -ErrorAction SilentlyContinue) {
 
 if ('Terminal-Icons' -in $AllModules.Name) {
     Import-Module -Name Terminal-Icons
+}
+
+if (Get-Command -Name zoxide -ErrorAction SilentlyContinue) {
+    Invoke-Expression (& { (zoxide init --cmd cd powershell | Out-String) })
 }
 
 if ('PSFzf' -in $AllModules.Name) {
