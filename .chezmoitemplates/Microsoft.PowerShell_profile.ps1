@@ -2,10 +2,11 @@ $env:POSH_SESSION_DEFAULT_USER = "{{ .chezmoi.username }}"
 {{ if eq .chezmoi.os "windows" -}}
 $env:PATH = "{{ .chezmoi.homeDir }}/bin;$($env:PATH)"
 
-if (!(Get-Module -Name ZLocation -ListAvailable -ErrorAction SilentlyContinue)) {
-    Install-Module -Name ZLocation -Scope CurrentUser
+$AllModules = Get-Module -ListAvailable
+
+if (Get-Command -Name zoxide -ErrorAction SilentlyContinue) {
+    Invoke-Expression (& { (zoxide init --cmd cd powershell | Out-String) })
 }
-Import-Module -Name ZLocation
 
 oh-my-posh init pwsh --config "{{ .chezmoi.homeDir }}/Documents/Powershell/myparadox.omp.json" | Invoke-Expression
 {{ else if eq .chezmoi.os "linux" -}}
@@ -17,7 +18,16 @@ if (Get-Command -Name Get-AzContext -ErrorAction SilentlyContinue) {
     Clear-AzContext -Scope Process
 }
 
-# if (Get-Module -Name VMware.VimAutomation.Core -ListAvailable -ErrorAction SilentlyContinue) {
+if ('Terminal-Icons' -in $AllModules.Name) {
+    Import-Module -Name Terminal-Icons
+}
+
+if ('PSFzf' -in $AllModules.Name) {
+    Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory 'Ctrl+r'
+}
+$env:FZF_DEFAULT_OPTS = '--height 40% --layout=reverse --border'
+
+# if ('VMware.VimAutomation.Core' -in $AllModules.Name) {
 #     if ((Get-PowerCLIConfiguration -Scope User).ParticipateInCEIP) {
 #         Set-PowerCLIConfiguration -Scope User -ParticipateInCEIP $false -Confirm:$false | Out-Null
 #     }
