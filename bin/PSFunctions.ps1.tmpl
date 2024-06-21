@@ -1,7 +1,13 @@
+if (('Microsoft.PowerShell.ConsoleGuiTools' -in $AllModules.Name) -and ('Az.Accounts' -in $AllModules.Name)) {
+    function Set-AzSub {
+        Get-AzSubscription | Out-ConsoleGridView -OutputMode Single | Select-AzSubscription
+    }
+}
+
 function Get-Char {
     param (
-        [Parameter(Mandatory=$true, HelpMessage="Single character only")]
-        [ValidateLength(1,1)]
+        [Parameter(Mandatory = $true, HelpMessage = "Single character only")]
+        [ValidateLength(1, 1)]
         [String] $Str
     )
 
@@ -12,14 +18,14 @@ function Get-Char {
 
 function Get-SshSessions {
     Get-Process | Where-Object { $_.Name -eq 'ssh' -and $_.CommandLine -match 'ssh' } `
-        | Select-Object -Property Id, Name, CommandLine
+    | Select-Object -Property Id, Name, CommandLine
 }
 
 function Check-DO {
-param (
-    [Parameter(Mandatory=$true)]
-    [string] $NrWniosku
-)
+    param (
+        [Parameter(Mandatory = $true)]
+        [string] $NrWniosku
+    )
 
     $UriDO = 'https://obywatel.gov.pl/esrvProxy/proxy/sprawdzStatusWniosku?numerWniosku={0}'
 
@@ -32,12 +38,12 @@ param (
 
 
 function Check-DR {
-param (
-    [Parameter(Mandatory=$true)]
-    [string] $NrRej,
-    [Parameter(Mandatory=$true)]
-    [string] $NrVin
-)
+    param (
+        [Parameter(Mandatory = $true)]
+        [string] $NrRej,
+        [Parameter(Mandatory = $true)]
+        [string] $NrVin
+    )
 
     if ($NrVin.Length -gt 5) {
         $Vin = $NrVin.Substring($NrVin.Length - 5, 5)
@@ -64,10 +70,10 @@ param (
 
 
 function Check-PA {
-param (
-    [Parameter(Mandatory=$true)]
-    [string] $NrWniosku
-)
+    param (
+        [Parameter(Mandatory = $true)]
+        [string] $NrWniosku
+    )
 
     $UriPA = 'https://obywatel.gov.pl/wyjazd-za-granice/sprawdz-czy-twoj-paszport-jest-gotowy'
 
