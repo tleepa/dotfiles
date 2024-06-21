@@ -64,5 +64,9 @@ if (Get-Command -Name rg -ErrorAction SilentlyContinue) {
     Set-Alias -Name grep -Value rg
 }
 
+if (-not (Get-Command -Name vim -ErrorAction SilentlyContinue) -and (Get-Command -Name nvim -ErrorAction SilentlyContinue)) {
+    Set-Alias -Name vim -Value nvim
+}
+
 Set-Alias -Name ll -Value ls
 {{- end -}}
