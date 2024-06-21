@@ -66,7 +66,6 @@ autoload -U +X compinit && compinit
 autoload -U +X bashcompinit && bashcompinit
 
 [ -f /etc/bash_completion.d/azure-cli ] && source /etc/bash_completion.d/azure-cli
-[ -f /usr/lib64/google-cloud-sdk/completion.zsh.inc ] && source /usr/lib64/google-cloud-sdk/completion.zsh.inc
 command -v aws_completer >/dev/null && complete -C "$(command -v aws_completer)" aws
 command -v minikube >/dev/null && source <(minikube completion zsh)
 command -v kubectl >/dev/null && source <(kubectl completion zsh)
@@ -75,6 +74,7 @@ command -v terraform >/dev/null && complete -o nospace -C "$(command -v terrafor
 command -v packer >/dev/null && complete -o nospace -C "$(command -v packer)" packer
 command -v terramate >/dev/null && complete -o nospace -C "$(command -v terramate)" terramate
 command -v zoxide &>/dev/null && eval "$(zoxide init zsh)"
+[ -f /usr/share/google-cloud-sdk/completion.zsh.inc ] && source /usr/share/google-cloud-sdk/completion.zsh.inc
 
 # Aliases
 [ -f "$HOME/.config/aliasrc" ] && source "$HOME/.config/aliasrc"
