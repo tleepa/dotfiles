@@ -69,6 +69,7 @@ autoload -U +X bashcompinit && bashcompinit
 command -v aws_completer >/dev/null && complete -C "$(command -v aws_completer)" aws
 command -v minikube >/dev/null && source <(minikube completion zsh)
 command -v kubectl >/dev/null && source <(kubectl completion zsh)
+command -v fx >/dev/null && source <(fx --comp zsh)
 [ ! "$CONTAINER_ID" ] && command -v pipx >/dev/null && command -v register-python-argcomplete >/dev/null && eval "$(register-python-argcomplete pipx)"
 command -v terraform >/dev/null && complete -o nospace -C "$(command -v terraform)" terraform
 command -v packer >/dev/null && complete -o nospace -C "$(command -v packer)" packer
