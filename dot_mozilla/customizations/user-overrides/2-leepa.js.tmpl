@@ -67,6 +67,6 @@ user_pref("browser.tabs.inTitlebar", 1);
 {{- if ge (.chezmoi.windowsVersion.currentBuild | atoi) 22000 }}
 user_pref("dom.ipc.processPriorityManager.backgroundUsesEcoQoS", false);
 {{- end -}}
-{{- else -}}
+{{- else }}
 user_pref("browser.tabs.inTitlebar", 0);
 {{- end }}
