@@ -1,5 +1,6 @@
 
 // leepa overrides
+user_pref("accessibility.force_disabled", 1);
 user_pref("accessibility.typeaheadfind", false);
 user_pref("browser.contentblocking.category", "standard");
 user_pref("browser.ctrlTab.sortByRecentlyUsed", false);
@@ -61,8 +62,11 @@ user_pref("userChrome.padding.global_menubar", false);
 user_pref("userChrome.theme.non_native_menu", false);
 user_pref("webgl.disabled", false);
 user_pref("widget.use-xdg-desktop-portal.file-picker", 1);
-{{ if eq .chezmoi.os "windows" }}
+{{- if eq .chezmoi.os "windows" }}
 user_pref("browser.tabs.inTitlebar", 1);
+{{- if ge (.chezmoi.windowsVersion.currentBuild | atoi) 22000 }}
+user_pref("dom.ipc.processPriorityManager.backgroundUsesEcoQoS", false);
+{{- end -}}
 {{- else -}}
 user_pref("browser.tabs.inTitlebar", 0);
 {{- end }}
