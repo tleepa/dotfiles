@@ -81,6 +81,11 @@
     stripComponents = 1
     refreshPeriod = "168h"
     include = ["*/update-tools*"]
+["bin/wcurl"]
+    type = "file"
+    executable = true
+    url = "https://raw.githubusercontent.com/curl/wcurl/main/wcurl"
+    refreshPeriod = "168h"
 ["bin/libvirt-inventory.py"]
     type = "file"
     executable = true
