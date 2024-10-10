@@ -1,3 +1,20 @@
+{{ if eq .chezmoi.os "windows" -}}
+function source {
+    param (
+        [Parameter(Mandatory, Position = 0)]
+        [string] $Path
+    )
+
+    try {
+        Invoke-Command -ScriptBlock ([ScriptBlock]::Create((Get-Content $Path | ForEach-Object { $_ + ";" })))
+    }
+    catch {
+        Write-Error $_.Exception.Message
+    }
+}
+{{ end -}}
+
+
 if (('Microsoft.PowerShell.ConsoleGuiTools' -in $AllModules.Name) -and ('Az.Accounts' -in $AllModules.Name)) {
     function Set-AzSub {
         Get-AzSubscription | Out-ConsoleGridView -OutputMode Single | Select-AzSubscription

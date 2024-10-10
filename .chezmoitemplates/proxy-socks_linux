@@ -1,0 +1,4 @@
+export http{,s}_proxy=socks5://127.0.0.1:1080
+export HTTP{,S}_PROXY=socks5://127.0.0.1:1080
+export no_proxy=127.0.0.1,localhost
+export NO_PROXY=127.0.0.1,localhost
