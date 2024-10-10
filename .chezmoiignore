@@ -4,6 +4,7 @@ README.md
 {{- if eq .chezmoi.os "windows" }}
 .config/aliasrc
 .config/ansible.cfg
+.config/.ansible*
 .config/btop
 .config/lf
 .config/powershell
