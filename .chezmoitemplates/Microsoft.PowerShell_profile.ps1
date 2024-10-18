@@ -1,7 +1,5 @@
 $env:POSH_SESSION_DEFAULT_USER = "{{ .chezmoi.username }}"
 
-$AllModules = Get-Module -ListAvailable
-
 {{ if eq .chezmoi.os "windows" -}}
 $env:PATH = "{{ .chezmoi.homeDir }}/bin;$($env:PATH)"
 
@@ -15,7 +13,7 @@ if (Get-Command -Name Get-AzContext -ErrorAction SilentlyContinue) {
     Clear-AzContext -Scope Process
 }
 
-if ('Terminal-Icons' -in $AllModules.Name) {
+if (Get-Module -Name 'Terminal-Icons') {
     Import-Module -Name Terminal-Icons
 }
 
@@ -23,12 +21,12 @@ if (Get-Command -Name zoxide -ErrorAction SilentlyContinue) {
     Invoke-Expression (& { (zoxide init --cmd cd powershell | Out-String) })
 }
 
-if ('PSFzf' -in $AllModules.Name) {
+if (Get-Module -Name 'PSFzf') {
     Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory 'Ctrl+r'
 }
 $env:FZF_DEFAULT_OPTS = '--height 40% --layout=reverse --border'
 
-# if ('VMware.VimAutomation.Core' -in $AllModules.Name) {
+# if (Get-Module -Name 'VMware.VimAutomation.Core') {
 #     if ((Get-PowerCLIConfiguration -Scope User).ParticipateInCEIP) {
 #         Set-PowerCLIConfiguration -Scope User -ParticipateInCEIP $false -Confirm:$false | Out-Null
 #     }
