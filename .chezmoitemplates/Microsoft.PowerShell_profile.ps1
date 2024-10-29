@@ -1,19 +1,19 @@
 $env:POSH_SESSION_DEFAULT_USER = "{{ .chezmoi.username }}"
 
-{{ if eq .chezmoi.os "windows" -}}
+{ { if eq .chezmoi.os "windows" - } }
 $env:PATH = "{{ .chezmoi.homeDir }}/bin;$($env:PATH)"
 
 oh-my-posh init pwsh --config "{{ .chezmoi.homeDir }}/Documents/Powershell/myparadox.omp.json" | Invoke-Expression
-{{ else if eq .chezmoi.os "linux" -}}
-oh-my-posh init pwsh --config {{ .chezmoi.homeDir }}/.config/powershell/myparadox.omp.json | Invoke-Expression
-{{ end -}}
+{ { else if eq .chezmoi.os "linux" - } }
+oh-my-posh init pwsh --config { { .chezmoi.homeDir } }/.config/powershell/myparadox.omp.json | Invoke-Expression
+{ { end - } }
 
 if (Get-Command -Name Get-AzContext -ErrorAction SilentlyContinue) {
     $env:POSH_AZURE_ENABLED = $true
     Clear-AzContext -Scope Process
 }
 
-if (Get-Module -Name 'Terminal-Icons') {
+if (Get-Module -Name 'Terminal-Icons' -ListAvailable) {
     Import-Module -Name Terminal-Icons
 }
 
@@ -21,12 +21,12 @@ if (Get-Command -Name zoxide -ErrorAction SilentlyContinue) {
     Invoke-Expression (& { (zoxide init --cmd cd powershell | Out-String) })
 }
 
-if (Get-Module -Name 'PSFzf') {
+if (Get-Module -Name 'PSFzf' -ListAvailable) {
     Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory 'Ctrl+r'
 }
 $env:FZF_DEFAULT_OPTS = '--height 40% --layout=reverse --border'
 
-# if (Get-Module -Name 'VMware.VimAutomation.Core') {
+# if (Get-Module -Name 'VMware.VimAutomation.Core' -ListAvailable) {
 #     if ((Get-PowerCLIConfiguration -Scope User).ParticipateInCEIP) {
 #         Set-PowerCLIConfiguration -Scope User -ParticipateInCEIP $false -Confirm:$false | Out-Null
 #     }
@@ -66,4 +66,4 @@ if (Test-Path -Path "{{ .chezmoi.homeDir }}/bin/PSCompletions.ps1") {
     . "{{ .chezmoi.homeDir }}/bin/PSCompletions.ps1"
 }
 
-{{ template "PSAliases.ps1" . }}
+{ { template "PSAliases.ps1" . } }
