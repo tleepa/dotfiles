@@ -1,12 +1,12 @@
 $env:POSH_SESSION_DEFAULT_USER = "{{ .chezmoi.username }}"
 
-{ { if eq .chezmoi.os "windows" - } }
+{{ if eq .chezmoi.os "windows" - }}
 $env:PATH = "{{ .chezmoi.homeDir }}/bin;$($env:PATH)"
 
 oh-my-posh init pwsh --config "{{ .chezmoi.homeDir }}/Documents/Powershell/myparadox.omp.json" | Invoke-Expression
-{ { else if eq .chezmoi.os "linux" - } }
+{{ else if eq .chezmoi.os "linux" - }}
 oh-my-posh init pwsh --config { { .chezmoi.homeDir } }/.config/powershell/myparadox.omp.json | Invoke-Expression
-{ { end - } }
+{{ end - }}
 
 if (Get-Command -Name Get-AzContext -ErrorAction SilentlyContinue) {
     $env:POSH_AZURE_ENABLED = $true
@@ -66,4 +66,5 @@ if (Test-Path -Path "{{ .chezmoi.homeDir }}/bin/PSCompletions.ps1") {
     . "{{ .chezmoi.homeDir }}/bin/PSCompletions.ps1"
 }
 
-{ { template "PSAliases.ps1" . } }
+{{ template "PSAliases.ps1" . }}
+
