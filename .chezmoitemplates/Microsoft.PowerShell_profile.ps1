@@ -5,7 +5,7 @@ $env:PATH = "{{ .chezmoi.homeDir }}/bin;$($env:PATH)"
 
 oh-my-posh init pwsh --config "{{ .chezmoi.homeDir }}/Documents/Powershell/myparadox.omp.json" | Invoke-Expression
 {{ else if eq .chezmoi.os "linux" - }}
-oh-my-posh init pwsh --config { { .chezmoi.homeDir } }/.config/powershell/myparadox.omp.json | Invoke-Expression
+oh-my-posh init pwsh --config {{ .chezmoi.homeDir }}/.config/powershell/myparadox.omp.json | Invoke-Expression
 {{ end - }}
 
 if (Get-Command -Name Get-AzContext -ErrorAction SilentlyContinue) {
