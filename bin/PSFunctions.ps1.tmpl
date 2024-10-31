@@ -11,7 +11,7 @@ function source {
         Write-Error $_.Exception.Message
     }
 }
-{{ end - }}
+{{ end -}}
 
 
 if ((Get-Module -Name 'Microsoft.PowerShell.ConsoleGuiTools' -ListAvailable) -and (Get-Module -Name 'Az.Accounts' -ListAvailable)) {
