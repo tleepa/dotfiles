@@ -7,15 +7,14 @@ function source {
 
     try {
         Invoke-Command -ScriptBlock ([ScriptBlock]::Create((Get-Content $Path | ForEach-Object { $_ + ";" })))
-    }
-    catch {
+    } catch {
         Write-Error $_.Exception.Message
     }
 }
-{{ end -}}
+{{ end - }}
 
 
-if (('Microsoft.PowerShell.ConsoleGuiTools' -in $AllModules.Name) -and ('Az.Accounts' -in $AllModules.Name)) {
+if ((Get-Module -Name 'Microsoft.PowerShell.ConsoleGuiTools' -ListAvailable) -and (Get-Module -Name 'Az.Accounts' -ListAvailable)) {
     function Set-AzSub {
         Get-AzSubscription | Out-ConsoleGridView -OutputMode Single | Select-AzSubscription
     }
