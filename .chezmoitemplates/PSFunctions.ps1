@@ -6,7 +6,7 @@ function source {
     )
 
     try {
-        Invoke-Command -ScriptBlock ([ScriptBlock]::Create((Get-Content $Path | ForEach-Object { $_ + ";" })))
+        Invoke-Command -ScriptBlock ([ScriptBlock]::Create((Get-Content $Path | Where-Object { $_ -notmatch "^#" -and $_ -ne "" } | ForEach-Object { $_ + ";" })))
     } catch {
         Write-Error $_.Exception.Message
     }
