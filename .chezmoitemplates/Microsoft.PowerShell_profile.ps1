@@ -61,10 +61,11 @@ Set-PSReadlineOption -Color @{
     InlinePrediction = "#6272A4"
 }
 
-. "{{ .chezmoi.homeDir }}/bin/PSFunctions.ps1"
 if (Test-Path -Path "{{ .chezmoi.homeDir }}/bin/PSCompletions.ps1") {
     . "{{ .chezmoi.homeDir }}/bin/PSCompletions.ps1"
 }
+
+{{ template "PSFunctions.ps1" . }}
 
 {{ template "PSAliases.ps1" . }}
 
