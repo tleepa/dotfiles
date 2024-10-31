@@ -86,7 +86,7 @@
           "powerline_symbol": "\ue0b2",
           "foreground": "#000000",
           "background": "#9ec3f0",
-          "template": " \uFD03 {{ .Name }} "
+          "template": " \uebd8 {{ .Name }} "
         },
         {
           "background": "#f1fa8c",
