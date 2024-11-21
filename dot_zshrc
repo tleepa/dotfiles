@@ -75,6 +75,8 @@ command -v terraform >/dev/null && complete -o nospace -C "$(command -v terrafor
 command -v packer >/dev/null && complete -o nospace -C "$(command -v packer)" packer
 command -v terramate >/dev/null && complete -o nospace -C "$(command -v terramate)" terramate
 command -v zoxide &>/dev/null && eval "$(zoxide init zsh)"
+command -v uv &>/dev/null && eval "$(uv generate-shell-completion zsh)"
+command -v uvx &>/dev/null && eval "$(uvx generate-shell-completion zsh)"
 command -v update-tools.py &>/dev/null && complete -C "update-tools.py -l | tail -n +2" update-tools.py
 [ -f /usr/share/google-cloud-sdk/completion.zsh.inc ] && source /usr/share/google-cloud-sdk/completion.zsh.inc
 
