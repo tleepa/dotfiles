@@ -65,6 +65,14 @@ if ($PSVersionTable.Platform -match "^Win") {
     }
 
     Register-ArgumentCompleter -Native -CommandName 'pip' -ScriptBlock $PipCompletion
+
+
+    if (Get-Command -Name uv) {
+        (& uv generate-shell-completion powershell) | Out-String | Invoke-Expression
+    }
+    if (Get-Command -Name uvx) {
+        (& uvx --generate-shell-completion powershell) | Out-String | Invoke-Expression
+    }
 }
 
 Register-ArgumentCompleter -Native -CommandName az -ScriptBlock {
