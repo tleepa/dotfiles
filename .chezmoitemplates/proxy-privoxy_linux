@@ -3,3 +3,5 @@ export HTTP{,S}_PROXY=$http_proxy
 
 export no_proxy=127.0.0.1,localhost
 export NO_PROXY=$no_proxy
+
+unset {all_proxy,ALL_PROXY}

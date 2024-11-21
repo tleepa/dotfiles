@@ -5,3 +5,6 @@ $env:HTTPS_PROXY = $env:http_proxy
 
 $env:no_proxy = "127.0.0.1,localhost"
 $env:NO_PROXY = $env:no_proxy
+
+$env:all_proxy = ""
+$env:ALL_PROXY = ""
