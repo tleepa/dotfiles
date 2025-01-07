@@ -5,85 +5,59 @@
 
 @-moz-document url(about:addons) {
     .addon.card {
-        max-width: 950px !important;
         padding: 4px !important;
         padding-right: 6px !important;
         padding-left: 11px !important;
         margin: -1px !important;
         margin-top: 4px !important;
-        font-size: 14px !important;
-        font-family: Arial !important;
-        /*font-weight: bold !important;*/
         border-radius: 7px !important;
     }
 
-    #header-inner {
-        width: 2155px !important;
-        margin-left: -133px !important;
-        margin-bottom: -27px !important;
-    }
-
-    .heading-inner {
-        width: 1795px !important;
-        margin-left: -1185px !important;
-        margin-top: -28px !important;
-    }
-
-    .toggle-button[aria-pressed="true"] {
-        background: rgb(189, 147, 249) !important;
-    }
-
-    .toolbarbutton-icon {
-        padding: 0px 2px !important;
-        margin-left: -8px !important;
-        margin-right: 0px !important;
-        margin-top: -2px !important;
-        padding-top: 2px !important;
-    }
-}
-
-
-@-moz-document url(about:newtab) {
-    .personalize-button {
-        display: none !important;
-    }
-}
-
-/* Dracula 89 adjustment */
-@-moz-document url-prefix(about:) {
     :root {
-        --in-content-primary-button-background: rgb(189, 147, 249) !important;
-        --in-content-primary-button-background-hover: rgb(214, 172, 255) !important;
-        --in-content-primary-button-background-active: rgb(214, 172, 255) !important;
-        --in-content-table-header-background: rgb(255, 121, 198) !important;
-        --checkbox-checked-bgcolor: rgb(189, 147, 249) !important;
-        --checkbox-checked-hover-bgcolor: rgb(214, 172, 255) !important;
-        --checkbox-checked-active-bgcolor: rgb(214, 172, 255) !important;
-        --newtab-primary-action-background: rgb(214, 172, 255) !important;
-        --newtab-primary-action-background-hover: rgb(214, 172, 255) !important;
+        --section-width: 950px !important;
     }
 }
 
-@media (prefers-color-scheme: dark) {
-    :host, :root {
-        --in-content-primary-button-background: rgb(189, 147, 249) !important;
-        --in-content-primary-button-background-hover: rgb(214, 172, 255) !important;
-        --in-content-primary-button-background-active: rgb(214, 172, 255) !important;
-        --in-content-table-header-background: rgb(255, 121, 198) !important;
-        --checkbox-checked-bgcolor: rgb(189, 147, 249) !important;
-        --checkbox-checked-hover-bgcolor: rgb(214, 172, 255) !important;
-        --checkbox-checked-active-bgcolor: rgb(214, 172, 255) !important;
+/* Dracula 133 adjustment */
+@-moz-document url-prefix("about:"),
+url-prefix("chrome:") {
+    :root {
+        --uc-my-color: rgb(189, 147, 249);
+        --uc-my-color-hover: rgb(214, 172, 255);
+        --uc-my-color-active: rgb(214, 172, 255);
+
+        --color-accent-primary: var(--uc-my-color) !important;
+        --color-accent-primary-hover: var(--uc-my-color-hover) !important;
+        --color-accent-primary-active: var(--uc-my-color-active) !important;
+
+        --in-content-primary-button-background: var(--uc-my-color) !important;
+        --in-content-primary-button-background-hover: var(--uc-my-color-hover) !important;
+        --in-content-primary-button-background-active: var(--uc-my-color-active) !important;
+
+        --primary-button-background-color: var(--uc-my-color) !important;
+        --primary-button-hover-background-color: var(--uc-my-color-hover) !important;
+        --primary-button-active-background-color: var(--uc-my-color-active) !important;
+    }
+
+    treechildren::-moz-tree-row(current, focus) {
+        outline-color: var(--uc-my-color) !important;
+    }
+
+    ::selection {
+        background-color: var(--uc-my-color);
     }
 }
 
-body, dialog, .dialogBox {
-    --in-content-primary-button-background: rgb(189, 147, 249) !important;
-    --in-content-primary-button-background-hover: rgb(214, 172, 255) !important;
-    --in-content-primary-button-background-active: rgb(214, 172, 255) !important;
-    --in-content-table-header-background: rgb(255, 121, 198) !important;
-    --checkbox-checked-bgcolor: rgb(189, 147, 249) !important;
-    --checkbox-checked-hover-bgcolor: rgb(214, 172, 255) !important;
-    --checkbox-checked-active-bgcolor: rgb(214, 172, 255) !important;
-    --newtab-primary-action-background: rgb(214, 172, 255) !important;
-    --newtab-primary-action-background-hover: rgb(214, 172, 255) !important;
+@-moz-document url("about:newtab"),
+url("about:home") {
+    :root {
+        --newtab-primary-action-background: var(--uc-my-color) !important;
+        --newtab-primary-action-background-pocket: var(--uc-my-color) !important;
+    }
+}
+
+@-moz-document url("about:firefoxview") {
+    :root {
+        --fxview-primary-action-background: var(--uc-my-color) !important;
+    }
 }
