@@ -41,6 +41,8 @@
 [includeIf "gitdir:{{ .chezmoi.homeDir }}/Repos/_{{ keepassxcAttribute "Google prv" "name" }}/"]
     path = {{ .chezmoi.homeDir }}/.gitconfig-prv
 
+[url "caf-ado:v3/{{ keepassxcAttribute "_caf" "ado-org" }}"]
+    insteadOf = git@ssh.dev.azure.com:v3/{{ keepassxcAttribute "_caf" "ado-org" }}
 [url "frx-ado:v3/{{ keepassxcAttribute "_frx" "ado-org" }}"]
     insteadOf = git@ssh.dev.azure.com:v3/{{ keepassxcAttribute "_frx" "ado-org" }}
 [url "cg-ado:v3/{{ keepassxcAttribute "_base email" "ado-org" }}"]
