@@ -1,7 +1,7 @@
 $env:POSH_SESSION_DEFAULT_USER = "{{ .chezmoi.username }}"
 
 {{ if eq .chezmoi.os "windows" -}}
-$env:PATH = "{{ .chezmoi.homeDir }}/bin;$($env:PATH)"
+$env:PATH = "{{ .chezmoi.homeDir }}/.local/bin;{{ .chezmoi.homeDir }}/bin;$($env:PATH)"
 
 oh-my-posh init pwsh --config "{{ .chezmoi.homeDir }}/Documents/Powershell/myparadox.omp.json" | Invoke-Expression
 {{ else if eq .chezmoi.os "linux" -}}
