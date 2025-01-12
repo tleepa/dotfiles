@@ -11,6 +11,44 @@ function source {
         Write-Error $_.Exception.Message
     }
 }
+
+if ((Get-Command -Name "eza" -ErrorAction SilentlyContinue)) {
+    $DEFAULT_EZA_ARGS = @(
+        "--color-scale=all",
+        "--group-directories-first"
+    )
+
+    function _ls {
+        eza @DEFAULT_EZA_ARGS @args
+    }
+
+    function la {
+        _ls -ablg --icons @args
+    }
+
+    function ll {
+        _ls -blg @args
+    }
+
+    function lt {
+        _ls -T @args
+    }
+
+    function llt {
+        ll -T @args
+    }
+
+    function llg {
+        ll --git @args
+    }
+
+    function lag {
+        la --git @args
+    }
+
+    Set-Alias -Name ls -Value _ls -Force
+}
+
 {{ end -}}
 
 
