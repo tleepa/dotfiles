@@ -43,7 +43,7 @@ if ($scoop_shims | Where-Object { $_.Name -eq "privoxy" }) {
         )
 
         Push-Location
-        cd (get_scoop_app_path "privoxy")
+        Set-Location (get_scoop_app_path "privoxy")
         if (Test-Path -Path "conf.d\$config_file") {
             $config_file = "conf.d\$config_file"
         } elseif (!(Test-Path -Path $config_file)) {
@@ -67,6 +67,4 @@ if (Get-Command -Name rg -ErrorAction SilentlyContinue) {
 if (-not (Get-Command -Name vim -ErrorAction SilentlyContinue) -and (Get-Command -Name nvim -ErrorAction SilentlyContinue)) {
     Set-Alias -Name vim -Value nvim
 }
-
-Set-Alias -Name ll -Value ls
 {{- end -}}
