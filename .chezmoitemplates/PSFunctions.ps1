@@ -49,6 +49,20 @@ if ((Get-Command -Name "eza" -ErrorAction SilentlyContinue)) {
     Set-Alias -Name ls -Value _ls -Force
 }
 
+if ((Get-Command -Name "scoop" -ErrorAction SilentlyContinue)) {
+
+    function sus {
+        scoop update
+        scoop status
+    }
+
+    function sua {
+        scoop update -a
+        scoop cleanup -a
+        scoop cache rm -a
+    }
+}
+
 {{ end -}}
 
 
