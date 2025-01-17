@@ -103,6 +103,15 @@
           "invert_powerline": true
         },
         {
+          "type": "terraform",
+          "style": "powerline",
+          "powerline_symbol": "\ue0b2",
+          "foreground": "#bd93f9",
+          "background": "#000000",
+          "invert_powerline": true,
+          "template": "{{.WorkspaceName}} \uf1bb "
+        },
+        {
           "style": "diamond",
           "leading_diamond": "\ue0b2",
           "template": " {{ if .Env.DISTROBOX_ENTER_PATH }}{{ .Env.HOSTNAME }} \ue20f{{ end }} ",
