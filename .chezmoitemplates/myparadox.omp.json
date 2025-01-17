@@ -109,7 +109,7 @@
           "foreground": "#bd93f9",
           "background": "#000000",
           "invert_powerline": true,
-          "template": "{{.WorkspaceName}} \uf1bb "
+          "template": " {{.WorkspaceName}} \uf1bb "
         },
         {
           "style": "diamond",
