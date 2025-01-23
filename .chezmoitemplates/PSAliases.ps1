@@ -56,10 +56,6 @@ if ($scoop_shims | Where-Object { $_.Name -eq "privoxy" }) {
     }
 }
 
-# if (($scoop_shims | Where-Object { $_.Name -eq "wsl-ssh-agent-gui" }) -and (-not (Get-Process -Name "wsl-ssh-agent-gui" -ErrorAction SilentlyContinue))) {
-#     "$(get_scoop_app_path "wsl-ssh-agent-gui")\wsl-ssh-agent-gui -socket $env:USERPROFILE.\.keepassxc.sock" | Invoke-Expression
-# }
-
 if (Get-Command -Name rg -ErrorAction SilentlyContinue) {
     Set-Alias -Name grep -Value rg
 }
