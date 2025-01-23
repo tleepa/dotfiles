@@ -1,4 +1,4 @@
-$env:http_proxy = "socks5://127.0.0.1:1080"
+$env:http_proxy = "socks5h://127.0.0.1:1080"
 $env:https_proxy = $env:http_proxy
 $env:HTTP_PROXY = $env:http_proxy
 $env:HTTPS_PROXY = $env:http_proxy
