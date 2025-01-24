@@ -46,7 +46,7 @@ if ((Get-Command -Name "eza" -ErrorAction SilentlyContinue)) {
         la --git @args
     }
 
-    Set-Alias -Name ls -Value _ls -Force
+    Set-Alias -Name ls -Value _ls -Force -Option AllScope
 }
 
 if ((Get-Command -Name "scoop" -ErrorAction SilentlyContinue)) {

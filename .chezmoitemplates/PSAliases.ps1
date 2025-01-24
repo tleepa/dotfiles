@@ -1,59 +1,45 @@
 {{ if eq .chezmoi.os "windows" }}
 if (Get-Command -Name scoop -ErrorAction SilentlyContinue) {
-    $scoop_root = $(scoop config).root_path
-    $scoop_shims = $(scoop shim list)
-
-    function get_scoop_app_path {
-        param (
-            [string]$shim
-        )
-
-        $app_name = ($scoop_shims | Where-Object { $_.Type -eq "Application" -and $_.Name -eq $shim })
-        if ($app_name) {
-            return ("{0}\apps\{1}\current" -f $scoop_root, $app_name.Source)
-        } else {
-            return ""
-        }
-    }
-}
-
-if ((Get-Command -Name scoop -ErrorAction SilentlyContinue) -and ($PSVersionTable.PSEdition -ne "Desktop")) {
     $tools = @{
         "cat"  = "bat"
         "curl" = "curl"
         "diff" = "delta"
     }
     $tools.Keys | ForEach-Object {
-        $tool = $tools.$_
-        $scoop_shim = $scoop_shims | Where-Object { $_.Name -eq $tool }
-        if ($scoop_shim) {
-            Set-Alias -Name $_ -Value $scoop_shim.Path -Force
+        $tool = scoop which $tools.$_ 2> $null 6> $null
+        if ($tool) {
+            Set-Alias -Name $_ -Value $tool -Force -Option AllScope
+        } else {
+            $tool = scoop shim list $tools.$_
+            if ($tool) {
+                Set-Alias -Name $_ -Value $tool.Path -Force -Option AllScope
+            }
+        }
+    }
+
+    if (scoop which "privoxy" 6> $null) {
+        function privoxy_start {
+            param (
+                [string]$config_file
+            )
+
+            Push-Location
+            Set-Location $(scoop prefix "privoxy")
+            if (Test-Path -Path "conf.d\$config_file") {
+                $config_file = "conf.d\$config_file"
+            } elseif (!(Test-Path -Path $config_file)) {
+                Write-Error "$($config_file) not found in either app root or conf.d directory"
+                Pop-Location
+                break
+            }
+            Start-Job -ScriptBlock { privoxy -config $using:config_file } | Out-Null
+            Pop-Location
         }
     }
 }
 
 if (Get-Command -Name bat -ErrorAction SilentlyContinue) {
     $env:BAT_CONFIG_PATH = "$($env:USERPROFILE)\.config\bat\config"
-}
-
-if ($scoop_shims | Where-Object { $_.Name -eq "privoxy" }) {
-    function privoxy_start {
-        param (
-            [string]$config_file
-        )
-
-        Push-Location
-        Set-Location (get_scoop_app_path "privoxy")
-        if (Test-Path -Path "conf.d\$config_file") {
-            $config_file = "conf.d\$config_file"
-        } elseif (!(Test-Path -Path $config_file)) {
-            Write-Error "$($config_file) not found in either app root or conf.d directory"
-            Pop-Location
-            break
-        }
-        Start-Job -ScriptBlock { privoxy -config $using:config_file } | Out-Null
-        Pop-Location
-    }
 }
 
 if (Get-Command -Name rg -ErrorAction SilentlyContinue) {
