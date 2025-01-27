@@ -27,7 +27,7 @@ if ((Get-Command -Name "eza" -ErrorAction SilentlyContinue)) {
     }
 
     function ll {
-        _ls -blg @args
+        _ls -blg --icons @args
     }
 
     function lt {
