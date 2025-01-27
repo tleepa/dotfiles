@@ -36,6 +36,17 @@ if (Get-Command -Name scoop -ErrorAction SilentlyContinue) {
             Pop-Location
         }
     }
+
+    if ((scoop which "yazi" 6> $null) -and (scoop which "git" 6> $null)) {
+        $git_dir = $(scoop prefix git)
+        if (Get-Command -Name fd) {
+            $file_path = $(fd "file.exe" $git_dir)
+            $env:YAZI_FILE_ONE = $file_path
+        } else {
+            $file_path = Get-ChildItem -Path $git_dir -Recurse -Name "file.exe"
+            $env:YAZI_FILE_ONE = "$($git_dir)\$($file_path)"
+        }
+    }
 }
 
 if (Get-Command -Name bat -ErrorAction SilentlyContinue) {
