@@ -44,7 +44,8 @@
         },
         {
           "properties": {
-            "style": "full"
+            "style": "powerlevel",
+            "max_width": 40
           },
           "style": "powerline",
           "template": " {{ .Path }} ",
@@ -79,7 +80,7 @@
       "segments": [
         {
           "properties": {
-            "source": "pwsh"
+            "source": "first_match"
           },
           "style": "powerline",
           "template": " {{ .Name }} \uebd8 ",
