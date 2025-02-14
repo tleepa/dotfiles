@@ -53,8 +53,8 @@ export DBX_CONTAINER_NAME=fedora-toolbox-39
 systemctl status systemd-logind >/dev/null && [ ! "$CONTAINER_ID" ] && systemctl --user is-active podman.socket >/dev/null && export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/podman/podman.sock
 
 # WSL SSH agent
-command -v wsl-ssh-agent-relay >/dev/null && wsl-ssh-agent-relay start
-[ -f "$HOME/.wsl-ssh-agent-relay.pid" ] && export SSH_AUTH_SOCK="$HOME/.wsl-ssh-agent.sock"
+[ "WSL_DISTRO_NAME" ] && command -v wsl-ssh-agent-relay >/dev/null && wsl-ssh-agent-relay start
+[ "WSL_DISTRO_NAME" ] && [ -f "$HOME/.wsl-ssh-agent-relay.pid" ] && export SSH_AUTH_SOCK="$HOME/.wsl-ssh-agent.sock"
 
 # Secrets
 [ -f "$HOME/.config/ansible.cfg" ] >/dev/null && export ANSIBLE_CONFIG="$HOME/.config/ansible.cfg"
