@@ -18,8 +18,22 @@ if ((Get-Command -Name "eza" -ErrorAction SilentlyContinue)) {
         "--group-directories-first"
     )
 
+    function _parse_args {
+        $parsed_args = @()
+        $args | ForEach-Object {
+            if ($_ -match "\*" -or $_ -match "~") {
+                Resolve-Path $_ | ForEach-Object {
+                    $parsed_args += $_
+                }
+            } else {
+                $parsed_args += $_
+            }
+        }
+        return $parsed_args
+    }
+
     function _ls {
-        eza @DEFAULT_EZA_ARGS @args
+        eza @DEFAULT_EZA_ARGS @(_parse_args @args)
     }
 
     function la {
