@@ -73,6 +73,7 @@ command -v kubectl >/dev/null && source <(kubectl completion zsh)
 command -v fx >/dev/null && source <(fx --comp zsh)
 [ ! "$CONTAINER_ID" ] && command -v pipx >/dev/null && command -v register-python-argcomplete >/dev/null && eval "$(register-python-argcomplete pipx)"
 command -v tenv >/dev/null && tenv completion zsh > "$ZSH/custom/completions/_tenv"
+command -v trivy >/dev/null && trivy completion zsh > "$ZSH/custom/completions/_trivy"
 command -v terraform >/dev/null && complete -o nospace -C "$(command -v terraform)" terraform
 command -v packer >/dev/null && complete -o nospace -C "$(command -v packer)" packer
 command -v terramate >/dev/null && complete -o nospace -C "$(command -v terramate)" terramate
