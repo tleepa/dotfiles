@@ -8,16 +8,15 @@ oh-my-posh init pwsh --config "{{ .chezmoi.homeDir }}/Documents/Powershell/mypar
 oh-my-posh init pwsh --config {{ .chezmoi.homeDir }}/.config/powershell/myparadox.omp.json | Invoke-Expression
 {{ end -}}
 
-if (Get-Command -Name Get-AzContext -ErrorAction SilentlyContinue) {
-    $env:POSH_AZURE_ENABLED = $true
-    Clear-AzContext -Scope Process
-}
-
 if (Get-Module -Name 'Terminal-Icons' -ListAvailable) {
     Import-Module -Name Terminal-Icons
 }
 
-if (Get-Command -Name zoxide -ErrorAction SilentlyContinue) {
+if (Get-Module -Name 'git-aliases' -ListAvailable) {
+    Import-Module -Name git-aliases -WarningAction SilentlyContinue
+}
+
+if (Get-Command -Name 'zoxide' -ErrorAction SilentlyContinue) {
     Invoke-Expression (& { (zoxide init --cmd cd powershell | Out-String) })
 }
 
