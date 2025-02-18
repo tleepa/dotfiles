@@ -54,19 +54,6 @@ if ($PSVersionTable.Platform -match "^Win") {
     }
 
 
-    $PipCompletion = {
-        param ($wordToComplete, $commandAst, $cursorPosition)
-
-        (& pip list --format json | ConvertFrom-Json).name | ForEach-Object {
-            if ($_ -match $wordToComplete) {
-                [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
-            }
-        }
-    }
-
-    Register-ArgumentCompleter -Native -CommandName 'pip' -ScriptBlock $PipCompletion
-
-
     if (Get-Command -Name uv) {
         (& uv generate-shell-completion powershell) | Out-String | Invoke-Expression
     }
