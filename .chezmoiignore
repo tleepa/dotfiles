@@ -8,6 +8,7 @@ README.md
 .config/btop
 .config/lf
 .config/powershell
+.config/terraformrc
 .oh-my-zsh/
 .p10k.zsh
 .zshrc
@@ -21,5 +22,6 @@ bin/msysgit2unix*
 .nass.credentials
 {{-   end }}
 **/*.zwc
+AppData
 Documents
 {{- end -}}
