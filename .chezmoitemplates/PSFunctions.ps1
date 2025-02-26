@@ -1,4 +1,20 @@
 {{ if eq .chezmoi.os "windows" -}}
+function export {
+    param (
+        [Parameter(Mandatory, Position = 0)]
+        [string] $EnvVar
+    )
+
+    try {
+        $envName = $EnvVar.Split("=")[0]
+        $envValue = $EnvVar.Split("=")[1]
+        [Environment]::SetEnvironmentVariable($envName, $envValue, "Process")
+    }
+    catch {
+        Write-Error $_.Exception.Message
+    }
+}
+
 function source {
     param (
         [Parameter(Mandatory, Position = 0)]
