@@ -190,8 +190,9 @@
   # Custom icon.
 {{- if eq .chezmoi.osRelease.name "AlmaLinux" }}
   typeset -g POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION=''
-{{- end -}}
+{{- else }}
   # typeset -g POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION='⭐'
+{{- end }}
 
   ################################[ prompt_char: prompt symbol ]################################
   # Transparent background.
