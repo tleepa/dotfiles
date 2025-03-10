@@ -20,8 +20,9 @@ function export {
     )
 
     try {
-        $envName = $EnvVar.Split("=")[0]
-        $envValue = $EnvVar.Split("=")[1]
+        $sepPosition = $EnvVar.IndexOf("=")
+        $envName = $EnvVar.Substring(0, $sepPosition)
+        $envValue = $EnvVar.Substring($sepPosition + 1, $EnvVar.Length - ($sepPosition + 1))
         [Environment]::SetEnvironmentVariable($envName, $(_resolvePaths $envValue), "Process")
     }
     catch {
