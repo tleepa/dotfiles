@@ -3,9 +3,9 @@ $env:POSH_SESSION_DEFAULT_USER = "{{ .chezmoi.username }}"
 {{ if eq .chezmoi.os "windows" -}}
 $env:PATH = "{{ .chezmoi.homeDir }}/.local/bin;{{ .chezmoi.homeDir }}/bin;$($env:PATH)"
 
-oh-my-posh init pwsh --config "{{ .chezmoi.homeDir }}/Documents/Powershell/myparadox.omp.json" | Invoke-Expression
+oh-my-posh init pwsh --config "{{ .chezmoi.homeDir }}/Documents/Powershell/myparadox.omp.yaml" | Invoke-Expression
 {{ else if eq .chezmoi.os "linux" -}}
-oh-my-posh init pwsh --config {{ .chezmoi.homeDir }}/.config/powershell/myparadox.omp.json | Invoke-Expression
+oh-my-posh init pwsh --config {{ .chezmoi.homeDir }}/.config/powershell/myparadox.omp.yaml | Invoke-Expression
 {{ end -}}
 
 if (Get-Module -Name 'Terminal-Icons' -ListAvailable) {
