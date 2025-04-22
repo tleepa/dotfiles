@@ -30,6 +30,22 @@ function export {
     }
 }
 
+function unset {
+    param (
+        [Parameter(Mandatory, Position = 0)]
+        [string] $EnvVar
+    )
+
+    try {
+        $sepPosition = $EnvVar.IndexOf("=")
+        $envName = $EnvVar.Substring(0, $sepPosition)
+        [Environment]::SetEnvironmentVariable($envName, [NullString]::Value, "Process")
+    }
+    catch {
+        Write-Error $_.Exception.Message
+    }
+}
+
 function source {
     param (
         [Parameter(Mandatory, Position = 0)]
@@ -38,6 +54,19 @@ function source {
 
     try {
         Invoke-Command -ScriptBlock ([ScriptBlock]::Create((Get-Content $Path | Where-Object { $_ -notmatch "^#" -and $_ -ne "" } | ForEach-Object { $_ + ";" })))
+    } catch {
+        Write-Error $_.Exception.Message
+    }
+}
+
+function unsource {
+    param (
+        [Parameter(Mandatory, Position = 0)]
+        [string] $Path
+    )
+
+    try {
+        Invoke-Command -ScriptBlock ([ScriptBlock]::Create((Get-Content $Path | Where-Object { $_ -notmatch "^#" -and $_ -ne "" } | ForEach-Object { ($_ -replace "^export", "unset") + ";" })))
     } catch {
         Write-Error $_.Exception.Message
     }
