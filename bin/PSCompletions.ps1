@@ -54,10 +54,10 @@ if ($PSVersionTable.Platform -match "^Win") {
     }
 
 
-    if (Get-Command -Name uv) {
+    if (Get-Command -Name uv -ErrorAction SilentlyContinue) {
         (& uv generate-shell-completion powershell) | Out-String | Invoke-Expression
     }
-    if (Get-Command -Name uvx) {
+    if (Get-Command -Name uvx -ErrorAction SilentlyContinue) {
         (& uvx --generate-shell-completion powershell) | Out-String | Invoke-Expression
     }
 }

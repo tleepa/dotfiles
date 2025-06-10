@@ -39,7 +39,7 @@ if (Get-Command -Name scoop -ErrorAction SilentlyContinue) {
 
     if ((scoop which "yazi" 6> $null) -and (scoop which "git" 6> $null)) {
         $git_dir = $(scoop prefix git)
-        if (Get-Command -Name fd) {
+        if (Get-Command -Name fd -ErrorAction SilentlyContinue) {
             $file_path = $(fd "file.exe" $git_dir)
             $env:YAZI_FILE_ONE = $file_path
         } else {
