@@ -34,6 +34,7 @@
 [core]
     pager = delta
     autocrlf = {{ $autoCrLf }}
+    excludesFile = {{ .chezmoi.homeDir }}/.gitignore
 {{- if eq .chezmoi.os "windows" }}
     sshCommand = C:/Windows/System32/OpenSSH/ssh.exe
     quotepath = false
