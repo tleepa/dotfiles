@@ -33,6 +33,7 @@ $env:FZF_DEFAULT_OPTS = '--height 40% --layout=reverse --border'
 
 if (Get-Command -Name 'mise' -ErrorAction SilentlyContinue) {
     $env:MISE_DEFAULT_CONFIG_FILENAME = 'mise.local.toml'
+    mise activate --shims pwsh | Invoke-Expression
 }
 
 Set-PSReadLineKeyHandler -Chord 'Ctrl+RightArrow' -Function ForwardWord
