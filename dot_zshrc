@@ -37,7 +37,6 @@ export PAGER=less
 
 export MANPAGER="/usr/bin/less -s -M +Gg"
 export MANROFFOPT=-c
-export TERM=xterm-direct256
 export LESS_TERMCAP_mb=$'\e[1;31m'      # begin bold
 export LESS_TERMCAP_md=$'\e[1;34m'      # begin blink
 export LESS_TERMCAP_so=$'\e[01;45;37m'  # begin reverse video
