@@ -250,28 +250,6 @@
       color: inherit !important; /* Original: -moz-menubarhovertext */
       background-color: color-mix(in srgb, currentColor 20%, transparent) !important; /* Original: -moz-menuhover */
     }
-    /*= Linux - Titlebar button at lwtheme =====================================*/
-    @media not -moz-pref("userChrome.compatibility.os.linux_non_native_titlebar_button") {
-      :root:is(:-moz-lwtheme, [lwtheme]) .titlebar-button {
-        appearance: none !important;
-      }
-      :root:is(:-moz-lwtheme, [lwtheme]) .titlebar-button > .toolbarbutton-icon {
-        appearance: auto !important;
-        width: unset !important;
-        height: unset !important;
-      }
-      :root:is(:-moz-lwtheme, [lwtheme]) .titlebar-min,
-      :root:is(:-moz-lwtheme, [lwtheme]) .titlebar-max,
-      :root:is(:-moz-lwtheme, [lwtheme]) .titlebar-restore,
-      :root:is(:-moz-lwtheme, [lwtheme]) .titlebar-close {
-        list-style-image: none !important;
-      }
-      :root:is(:-moz-lwtheme, [lwtheme]) .titlebar-button,
-      :root:is(:-moz-lwtheme, [lwtheme]) .titlebar-button:hover:active {
-        background-color: unset !important;
-        color: unset !important;
-      }
-    }
   }
   /*= Linux - Light System Default Theme's Selected Tab ========================*/
   @media (-moz-gtk-csd-available) and (prefers-color-scheme: light) {
@@ -777,6 +755,27 @@
   @media (-moz-platform: windows) {
     :root:is(:not([lwtheme]), :not(:-moz-lwtheme))
       #tabbrowser-tabs:not([movingtab])
+      > #pinned-tabs-container
+      > .tabbrowser-tab
+      > .tab-stack
+      > .tab-background[multiselected]:not([selected]),
+    :root[lwtheme-mozlightdark]
+      #tabbrowser-tabs:not([movingtab])
+      > #pinned-tabs-container
+      > .tabbrowser-tab
+      > .tab-stack
+      > .tab-background[multiselected]:not([selected]),
+    :root:is(
+        [style*="--lwt-accent-color: rgb(240, 240, 244); --lwt-text-color: rgba(21, 20, 26);"],
+        [style*="--lwt-accent-color: rgb(28, 27, 34); --lwt-text-color: rgba(251, 251, 254);"]
+      )
+      #tabbrowser-tabs:not([movingtab])
+      > #pinned-tabs-container
+      > .tabbrowser-tab
+      > .tab-stack
+      > .tab-background[multiselected]:not([selected]),
+    :root:is(:not([lwtheme]), :not(:-moz-lwtheme))
+      #tabbrowser-tabs:not([movingtab])
       > #tabbrowser-arrowscrollbox
       > .tabbrowser-tab
       > .tab-stack
@@ -1094,6 +1093,18 @@
     }
     /* Hard Coded */
     @media -moz-pref("userChrome.tab.color_like_toolbar") {
+      :root[lwtheme-mozlightdark][lwt-default-theme-in-dark-mode]
+        #tabbrowser-tabs:not([movingtab])
+        > #pinned-tabs-container
+        > .tabbrowser-tab
+        > .tab-stack
+        > .tab-background[selected],
+      :root[style*="--lwt-accent-color: rgb(28, 27, 34); --lwt-text-color: rgba(251, 251, 254);"][lwt-default-theme-in-dark-mode]
+        #tabbrowser-tabs:not([movingtab])
+        > #pinned-tabs-container
+        > .tabbrowser-tab
+        > .tab-stack
+        > .tab-background[selected],
       :root[lwtheme-mozlightdark][lwt-default-theme-in-dark-mode]
         #tabbrowser-tabs:not([movingtab])
         > #tabbrowser-arrowscrollbox
@@ -1928,7 +1939,6 @@
       > .menu-iconic-icon {
       background-color: var(--menuitem-hover-background-color) !important;
     }
-    html#main-window menupopup #context-navigation > .menuitem-iconic[_moz-menuactive="true"],
     html#main-window
       menupopup
       #context-navigation
@@ -1975,7 +1985,6 @@
         > .menu-iconic-icon {
         background-color: var(--menuitem-hover-background-color) !important;
       }
-      html#main-window menupopup #context-navigation > .menuitem-iconic[_moz-menuactive="true"],
       html#main-window
         menupopup
         #context-navigation
@@ -3282,7 +3291,7 @@
       }
       #placesToolbar > toolbarbutton > .toolbarbutton-icon,
       #placesMenu > menu > image,
-      #placesMenu > menu > .menubar-text {
+      #placesMenu > menu > :is(.menubar-text, .menu-text) {
         -moz-context-properties: fill !important;
         fill: currentColor !important;
       }
@@ -3312,7 +3321,7 @@
         background-color: var(--organizer-selected-background) !important;
         color: var(--organizer-selected-color) !important;
       }
-      #placesMenu > menu > .menubar-text {
+      #placesMenu > menu > :is(.menubar-text, .menu-text) {
         margin-block: 0 !important; /* override menu.css */
         padding-inline-end: 4px !important;
       }
@@ -4203,6 +4212,7 @@
       margin-inline-start: 0 !important;
     }
   }
+  :root:not([uidensity="touch"]) #pinned-tabs-container,
   :root:not([uidensity="touch"]) #tabbrowser-arrowscrollbox {
     --scrollbtn-inner-padding: 1px;
     --scrollbtn-outer-padding: 3px;
@@ -4247,6 +4257,9 @@
   .tabbrowser-tab[fadein]:not([pinned]):not([style*="max-width"]) {
     max-width: var(--tab-max-width) !important; /* Original: 225px */
   }
+  #tabbrowser-tabs[orient="vertical"][expanded] .tabbrowser-tab[fadein]:not([pinned]):not([style*="max-width"]) {
+    max-width: none !important;
+  }
   #tabbrowser-tabs[orient="horizontal"]
     tab-group[collapsed]
     > .tabbrowser-tab[fadein]:not([pinned]):not([style*="max-width"]) {
@@ -4258,6 +4271,9 @@
   }
   /* neighbouring tabs should "pinch" together */
   :root[customizing="true"] #tabbrowser-arrowscrollbox-periphery,
+  #tabbrowser-tabs:not([hasadjacentnewtabbutton]):not([overflow="true"])
+    > #pinned-tabs-container
+    > #tabbrowser-arrowscrollbox-periphery,
   #tabbrowser-tabs:not([hasadjacentnewtabbutton]):not([overflow="true"])
     > #tabbrowser-arrowscrollbox
     > #tabbrowser-arrowscrollbox-periphery {
@@ -4395,6 +4411,16 @@
       ) !important; /* Prevent overflow pinned tab bottom margin */
     }
     @media not -moz-pref("userChrome.tabbar.multi_row") {
+      :root:not([uidensity="compact"]) #TabsToolbar:not([multibar]) #pinned-tabs-container,
+      #TabsToolbar:not([multibar]) #pinned-tabs-container[overflowing="true"] > .tabbrowser-tab[pinned="true"],
+      #TabsToolbar:not([multibar])
+        #pinned-tabs-container[overflowing="true"]
+        > .tabbrowser-tab[pinned="true"]
+        .tab-stack,
+      #TabsToolbar:not([multibar])
+        #pinned-tabs-container[overflowing="true"]
+        > .tabbrowser-tab[pinned="true"]
+        .tab-content,
       :root:not([uidensity="compact"]) #TabsToolbar:not([multibar]) #tabbrowser-arrowscrollbox,
       #TabsToolbar:not([multibar]) #tabbrowser-arrowscrollbox[overflowing="true"] > .tabbrowser-tab[pinned="true"],
       #TabsToolbar:not([multibar])
@@ -4407,12 +4433,14 @@
         .tab-content {
         max-height: var(--tab-min-height) !important; /* Force apply height */
       }
+      :root[uidensity="compact"] #TabsToolbar:not([multibar]) #pinned-tabs-container,
       :root[uidensity="compact"] #TabsToolbar:not([multibar]) #tabbrowser-arrowscrollbox {
         height: var(--tab-min-height) !important;
       }
     }
   }
   /* Scroll Button - Size Fix */
+  :root #pinned-tabs-container,
   :root #tabbrowser-arrowscrollbox {
     --scrollbtn-vertical-padding: 3px;
     --scrollbtn-vertical-border: 2px;
@@ -4507,11 +4535,13 @@
 }
 @media -moz-pref("userChrome.padding.urlView_expanding") or -moz-pref("userChrome.urlView.as_commandbar") {
   #urlbar[breakout][breakout-extend] {
-    top: calc((var(--urlbar-toolbar-height, var(--urlbar-container-height)) - var(--urlbar-height)) / 2) !important;
-    left: 0 !important;
-    width: 100% !important;
+    top: calc(var(--urlbar-container-height) * 2 - var(--urlbar-height)) !important;
+    width: var(--urlbar-width) !important;
+    position: relative !important;
+    margin: 0 !important;
   }
-  #urlbar[breakout][breakout-extend] > #urlbar-input-container {
+  #urlbar[breakout][breakout-extend] > #urlbar-input-container,
+  #urlbar[breakout][breakout-extend] > .urlbar-input-container {
     height: var(--urlbar-height) !important;
     padding-block: 0 !important;
     padding-inline: var(--urlbar-container-padding, 0px) !important;
@@ -6753,6 +6783,7 @@
     width: 100%;
   }
   /* Pinned */
+  #tabbrowser-tabs[positionpinnedtabs] > #pinned-tabs-container > .tabbrowser-tab[pinned][selected="true"],
   #tabbrowser-tabs[positionpinnedtabs] > #tabbrowser-arrowscrollbox > .tabbrowser-tab[pinned][selected="true"] {
     position: relative !important;
   }
@@ -6772,18 +6803,22 @@
   }
   /* Padding */
   @media not -moz-pref("userChrome.centered.tab") {
+    #pinned-tabs-container,
     #tabbrowser-arrowscrollbox {
       margin-inline: 2px !important;
     }
+    :root[sizemode="normal"] #pinned-tabs-container,
     :root[sizemode="normal"] #tabbrowser-arrowscrollbox {
       margin-inline: 6px !important;
     }
   }
   @media -moz-pref("userChrome.centered.tab") {
     @media -moz-pref("userChrome.centered.tab.label") {
+      #pinned-tabs-container,
       #tabbrowser-arrowscrollbox {
         margin-inline: 2px !important;
       }
+      :root[sizemode="normal"] #pinned-tabs-container,
       :root[sizemode="normal"] #tabbrowser-arrowscrollbox {
         margin-inline: 6px !important;
       }
@@ -6828,6 +6863,7 @@
     }
   }
   .scrollbox-clip[orient="horizontal"],
+  #pinned-tabs-container,
   #tabbrowser-arrowscrollbox {
     overflow: -moz-hidden-unscrollable;
     display: block;
@@ -6905,6 +6941,7 @@
     > #tabs-newtab-button {
     z-index: 2 !important;
   }
+  #tabbrowser-tabs[closebuttons="activetab"][hasadjacentnewtabbutton="true"] #pinned-tabs-container,
   #tabbrowser-tabs[closebuttons="activetab"][hasadjacentnewtabbutton="true"] #tabbrowser-arrowscrollbox {
     padding-inline-end: calc(
       16px + (var(--toolbarbutton-inner-padding) + var(--toolbarbutton-outer-padding)) * 2
@@ -6922,6 +6959,16 @@
 /** Tab UI ********************************************************************/
 /*= Tab - Connect to window ==============================================*/
 @media -moz-pref("userChrome.tab.connect_to_window") {
+  #TabsToolbar #tabbrowser-tabs:not([orient="vertical"]) {
+    max-height: var(--tab-min-height);
+  }
+  #TabsToolbar #tabbrowser-tabs:not([orient="vertical"])[movingtab] {
+    padding-bottom: unset !important;
+    margin-bottom: unset !important;
+  }
+  #TabsToolbar[multibar] #tabbrowser-tabs:not([orient="vertical"]) {
+    max-height: var(--tab-min-height_mlt);
+  }
   #tabbrowser-tabs:not([orient="vertical"]) {
     min-height: unset !important; /* Original: var(--tabstrip-min-height) */
   }
@@ -6953,9 +7000,11 @@
     }
   }
   /* Pinned Tab - tabbrowser-arrowscrollbox overflowing */
+  #tabbrowser-tabs[positionpinnedtabs] > #pinned-tabs-container > .tabbrowser-tab[pinned],
   #tabbrowser-tabs[positionpinnedtabs] > #tabbrowser-arrowscrollbox > .tabbrowser-tab[pinned] {
     z-index: 0 !important;
   }
+  #tabbrowser-tabs[positionpinnedtabs] > #pinned-tabs-container > .tabbrowser-tab[pinned] .tab-stack,
   #tabbrowser-tabs[positionpinnedtabs] > #tabbrowser-arrowscrollbox > .tabbrowser-tab[pinned] .tab-stack {
     /* Temporary solution for compatibility #513 */
     overflow-y: clip;
@@ -6990,6 +7039,26 @@
   .tab-background:is([selected], [multiselected]) {
     background-color: var(--tab-selected-bgcolor, var(--toolbar-bgcolor)) !important;
   }
+  :root:is(:-moz-lwtheme, [lwtheme]) #pinned-tabs-container > .tabbrowser-tab > .tab-stack > .tab-background[selected],
+  :root:is(:-moz-lwtheme, [lwtheme])
+    #tabbrowser-tabs:not([movingtab])
+    > #pinned-tabs-container
+    > .tabbrowser-tab
+    > .tab-stack
+    > .tab-background[selected],
+  :root:is(:-moz-lwtheme, [lwtheme])
+    #pinned-tabs-container
+    > tab-group
+    > .tabbrowser-tab
+    > .tab-stack
+    > .tab-background[selected],
+  :root:is(:-moz-lwtheme, [lwtheme])
+    #tabbrowser-tabs[orient="horizontal"]:not([movingtab])
+    > #pinned-tabs-container
+    > tab-group
+    > .tabbrowser-tab
+    > .tab-stack
+    > .tab-background[selected],
   :root:is(:-moz-lwtheme, [lwtheme])
     #tabbrowser-arrowscrollbox
     > .tabbrowser-tab
@@ -7023,6 +7092,30 @@
     background-repeat: repeat-x, repeat-x, no-repeat !important;
   }
   @media -moz-pref("userChrome.theme.transparent.frame") {
+    :root:not([lwtheme-image]):is(:-moz-lwtheme, [lwtheme])
+      #pinned-tabs-container
+      > .tabbrowser-tab
+      > .tab-stack
+      > .tab-background[selected],
+    :root:not([lwtheme-image]):is(:-moz-lwtheme, [lwtheme])
+      #tabbrowser-tabs:not([movingtab])
+      > #pinned-tabs-container
+      > .tabbrowser-tab
+      > .tab-stack
+      > .tab-background[selected],
+    :root:not([lwtheme-image]):is(:-moz-lwtheme, [lwtheme])
+      #pinned-tabs-container
+      > tab-group
+      > .tabbrowser-tab
+      > .tab-stack
+      > .tab-background[selected],
+    :root:not([lwtheme-image]):is(:-moz-lwtheme, [lwtheme])
+      #tabbrowser-tabs[orient="horizontal"]:not([movingtab])
+      > #pinned-tabs-container
+      > tab-group
+      > .tabbrowser-tab
+      > .tab-stack
+      > .tab-background[selected],
     :root:not([lwtheme-image]):is(:-moz-lwtheme, [lwtheme])
       #tabbrowser-arrowscrollbox
       > .tabbrowser-tab
@@ -7064,6 +7157,17 @@
   #vertical-tabs[brighttext] {
     --uc-multiselected-tab-bgcolor: color-mix(in srgb, currentColor 16%, var(--toolbar-bgcolor, transparent));
   }
+  #tabbrowser-tabs:not([movingtab])
+    > #pinned-tabs-container
+    > .tabbrowser-tab
+    > .tab-stack
+    > .tab-background[multiselected]:not([selected]),
+  #tabbrowser-tabs:not([movingtab])
+    > #pinned-tabs-container
+    > tab-group
+    > .tabbrowser-tab
+    > .tab-stack
+    > .tab-background[multiselected]:not([selected]),
   #tabbrowser-tabs:not([movingtab])
     > #tabbrowser-arrowscrollbox
     > .tabbrowser-tab
@@ -7747,12 +7851,14 @@
 /*= Unselected Tab - Divide line =============================================*/
 /*= Unselected Tab - Dynamic Separator =======================================*/
 @media -moz-pref("userChrome.tab.dynamic_separator") {
+  #pinned-tabs-container,
   #tabbrowser-arrowscrollbox {
     --start-tab-separator-position-x: -1.5px;
     --end-tab-separator-position-x: 1.5px;
     --tab-separator-position-x: -2.5px;
     --tab-separator-position-y: calc(-50% + 1px);
   }
+  #pinned-tabs-container:-moz-locale-dir(rtl),
   #tabbrowser-arrowscrollbox:-moz-locale-dir(rtl) {
     --start-tab-separator-position-x: 1.5px;
     --end-tab-separator-position-x: -1.5px;
@@ -7825,6 +7931,12 @@
       transform: translateX(var(--end-tab-separator-position-x)) translateY(var(--tab-separator-position-y)) !important;
     }
   }
+  #pinned-tabs-container:not([orient="vertical"]):not(:empty):not(
+      :has(.tabbrowser-tab[pinned]:is([visuallyselected], [multiselected], :hover):last-of-type)
+    )
+    ~ #tabbrowser-arrowscrollbox:not([orient="vertical"])
+    .tabbrowser-tab:not([visuallyselected], [multiselected], :hover):first-of-type
+    .tab-stack::before,
   #tabbrowser-tabs:not([orient="vertical"])
     .tabbrowser-tab:not([visuallyselected], [multiselected], :hover, :first-of-type)
     .tab-stack::before {
@@ -8298,6 +8410,10 @@
   }
   .tabbrowser-tab[visuallyselected]:not([labelendaligned]):hover .tab-label-container,
   #tabbrowser-tabs:not([closebuttons="activetab"])
+    > #pinned-tabs-container
+    > .tabbrowser-tab:not([visuallyselected], [labelendaligned]):hover
+    .tab-label-container,
+  #tabbrowser-tabs:not([closebuttons="activetab"])
     > #tabbrowser-arrowscrollbox
     > .tabbrowser-tab:not([visuallyselected], [labelendaligned]):hover
     .tab-label-container {
@@ -8306,6 +8422,12 @@
 }
 /** Clipped tabs - Show close button at hover *********************************/
 @media -moz-pref("userChrome.tab.close_button_at_hover") {
+  #tabbrowser-tabs[closebuttons="activetab"]
+    > #pinned-tabs-container
+    > .tabbrowser-tab:not([pinned])
+    > .tab-stack
+    > .tab-content
+    > .tab-close-button:not([selected]),
   #tabbrowser-tabs[closebuttons="activetab"]
     > #tabbrowser-arrowscrollbox
     > .tabbrowser-tab:not([pinned])
@@ -9873,10 +9995,10 @@
     counter-increment: tab-counts;
   }
   .tabbrowser-tab:not([hidden="true"])[pinned="true"] .tab-label-container::before {
-    content: " " counter(tab-counts);
+    content: " " counter(tab-counts);
   }
   .tabbrowser-tab:not([hidden="true"]):not([pinned="true"]) .tab-label-container::before {
-    content: counter(tab-counts) ": ";
+    content: counter(tab-counts) ": ";
   }
   .tabbrowser-tab:not([hidden="true"]) .tab-label-container {
     display: grid;
@@ -12021,6 +12143,28 @@
     #sidebarMenu-popup > *:is(menuitem)[data-l10n-id="sidebar-menu-close"] {
       --menuitem-image: url("chrome://global/skin/icons/close.svg");
     }
+    /*= sidebar-context-menu =====================================================*/
+    #sidebar-context-menu-manage-extension {
+      --menuitem-image: url("chrome://global/skin/icons/settings.svg");
+    }
+    #sidebar-context-menu-remove-extension {
+      --menuitem-image: url("chrome://global/skin/icons/delete.svg");
+    }
+    #sidebar-context-menu-report-extension {
+      --menuitem-image: url("../icons/send.svg");
+    }
+    #sidebar-context-menu-unpin-extension {
+      --menuitem-image: url("../icons/unpin-tab.svg");
+    }
+    #sidebar-context-menu-hide-sidebar {
+      --menuitem-image: url("../icons/eye-hide.svg");
+    }
+    #sidebar-context-menu-customize-sidebar {
+      --menuitem-image: url("chrome://browser/skin/customize.svg");
+    }
+    #sidebar-context-menu-enable-vertical-tabs {
+      --menuitem-image: url("chrome://browser/skin/sidebar-collapsed.svg");
+    }
     /*= chrome://browser/content/syncedtabs/sidebar.xhtml ========================*/
     .item.client[clientType="phone"] > .item-title-container > .item-icon-container {
       background-image: url("../icons/device-phone.svg") !important;
@@ -12083,7 +12227,8 @@
         #menu_ToolsPopup,
         #windowPopup,
         #menu_HelpPopup,
-        #usercssloader-menupopup
+        #usercssloader-menupopup,
+        #sidebar-context-menu
       )
       menuitem:not(.menuitem-iconic, .bookmark-item, .in-menulist, [checked="true"]),
     menupopup:is(
@@ -12097,7 +12242,8 @@
         #menu_ToolsPopup,
         #windowPopup,
         #menu_HelpPopup,
-        #usercssloader-menupopup
+        #usercssloader-menupopup,
+        #sidebar-context-menu
       )
       menu:not(.menu-iconic, .in-menulist, [checked="true"]),
     menupopup:is(#organizeButtonPopup, #maintenanceButtonPopup)
@@ -12171,7 +12317,8 @@
         #menu_ToolsPopup,
         #windowPopup,
         #menu_HelpPopup,
-        #usercssloader-menupopup
+        #usercssloader-menupopup,
+        #sidebar-context-menu
       )
       menuitem:not(.menuitem-iconic, .bookmark-item, .in-menulist, [checked="true"]),
     menupopup:is(
@@ -12185,7 +12332,8 @@
         #menu_ToolsPopup,
         #windowPopup,
         #menu_HelpPopup,
-        #usercssloader-menupopup
+        #usercssloader-menupopup,
+        #sidebar-context-menu
       )
       menu:not(.menu-iconic, .in-menulist, [checked="true"]),
     menupopup:is(#organizeButtonPopup, #maintenanceButtonPopup)
@@ -12233,6 +12381,17 @@
       #main-menubar > menu menupopup {
         --menuitem-image: none; /* Prevent Image Inheritance */
       }
+      @media (-moz-platform: windows) {
+        #main-menubar > menu > :is(.menubar-text, .menu-text) {
+          transform: translateY(-1px) !important; /* Fix menu top padding position */
+          padding-inline-start: 0.3em !important;
+        }
+      }
+      @media (-moz-gtk-csd-available) {
+        #main-menubar > menu > :is(.menubar-text, .menu-text) {
+          padding-inline-start: 3px;
+        }
+      }
       @media not -moz-pref("userChrome.padding.global_menubar") {
         #main-menubar > menu {
           padding-block: 2px !important;
@@ -12268,7 +12427,8 @@
           #menu_ToolsPopup,
           #windowPopup,
           #menu_HelpPopup,
-          #usercssloader-menupopup
+          #usercssloader-menupopup,
+          #sidebar-context-menu
         )
         menuitem:not(.menuitem-iconic, .bookmark-item, .in-menulist, [checked="true"]),
       menupopup:is(
@@ -12282,7 +12442,8 @@
           #menu_ToolsPopup,
           #windowPopup,
           #menu_HelpPopup,
-          #usercssloader-menupopup
+          #usercssloader-menupopup,
+          #sidebar-context-menu
         )
         menu:not(.menu-iconic, .in-menulist, [checked="true"]),
       menupopup:is(#organizeButtonPopup, #maintenanceButtonPopup)
@@ -12339,7 +12500,8 @@
               #menu_ToolsPopup,
               #windowPopup,
               #menu_HelpPopup,
-              #usercssloader-menupopup
+              #usercssloader-menupopup,
+              #sidebar-context-menu
             )
             menuitem:not(.menuitem-iconic, .bookmark-item, .in-menulist, [checked="true"]),
           menupopup:is(
@@ -12353,7 +12515,8 @@
               #menu_ToolsPopup,
               #windowPopup,
               #menu_HelpPopup,
-              #usercssloader-menupopup
+              #usercssloader-menupopup,
+              #sidebar-context-menu
             )
             menu:not(.menu-iconic, .in-menulist, [checked="true"]),
           menupopup:is(#organizeButtonPopup, #maintenanceButtonPopup)
@@ -12400,11 +12563,11 @@
         --context-menu-background-padding-default: 6px;
         --context-menu-text-padding: 21px;
       }
-      #main-menubar > menu > .menubar-text {
-        padding-inline-start: 3px;
-      }
       .menu-icon {
         display: unset !important;
+      }
+      #main-menubar > menu > .menu-icon {
+        display: none !important;
       }
     }
     /* Padding - Mac */
@@ -12447,7 +12610,8 @@
             #menu_ToolsPopup,
             #windowPopup,
             #menu_HelpPopup,
-            #usercssloader-menupopup
+            #usercssloader-menupopup,
+            #sidebar-context-menu
           )
           menuitem:not(.menuitem-iconic, .bookmark-item),
         menupopup:is(
@@ -12461,7 +12625,8 @@
             #menu_ToolsPopup,
             #windowPopup,
             #menu_HelpPopup,
-            #usercssloader-menupopup
+            #usercssloader-menupopup,
+            #sidebar-context-menu
           )
           menu:not(.menu-iconic) {
           list-style-image: var(--menuitem-image, url("../icons/blank.svg")) !important;
@@ -12775,6 +12940,12 @@
       }
       #toolbar-context-undoCloseTab {
         --menuitem-image: url("../icons/undo.svg");
+      }
+      #toolbar-context-customize-sidebar {
+        --menuitem-image: url("chrome://browser/skin/customize.svg");
+      }
+      #toolbar-context-toggle-vertical-tabs {
+        --menuitem-image: url("chrome://browser/skin/sidebar-collapsed.svg");
       }
       #toggle_toolbar-menubar {
         /* checkbox */
@@ -14432,28 +14603,6 @@
     color: inherit !important; /* Original: -moz-menubarhovertext */
     background-color: color-mix(in srgb, currentColor 20%, transparent) !important; /* Original: -moz-menuhover */
   }
-  /*= Linux - Titlebar button at lwtheme =====================================*/
-}
-@media (-moz-bool-pref: "userChrome.compatibility.os") and (-moz-gtk-csd-available) and (not (-moz-bool-pref: "userChrome.compatibility.os.linux_non_native_titlebar_button")) {
-  :root:is(:-moz-lwtheme, [lwtheme]) .titlebar-button {
-    appearance: none !important;
-  }
-  :root:is(:-moz-lwtheme, [lwtheme]) .titlebar-button > .toolbarbutton-icon {
-    appearance: auto !important;
-    width: unset !important;
-    height: unset !important;
-  }
-  :root:is(:-moz-lwtheme, [lwtheme]) .titlebar-min,
-  :root:is(:-moz-lwtheme, [lwtheme]) .titlebar-max,
-  :root:is(:-moz-lwtheme, [lwtheme]) .titlebar-restore,
-  :root:is(:-moz-lwtheme, [lwtheme]) .titlebar-close {
-    list-style-image: none !important;
-  }
-  :root:is(:-moz-lwtheme, [lwtheme]) .titlebar-button,
-  :root:is(:-moz-lwtheme, [lwtheme]) .titlebar-button:hover:active {
-    background-color: unset !important;
-    color: unset !important;
-  }
 }
 @media (-moz-bool-pref: "userChrome.compatibility.os") and (-moz-gtk-csd-available) and (prefers-color-scheme: light) {
   /* Because of
@@ -14947,6 +15096,27 @@
 @media (-moz-bool-pref: "userChrome.theme.system_default") and (-moz-platform: windows) {
   :root:is(:not([lwtheme]), :not(:-moz-lwtheme))
     #tabbrowser-tabs:not([movingtab])
+    > #pinned-tabs-container
+    > .tabbrowser-tab
+    > .tab-stack
+    > .tab-background[multiselected]:not([selected]),
+  :root[lwtheme-mozlightdark]
+    #tabbrowser-tabs:not([movingtab])
+    > #pinned-tabs-container
+    > .tabbrowser-tab
+    > .tab-stack
+    > .tab-background[multiselected]:not([selected]),
+  :root:is(
+      [style*="--lwt-accent-color: rgb(240, 240, 244); --lwt-text-color: rgba(21, 20, 26);"],
+      [style*="--lwt-accent-color: rgb(28, 27, 34); --lwt-text-color: rgba(251, 251, 254);"]
+    )
+    #tabbrowser-tabs:not([movingtab])
+    > #pinned-tabs-container
+    > .tabbrowser-tab
+    > .tab-stack
+    > .tab-background[multiselected]:not([selected]),
+  :root:is(:not([lwtheme]), :not(:-moz-lwtheme))
+    #tabbrowser-tabs:not([movingtab])
     > #tabbrowser-arrowscrollbox
     > .tabbrowser-tab
     > .tab-stack
@@ -15276,6 +15446,18 @@
   }
 }
 @media (-moz-bool-pref: "userChrome.theme.system_default") and (-moz-bool-pref: "layout.css.osx-font-smoothing.enabled") and (-moz-bool-pref: "userChrome.tab.color_like_toolbar") {
+  :root[lwtheme-mozlightdark][lwt-default-theme-in-dark-mode]
+    #tabbrowser-tabs:not([movingtab])
+    > #pinned-tabs-container
+    > .tabbrowser-tab
+    > .tab-stack
+    > .tab-background[selected],
+  :root[style*="--lwt-accent-color: rgb(28, 27, 34); --lwt-text-color: rgba(251, 251, 254);"][lwt-default-theme-in-dark-mode]
+    #tabbrowser-tabs:not([movingtab])
+    > #pinned-tabs-container
+    > .tabbrowser-tab
+    > .tab-stack
+    > .tab-background[selected],
   :root[lwtheme-mozlightdark][lwt-default-theme-in-dark-mode]
     #tabbrowser-tabs:not([movingtab])
     > #tabbrowser-arrowscrollbox
@@ -16111,7 +16293,6 @@
     > .menu-iconic-icon {
     background-color: var(--menuitem-hover-background-color) !important;
   }
-  html#main-window menupopup #context-navigation > .menuitem-iconic[_moz-menuactive="true"],
   html#main-window
     menupopup
     #context-navigation
@@ -16157,7 +16338,6 @@
     > .menu-iconic-icon {
     background-color: var(--menuitem-hover-background-color) !important;
   }
-  html#main-window menupopup #context-navigation > .menuitem-iconic[_moz-menuactive="true"],
   html#main-window
     menupopup
     #context-navigation
@@ -17512,7 +17692,7 @@
     @media (-moz-bool-pref: "userChrome.theme.proton_chrome") and (-moz-gtk-csd-available) {
       #placesToolbar > toolbarbutton > .toolbarbutton-icon,
       #placesMenu > menu > image,
-      #placesMenu > menu > .menubar-text {
+      #placesMenu > menu > :is(.menubar-text, .menu-text) {
         -moz-context-properties: fill !important;
         fill: currentColor !important;
       }
@@ -17550,7 +17730,7 @@
       }
     }
     @media (-moz-bool-pref: "userChrome.theme.proton_chrome") and (-moz-gtk-csd-available) {
-      #placesMenu > menu > .menubar-text {
+      #placesMenu > menu > :is(.menubar-text, .menu-text) {
         margin-block: 0 !important; /* override menu.css */
         padding-inline-end: 4px !important;
       }
@@ -18529,6 +18709,7 @@
   }
 }
 @media (-moz-bool-pref: "userChrome.padding.tabbar_width") {
+  :root:not([uidensity="touch"]) #pinned-tabs-container,
   :root:not([uidensity="touch"]) #tabbrowser-arrowscrollbox {
     --scrollbtn-inner-padding: 1px;
     --scrollbtn-outer-padding: 3px;
@@ -18576,6 +18757,9 @@
   .tabbrowser-tab[fadein]:not([pinned]):not([style*="max-width"]) {
     max-width: var(--tab-max-width) !important; /* Original: 225px */
   }
+  #tabbrowser-tabs[orient="vertical"][expanded] .tabbrowser-tab[fadein]:not([pinned]):not([style*="max-width"]) {
+    max-width: none !important;
+  }
   #tabbrowser-tabs[orient="horizontal"]
     tab-group[collapsed]
     > .tabbrowser-tab[fadein]:not([pinned]):not([style*="max-width"]) {
@@ -18588,6 +18772,9 @@
 }
 @media (-moz-bool-pref: "userChrome.padding.tabbar_width") {
   :root[customizing="true"] #tabbrowser-arrowscrollbox-periphery,
+  #tabbrowser-tabs:not([hasadjacentnewtabbutton]):not([overflow="true"])
+    > #pinned-tabs-container
+    > #tabbrowser-arrowscrollbox-periphery,
   #tabbrowser-tabs:not([hasadjacentnewtabbutton]):not([overflow="true"])
     > #tabbrowser-arrowscrollbox
     > #tabbrowser-arrowscrollbox-periphery {
@@ -18732,6 +18919,10 @@
   }
 }
 @media (-moz-bool-pref: "userChrome.padding.tabbar_height") and (-moz-bool-pref: "userChrome.tab.connect_to_window") and (not (-moz-bool-pref: "userChrome.tabbar.multi_row")) {
+  :root:not([uidensity="compact"]) #TabsToolbar:not([multibar]) #pinned-tabs-container,
+  #TabsToolbar:not([multibar]) #pinned-tabs-container[overflowing="true"] > .tabbrowser-tab[pinned="true"],
+  #TabsToolbar:not([multibar]) #pinned-tabs-container[overflowing="true"] > .tabbrowser-tab[pinned="true"] .tab-stack,
+  #TabsToolbar:not([multibar]) #pinned-tabs-container[overflowing="true"] > .tabbrowser-tab[pinned="true"] .tab-content,
   :root:not([uidensity="compact"]) #TabsToolbar:not([multibar]) #tabbrowser-arrowscrollbox,
   #TabsToolbar:not([multibar]) #tabbrowser-arrowscrollbox[overflowing="true"] > .tabbrowser-tab[pinned="true"],
   #TabsToolbar:not([multibar])
@@ -18744,11 +18935,13 @@
     .tab-content {
     max-height: var(--tab-min-height) !important; /* Force apply height */
   }
+  :root[uidensity="compact"] #TabsToolbar:not([multibar]) #pinned-tabs-container,
   :root[uidensity="compact"] #TabsToolbar:not([multibar]) #tabbrowser-arrowscrollbox {
     height: var(--tab-min-height) !important;
   }
 }
 @media (-moz-bool-pref: "userChrome.padding.tabbar_height") {
+  :root #pinned-tabs-container,
   :root #tabbrowser-arrowscrollbox {
     --scrollbtn-vertical-padding: 3px;
     --scrollbtn-vertical-border: 2px;
@@ -18845,11 +19038,13 @@
 }
 @media (-moz-bool-pref: "userChrome.padding.urlView_expanding"), (-moz-bool-pref: "userChrome.urlView.as_commandbar") {
   #urlbar[breakout][breakout-extend] {
-    top: calc((var(--urlbar-toolbar-height, var(--urlbar-container-height)) - var(--urlbar-height)) / 2) !important;
-    left: 0 !important;
-    width: 100% !important;
+    top: calc(var(--urlbar-container-height) * 2 - var(--urlbar-height)) !important;
+    width: var(--urlbar-width) !important;
+    position: relative !important;
+    margin: 0 !important;
   }
-  #urlbar[breakout][breakout-extend] > #urlbar-input-container {
+  #urlbar[breakout][breakout-extend] > #urlbar-input-container,
+  #urlbar[breakout][breakout-extend] > .urlbar-input-container {
     height: var(--urlbar-height) !important;
     padding-block: 0 !important;
     padding-inline: var(--urlbar-container-padding, 0px) !important;
@@ -21516,6 +21711,7 @@
     width: 100%;
   }
   /* Pinned */
+  #tabbrowser-tabs[positionpinnedtabs] > #pinned-tabs-container > .tabbrowser-tab[pinned][selected="true"],
   #tabbrowser-tabs[positionpinnedtabs] > #tabbrowser-arrowscrollbox > .tabbrowser-tab[pinned][selected="true"] {
     position: relative !important;
   }
@@ -21536,17 +21732,21 @@
   /* Padding */
 }
 @media (-moz-bool-pref: "userChrome.tabbar.as_titlebar") and (not (-moz-bool-pref: "userChrome.centered.tab")) {
+  #pinned-tabs-container,
   #tabbrowser-arrowscrollbox {
     margin-inline: 2px !important;
   }
+  :root[sizemode="normal"] #pinned-tabs-container,
   :root[sizemode="normal"] #tabbrowser-arrowscrollbox {
     margin-inline: 6px !important;
   }
 }
 @media (-moz-bool-pref: "userChrome.tabbar.as_titlebar") and (-moz-bool-pref: "userChrome.centered.tab") and (-moz-bool-pref: "userChrome.centered.tab.label") {
+  #pinned-tabs-container,
   #tabbrowser-arrowscrollbox {
     margin-inline: 2px !important;
   }
+  :root[sizemode="normal"] #pinned-tabs-container,
   :root[sizemode="normal"] #tabbrowser-arrowscrollbox {
     margin-inline: 6px !important;
   }
@@ -21589,6 +21789,7 @@
     }
   }
   .scrollbox-clip[orient="horizontal"],
+  #pinned-tabs-container,
   #tabbrowser-arrowscrollbox {
     overflow: -moz-hidden-unscrollable;
     display: block;
@@ -21666,6 +21867,7 @@
     > #tabs-newtab-button {
     z-index: 2 !important;
   }
+  #tabbrowser-tabs[closebuttons="activetab"][hasadjacentnewtabbutton="true"] #pinned-tabs-container,
   #tabbrowser-tabs[closebuttons="activetab"][hasadjacentnewtabbutton="true"] #tabbrowser-arrowscrollbox {
     padding-inline-end: calc(
       16px + (var(--toolbarbutton-inner-padding) + var(--toolbarbutton-outer-padding)) * 2
@@ -21683,6 +21885,16 @@
 /** Tab UI ********************************************************************/
 /*= Tab - Connect to window ==============================================*/
 @media (-moz-bool-pref: "userChrome.tab.connect_to_window") {
+  #TabsToolbar #tabbrowser-tabs:not([orient="vertical"]) {
+    max-height: var(--tab-min-height);
+  }
+  #TabsToolbar #tabbrowser-tabs:not([orient="vertical"])[movingtab] {
+    padding-bottom: unset !important;
+    margin-bottom: unset !important;
+  }
+  #TabsToolbar[multibar] #tabbrowser-tabs:not([orient="vertical"]) {
+    max-height: var(--tab-min-height_mlt);
+  }
   #tabbrowser-tabs:not([orient="vertical"]) {
     min-height: unset !important; /* Original: var(--tabstrip-min-height) */
   }
@@ -21717,9 +21929,11 @@
   }
 }
 @media (-moz-bool-pref: "userChrome.tab.connect_to_window") {
+  #tabbrowser-tabs[positionpinnedtabs] > #pinned-tabs-container > .tabbrowser-tab[pinned],
   #tabbrowser-tabs[positionpinnedtabs] > #tabbrowser-arrowscrollbox > .tabbrowser-tab[pinned] {
     z-index: 0 !important;
   }
+  #tabbrowser-tabs[positionpinnedtabs] > #pinned-tabs-container > .tabbrowser-tab[pinned] .tab-stack,
   #tabbrowser-tabs[positionpinnedtabs] > #tabbrowser-arrowscrollbox > .tabbrowser-tab[pinned] .tab-stack {
     /* Temporary solution for compatibility #513 */
     overflow-y: clip;
@@ -21755,6 +21969,26 @@
   .tab-background:is([selected], [multiselected]) {
     background-color: var(--tab-selected-bgcolor, var(--toolbar-bgcolor)) !important;
   }
+  :root:is(:-moz-lwtheme, [lwtheme]) #pinned-tabs-container > .tabbrowser-tab > .tab-stack > .tab-background[selected],
+  :root:is(:-moz-lwtheme, [lwtheme])
+    #tabbrowser-tabs:not([movingtab])
+    > #pinned-tabs-container
+    > .tabbrowser-tab
+    > .tab-stack
+    > .tab-background[selected],
+  :root:is(:-moz-lwtheme, [lwtheme])
+    #pinned-tabs-container
+    > tab-group
+    > .tabbrowser-tab
+    > .tab-stack
+    > .tab-background[selected],
+  :root:is(:-moz-lwtheme, [lwtheme])
+    #tabbrowser-tabs[orient="horizontal"]:not([movingtab])
+    > #pinned-tabs-container
+    > tab-group
+    > .tabbrowser-tab
+    > .tab-stack
+    > .tab-background[selected],
   :root:is(:-moz-lwtheme, [lwtheme])
     #tabbrowser-arrowscrollbox
     > .tabbrowser-tab
@@ -21789,6 +22023,30 @@
   }
 }
 @media (-moz-bool-pref: "userChrome.tab.color_like_toolbar") and (-moz-bool-pref: "userChrome.theme.transparent.frame") {
+  :root:not([lwtheme-image]):is(:-moz-lwtheme, [lwtheme])
+    #pinned-tabs-container
+    > .tabbrowser-tab
+    > .tab-stack
+    > .tab-background[selected],
+  :root:not([lwtheme-image]):is(:-moz-lwtheme, [lwtheme])
+    #tabbrowser-tabs:not([movingtab])
+    > #pinned-tabs-container
+    > .tabbrowser-tab
+    > .tab-stack
+    > .tab-background[selected],
+  :root:not([lwtheme-image]):is(:-moz-lwtheme, [lwtheme])
+    #pinned-tabs-container
+    > tab-group
+    > .tabbrowser-tab
+    > .tab-stack
+    > .tab-background[selected],
+  :root:not([lwtheme-image]):is(:-moz-lwtheme, [lwtheme])
+    #tabbrowser-tabs[orient="horizontal"]:not([movingtab])
+    > #pinned-tabs-container
+    > tab-group
+    > .tabbrowser-tab
+    > .tab-stack
+    > .tab-background[selected],
   :root:not([lwtheme-image]):is(:-moz-lwtheme, [lwtheme])
     #tabbrowser-arrowscrollbox
     > .tabbrowser-tab
@@ -21829,6 +22087,17 @@
   #vertical-tabs[brighttext] {
     --uc-multiselected-tab-bgcolor: color-mix(in srgb, currentColor 16%, var(--toolbar-bgcolor, transparent));
   }
+  #tabbrowser-tabs:not([movingtab])
+    > #pinned-tabs-container
+    > .tabbrowser-tab
+    > .tab-stack
+    > .tab-background[multiselected]:not([selected]),
+  #tabbrowser-tabs:not([movingtab])
+    > #pinned-tabs-container
+    > tab-group
+    > .tabbrowser-tab
+    > .tab-stack
+    > .tab-background[multiselected]:not([selected]),
   #tabbrowser-tabs:not([movingtab])
     > #tabbrowser-arrowscrollbox
     > .tabbrowser-tab
@@ -22643,12 +22912,14 @@
 /*= Unselected Tab - Divide line =============================================*/
 /*= Unselected Tab - Dynamic Separator =======================================*/
 @media (-moz-bool-pref: "userChrome.tab.dynamic_separator") {
+  #pinned-tabs-container,
   #tabbrowser-arrowscrollbox {
     --start-tab-separator-position-x: -1.5px;
     --end-tab-separator-position-x: 1.5px;
     --tab-separator-position-x: -2.5px;
     --tab-separator-position-y: calc(-50% + 1px);
   }
+  #pinned-tabs-container:-moz-locale-dir(rtl),
   #tabbrowser-arrowscrollbox:-moz-locale-dir(rtl) {
     --start-tab-separator-position-x: 1.5px;
     --end-tab-separator-position-x: -1.5px;
@@ -22731,6 +23002,12 @@
   }
 }
 @media (-moz-bool-pref: "userChrome.tab.dynamic_separator") {
+  #pinned-tabs-container:not([orient="vertical"]):not(:empty):not(
+      :has(.tabbrowser-tab[pinned]:is([visuallyselected], [multiselected], :hover):last-of-type)
+    )
+    ~ #tabbrowser-arrowscrollbox:not([orient="vertical"])
+    .tabbrowser-tab:not([visuallyselected], [multiselected], :hover):first-of-type
+    .tab-stack::before,
   #tabbrowser-tabs:not([orient="vertical"])
     .tabbrowser-tab:not([visuallyselected], [multiselected], :hover, :first-of-type)
     .tab-stack::before {
@@ -23221,6 +23498,10 @@
   }
   .tabbrowser-tab[visuallyselected]:not([labelendaligned]):hover .tab-label-container,
   #tabbrowser-tabs:not([closebuttons="activetab"])
+    > #pinned-tabs-container
+    > .tabbrowser-tab:not([visuallyselected], [labelendaligned]):hover
+    .tab-label-container,
+  #tabbrowser-tabs:not([closebuttons="activetab"])
     > #tabbrowser-arrowscrollbox
     > .tabbrowser-tab:not([visuallyselected], [labelendaligned]):hover
     .tab-label-container {
@@ -23229,6 +23510,12 @@
 }
 /** Clipped tabs - Show close button at hover *********************************/
 @media (-moz-bool-pref: "userChrome.tab.close_button_at_hover") {
+  #tabbrowser-tabs[closebuttons="activetab"]
+    > #pinned-tabs-container
+    > .tabbrowser-tab:not([pinned])
+    > .tab-stack
+    > .tab-content
+    > .tab-close-button:not([selected]),
   #tabbrowser-tabs[closebuttons="activetab"]
     > #tabbrowser-arrowscrollbox
     > .tabbrowser-tab:not([pinned])
@@ -24931,10 +25218,10 @@
     counter-increment: tab-counts;
   }
   .tabbrowser-tab:not([hidden="true"])[pinned="true"] .tab-label-container::before {
-    content: " " counter(tab-counts);
+    content: " " counter(tab-counts);
   }
   .tabbrowser-tab:not([hidden="true"]):not([pinned="true"]) .tab-label-container::before {
-    content: counter(tab-counts) ": ";
+    content: counter(tab-counts) ": ";
   }
   .tabbrowser-tab:not([hidden="true"]) .tab-label-container {
     display: grid;
@@ -26674,6 +26961,7 @@
   /*= protections-popup ========================================================*/
   /*= identity-popup ===========================================================*/
   /*= sidebarMenu-popup ========================================================*/
+  /*= sidebar-context-menu =====================================================*/
   /*= chrome://browser/content/syncedtabs/sidebar.xhtml ========================*/
   /*= unified-extensions-view ===================================================*/
   /*= Compatibility ============================================================*/
@@ -27559,6 +27847,41 @@
   }
 }
 @media (not (-moz-bool-pref: "userChrome.icon.disabled")) and (-moz-bool-pref: "userChrome.icon.panel") {
+  #sidebar-context-menu-manage-extension {
+    --menuitem-image: url("chrome://global/skin/icons/settings.svg");
+  }
+}
+@media (not (-moz-bool-pref: "userChrome.icon.disabled")) and (-moz-bool-pref: "userChrome.icon.panel") {
+  #sidebar-context-menu-remove-extension {
+    --menuitem-image: url("chrome://global/skin/icons/delete.svg");
+  }
+}
+@media (not (-moz-bool-pref: "userChrome.icon.disabled")) and (-moz-bool-pref: "userChrome.icon.panel") {
+  #sidebar-context-menu-report-extension {
+    --menuitem-image: url("../icons/send.svg");
+  }
+}
+@media (not (-moz-bool-pref: "userChrome.icon.disabled")) and (-moz-bool-pref: "userChrome.icon.panel") {
+  #sidebar-context-menu-unpin-extension {
+    --menuitem-image: url("../icons/unpin-tab.svg");
+  }
+}
+@media (not (-moz-bool-pref: "userChrome.icon.disabled")) and (-moz-bool-pref: "userChrome.icon.panel") {
+  #sidebar-context-menu-hide-sidebar {
+    --menuitem-image: url("../icons/eye-hide.svg");
+  }
+}
+@media (not (-moz-bool-pref: "userChrome.icon.disabled")) and (-moz-bool-pref: "userChrome.icon.panel") {
+  #sidebar-context-menu-customize-sidebar {
+    --menuitem-image: url("chrome://browser/skin/customize.svg");
+  }
+}
+@media (not (-moz-bool-pref: "userChrome.icon.disabled")) and (-moz-bool-pref: "userChrome.icon.panel") {
+  #sidebar-context-menu-enable-vertical-tabs {
+    --menuitem-image: url("chrome://browser/skin/sidebar-collapsed.svg");
+  }
+}
+@media (not (-moz-bool-pref: "userChrome.icon.disabled")) and (-moz-bool-pref: "userChrome.icon.panel") {
   .item.client[clientType="phone"] > .item-title-container > .item-icon-container {
     background-image: url("../icons/device-phone.svg") !important;
   }
@@ -27630,7 +27953,8 @@
       #menu_ToolsPopup,
       #windowPopup,
       #menu_HelpPopup,
-      #usercssloader-menupopup
+      #usercssloader-menupopup,
+      #sidebar-context-menu
     )
     menuitem:not(.menuitem-iconic, .bookmark-item, .in-menulist, [checked="true"]),
   menupopup:is(
@@ -27644,7 +27968,8 @@
       #menu_ToolsPopup,
       #windowPopup,
       #menu_HelpPopup,
-      #usercssloader-menupopup
+      #usercssloader-menupopup,
+      #sidebar-context-menu
     )
     menu:not(.menu-iconic, .in-menulist, [checked="true"]),
   menupopup:is(#organizeButtonPopup, #maintenanceButtonPopup)
@@ -27737,7 +28062,8 @@
       #menu_ToolsPopup,
       #windowPopup,
       #menu_HelpPopup,
-      #usercssloader-menupopup
+      #usercssloader-menupopup,
+      #sidebar-context-menu
     )
     menuitem:not(.menuitem-iconic, .bookmark-item, .in-menulist, [checked="true"]),
   menupopup:is(
@@ -27751,7 +28077,8 @@
       #menu_ToolsPopup,
       #windowPopup,
       #menu_HelpPopup,
-      #usercssloader-menupopup
+      #usercssloader-menupopup,
+      #sidebar-context-menu
     )
     menu:not(.menu-iconic, .in-menulist, [checked="true"]),
   menupopup:is(#organizeButtonPopup, #maintenanceButtonPopup)
@@ -27802,6 +28129,17 @@
     --menuitem-image: none; /* Prevent Image Inheritance */
   }
 }
+@media (not (-moz-bool-pref: "userChrome.icon.disabled")) and (-moz-bool-pref: "userChrome.icon.menu") and (-moz-bool-pref: "userChrome.icon.global_menubar") and (-moz-platform: windows) {
+  #main-menubar > menu > :is(.menubar-text, .menu-text) {
+    transform: translateY(-1px) !important; /* Fix menu top padding position */
+    padding-inline-start: 0.3em !important;
+  }
+}
+@media (not (-moz-bool-pref: "userChrome.icon.disabled")) and (-moz-bool-pref: "userChrome.icon.menu") and (-moz-bool-pref: "userChrome.icon.global_menubar") and (-moz-gtk-csd-available) {
+  #main-menubar > menu > :is(.menubar-text, .menu-text) {
+    padding-inline-start: 3px;
+  }
+}
 @media (not (-moz-bool-pref: "userChrome.icon.disabled")) and (-moz-bool-pref: "userChrome.icon.menu") and (-moz-bool-pref: "userChrome.icon.global_menubar") and (not (-moz-bool-pref: "userChrome.padding.global_menubar")) {
   #main-menubar > menu {
     padding-block: 2px !important;
@@ -27833,7 +28171,8 @@
       #menu_ToolsPopup,
       #windowPopup,
       #menu_HelpPopup,
-      #usercssloader-menupopup
+      #usercssloader-menupopup,
+      #sidebar-context-menu
     )
     menuitem:not(.menuitem-iconic, .bookmark-item, .in-menulist, [checked="true"]),
   menupopup:is(
@@ -27847,7 +28186,8 @@
       #menu_ToolsPopup,
       #windowPopup,
       #menu_HelpPopup,
-      #usercssloader-menupopup
+      #usercssloader-menupopup,
+      #sidebar-context-menu
     )
     menu:not(.menu-iconic, .in-menulist, [checked="true"]),
   menupopup:is(#organizeButtonPopup, #maintenanceButtonPopup)
@@ -27900,7 +28240,8 @@
       #menu_ToolsPopup,
       #windowPopup,
       #menu_HelpPopup,
-      #usercssloader-menupopup
+      #usercssloader-menupopup,
+      #sidebar-context-menu
     )
     menuitem:not(.menuitem-iconic, .bookmark-item, .in-menulist, [checked="true"]),
   menupopup:is(
@@ -27914,7 +28255,8 @@
       #menu_ToolsPopup,
       #windowPopup,
       #menu_HelpPopup,
-      #usercssloader-menupopup
+      #usercssloader-menupopup,
+      #sidebar-context-menu
     )
     menu:not(.menu-iconic, .in-menulist, [checked="true"]),
   menupopup:is(#organizeButtonPopup, #maintenanceButtonPopup)
@@ -27956,11 +28298,11 @@
     --context-menu-background-padding-default: 6px;
     --context-menu-text-padding: 21px;
   }
-  #main-menubar > menu > .menubar-text {
-    padding-inline-start: 3px;
-  }
   .menu-icon {
     display: unset !important;
+  }
+  #main-menubar > menu > .menu-icon {
+    display: none !important;
   }
 }
 @media (not (-moz-bool-pref: "userChrome.icon.disabled")) and (-moz-bool-pref: "userChrome.icon.menu") and (-moz-bool-pref: "layout.css.osx-font-smoothing.enabled") {
@@ -28002,7 +28344,8 @@
       #menu_ToolsPopup,
       #windowPopup,
       #menu_HelpPopup,
-      #usercssloader-menupopup
+      #usercssloader-menupopup,
+      #sidebar-context-menu
     )
     menuitem:not(.menuitem-iconic, .bookmark-item),
   menupopup:is(
@@ -28016,7 +28359,8 @@
       #menu_ToolsPopup,
       #windowPopup,
       #menu_HelpPopup,
-      #usercssloader-menupopup
+      #usercssloader-menupopup,
+      #sidebar-context-menu
     )
     menu:not(.menu-iconic) {
     list-style-image: var(--menuitem-image, url("../icons/blank.svg")) !important;
@@ -28386,6 +28730,16 @@
 @media (not (-moz-bool-pref: "userChrome.icon.disabled")) and (-moz-bool-pref: "userChrome.icon.menu") and (-moz-bool-pref: "userChrome.icon.context_menu") {
   #toolbar-context-undoCloseTab {
     --menuitem-image: url("../icons/undo.svg");
+  }
+}
+@media (not (-moz-bool-pref: "userChrome.icon.disabled")) and (-moz-bool-pref: "userChrome.icon.menu") and (-moz-bool-pref: "userChrome.icon.context_menu") {
+  #toolbar-context-customize-sidebar {
+    --menuitem-image: url("chrome://browser/skin/customize.svg");
+  }
+}
+@media (not (-moz-bool-pref: "userChrome.icon.disabled")) and (-moz-bool-pref: "userChrome.icon.menu") and (-moz-bool-pref: "userChrome.icon.context_menu") {
+  #toolbar-context-toggle-vertical-tabs {
+    --menuitem-image: url("chrome://browser/skin/sidebar-collapsed.svg");
   }
 }
 @media (not (-moz-bool-pref: "userChrome.icon.disabled")) and (-moz-bool-pref: "userChrome.icon.menu") and (-moz-bool-pref: "userChrome.icon.context_menu") {
