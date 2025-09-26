@@ -13,6 +13,28 @@ function _resolvePaths {
     return $parsed_args
 }
 
+function _expandBraces {
+    param(
+        [Parameter(Mandatory, Position = 0)]
+        [string] $Pattern
+    )
+
+    if ($Pattern -match '(.*?)\{([^}]+)\}(.*)') {
+        $prefix = $matches[1]
+        $options = $matches[2] -split ','
+        $suffix = $matches[3]
+
+        $results = @()
+        foreach ($option in $options) {
+            $expanded = $prefix + $option.Trim() + $suffix
+            $results += _expandBraces $expanded
+        }
+        return $results
+    } else {
+        return @($Pattern)
+    }
+}
+
 function export {
     param (
         [Parameter(Mandatory, Position = 0)]
@@ -21,11 +43,26 @@ function export {
 
     try {
         $sepPosition = $EnvVar.IndexOf("=")
-        $envName = $EnvVar.Substring(0, $sepPosition)
-        $envValue = $EnvVar.Substring($sepPosition + 1, $EnvVar.Length - ($sepPosition + 1))
-        [Environment]::SetEnvironmentVariable($envName, $(_resolvePaths $envValue), "Process")
-    }
-    catch {
+        foreach ($envName in (_expandBraces $EnvVar.Substring(0, $sepPosition))) {
+            $envValue = $EnvVar.Substring($sepPosition + 1, $EnvVar.Length - ($sepPosition + 1)).Trim() -replace '\$(?!env:)([a-zA-Z_][a-zA-Z0-9_]*)', '$env:$1'
+            while ($envValue -match '\$env:([a-zA-Z_][a-zA-Z0-9_]*)') {
+                $varName = $matches[1]
+                $varValue = [Environment]::GetEnvironmentVariable($varName, 'Process')
+                if (!$varValue) {
+                    $varValue = Get-Variable -Name $varName -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Value
+                }
+                if ($null -ne $varValue) {
+                    $envValue = $envValue -replace "\`$env:$varName", $varValue
+                } else {
+                    $envValue = $envValue -replace "\`$env:$varName", ""
+                    Write-Warning "Variable '$varName' is not set, using empty value"
+                    break
+                }
+            }
+            [Environment]::SetEnvironmentVariable($envName, $(_resolvePaths $envValue), "Process")
+            Write-Debug "export $envName=$envValue"
+        }
+    } catch {
         Write-Error $_.Exception.Message
     }
 }
@@ -37,11 +74,11 @@ function unset {
     )
 
     try {
-        $sepPosition = $EnvVar.IndexOf("=")
-        $envName = $EnvVar.Substring(0, $sepPosition)
-        [Environment]::SetEnvironmentVariable($envName, [NullString]::Value, "Process")
-    }
-    catch {
+        foreach ($envName in (_expandBraces $EnvVar)) {
+            [Environment]::SetEnvironmentVariable($envName, [NullString]::Value, "Process")
+            Write-Debug "unset $envName"
+        }
+    } catch {
         Write-Error $_.Exception.Message
     }
 }
@@ -49,11 +86,13 @@ function unset {
 function source {
     param (
         [Parameter(Mandatory, Position = 0)]
-        [string] $Path
+        [string] $FilePath
     )
 
     try {
-        Invoke-Command -ScriptBlock ([ScriptBlock]::Create((Get-Content $Path | Where-Object { $_ -notmatch "^#" -and $_ -ne "" } | ForEach-Object { $_ + ";" })))
+        Invoke-Command -ScriptBlock ([ScriptBlock]::Create((Get-Content $FilePath | Where-Object { $_ -notmatch "^#" -and $_ -ne "" } | ForEach-Object {
+                        "{0} '{1}';" -f ($_ -replace "^(export|unset)\s+(.*)", '$1'), ($_ -replace "^(export|unset)\s+(.*)", '$2')
+                    })))
     } catch {
         Write-Error $_.Exception.Message
     }
@@ -62,11 +101,15 @@ function source {
 function unsource {
     param (
         [Parameter(Mandatory, Position = 0)]
-        [string] $Path
+        [string] $FilePath
     )
 
     try {
-        Invoke-Command -ScriptBlock ([ScriptBlock]::Create((Get-Content $Path | Where-Object { $_ -notmatch "^#" -and $_ -ne "" } | ForEach-Object { ($_ -replace "^export", "unset") + ";" })))
+        Invoke-Command -ScriptBlock ([ScriptBlock]::Create((Get-Content $FilePath | Where-Object { $_ -notmatch "^#" -and $_ -ne "" } | ForEach-Object {
+                        if ($_ -match "^export") {
+                            "unset '{0}';" -f ($_ -replace "^export\s+(.*?)=(.*)", '$1')
+                        }
+                    })))
     } catch {
         Write-Error $_.Exception.Message
     }

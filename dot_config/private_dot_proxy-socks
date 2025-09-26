@@ -1,0 +1,7 @@
+export all_proxy=socks5h://127.0.0.1:1080
+export ALL_PROXY=$all_proxy
+export http{,s}_proxy=$all_proxy
+export HTTP{,S}_PROXY=$all_proxy
+
+export no_proxy=127.0.0.1,localhost
+export NO_PROXY=$no_proxy
