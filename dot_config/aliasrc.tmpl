@@ -56,3 +56,23 @@ if command -v z >/dev/null; then
   alias zz='z -'
 fi
 
+unsource() {
+  if [[ $# -eq 0 ]]; then
+    echo "Usage: unsource <file>" >&2
+    return 1
+  fi
+
+  local file="$1"
+
+  if [[ ! -f "$file" ]]; then
+    echo "unsource: $file: No such file" >&2
+    return 1
+  fi
+
+  while IFS= read -r line; do
+    if [[ "$line" =~ ^[[:space:]]*export[[:space:]]+([A-Za-z_][A-Za-z0-9_]*)([=].*)?$ ]]; then
+      local varname="${match[1]}"
+      unset "$varname"
+    fi
+  done < "$file"
+}
