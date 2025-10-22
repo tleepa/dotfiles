@@ -70,9 +70,15 @@ unsource() {
   fi
 
   while IFS= read -r line; do
-    if [[ "$line" =~ ^[[:space:]]*export[[:space:]]+([A-Za-z_][A-Za-z0-9_]*)([=].*)?$ ]]; then
-      local varname="${match[1]}"
-      unset "$varname"
+    [[ "$line" =~ ^[[:space:]]*# ]] && continue
+    [[ -z "${line// /}" ]] && continue
+
+    if [[ "$line" =~ ^[[:space:]]*export[[:space:]]+ ]]; then
+      local exports="${line#*export }"
+      exports="${exports%%=*}"
+
+      eval "unset $exports"
     fi
-  done < "$file"
+  done <"$file"
 }
+
