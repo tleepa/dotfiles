@@ -6,7 +6,6 @@ README.md
 .config/ansible.cfg
 .config/.ansible*
 .config/btop
-.config/lf
 .config/powershell
 .config/terraformrc
 .oh-my-zsh/
@@ -21,6 +20,10 @@ bin/msysgit2unix*
 .mozilla
 .nass.credentials
 {{-   end }}
+**/*.zwc
+AppData
+Documents
+{{- else if eq .chezmoi.os "darwin" }}
 **/*.zwc
 AppData
 Documents

@@ -1,8 +1,0 @@
-# ansible inventory plugin
-export GCP_AUTH_KIND=serviceaccount
-export GCP_SERVICE_ACCOUNT_FILE=~/.config/.gcp-sa.json
-
-# terraform
-export GCP_AUTH_KIND=serviceaccount
-export GOOGLE_APPLICATION_CREDENTIALS=~/.config/.gcp-sa.json
-

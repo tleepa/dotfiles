@@ -50,9 +50,10 @@ export DBX_CONTAINER_NAME=fedora-toolbox-39
 # export DISPLAY=127.0.0.1:0
 
 command -v mise &>/dev/null && export MISE_DEFAULT_CONFIG_FILENAME=mise.local.toml
+command -v brew &>/dev/null && eval "$($(command -v brew) shellenv)" && fpath=(${HOMEBREW_PREFIX}/share/zsh/site-functions $fpath)
 
 # docker
-systemctl status systemd-logind >/dev/null && [ ! "$CONTAINER_ID" ] && systemctl --user is-active podman.socket >/dev/null && export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/podman/podman.sock
+command -v systemctl &>/dev/null && systemctl status systemd-logind >/dev/null && [ ! "$CONTAINER_ID" ] && systemctl --user is-active podman.socket >/dev/null && export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/podman/podman.sock
 
 # WSL SSH agent
 [ "$WSL_DISTRO_NAME" ] && command -v wsl-ssh-agent-relay >/dev/null && wsl-ssh-agent-relay start

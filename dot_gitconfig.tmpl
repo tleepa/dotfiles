@@ -60,16 +60,8 @@
 
 [includeIf "gitdir/i:Repos/Work/"]
     path = .gitconfig-work
-[includeIf "gitdir/i:Repos/Work/{{ keepassxcAttribute "_frx" "company" }}/"]
-    path = .gitconfig-frx
 [includeIf "gitdir/i:Repos/_{{ keepassxcAttribute "Google prv" "name" }}/"]
     path = .gitconfig-prv
 [includeIf "gitdir/i:chezmoi/"]
     path = .gitconfig-prv
 
-[url "caf-ado:v3/{{ keepassxcAttribute "_caf" "ado-org" }}"]
-    insteadOf = git@ssh.dev.azure.com:v3/{{ keepassxcAttribute "_caf" "ado-org" }}
-[url "frx-ado:v3/{{ keepassxcAttribute "_frx" "ado-org" }}"]
-    insteadOf = git@ssh.dev.azure.com:v3/{{ keepassxcAttribute "_frx" "ado-org" }}
-[url "cg-ado:v3/{{ keepassxcAttribute "_base email" "ado-org" }}"]
-    insteadOf = git@ssh.dev.azure.com:v3/{{ keepassxcAttribute "_base email" "ado-org" }}
