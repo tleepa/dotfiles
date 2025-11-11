@@ -49,8 +49,19 @@ export FZF_DEFAULT_OPTS='--color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 --color=fg+:#f
 export DBX_CONTAINER_NAME=fedora-toolbox-39
 # export DISPLAY=127.0.0.1:0
 
+# homebrew
+[ -d /opt/homebrew ] && BREW_CMD=/opt/homebrew/bin/brew
+[ -d /home/linuxbrew ] && BREW_CMD=/home/linuxbrew/.linuxbrew/bin/brew
+if command -v "$BREW_CMD" >/dev/null; then
+  export HOMEBREW_BAT=1
+  export HOMEBREW_NO_EMOJI=1
+
+  eval "$($(command -v "$BREW_CMD") shellenv)"
+  fpath=(${HOMEBREW_PREFIX}/share/zsh/site-functions $fpath)
+fi
+
 command -v mise &>/dev/null && export MISE_DEFAULT_CONFIG_FILENAME=mise.local.toml
-command -v brew &>/dev/null && eval "$($(command -v brew) shellenv)" && fpath=(${HOMEBREW_PREFIX}/share/zsh/site-functions $fpath)
+command -v terraform >/dev/null && export TF_CLI_CONFIG_FILE="$HOME/.config/.terraformrc"
 
 # docker
 command -v systemctl &>/dev/null && systemctl status systemd-logind >/dev/null && [ ! "$CONTAINER_ID" ] && systemctl --user is-active podman.socket >/dev/null && export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/podman/podman.sock
@@ -63,26 +74,13 @@ command -v systemctl &>/dev/null && systemctl status systemd-logind >/dev/null &
 [ -f "$HOME/.config/ansible.cfg" ] >/dev/null && export ANSIBLE_CONFIG="$HOME/.config/ansible.cfg"
 [ -f "$HOME/.config/.ansible-vault-pwd" ] >/dev/null && export ANSIBLE_VAULT_PASSWORD_FILE="$HOME/.config/.ansible-vault-pwd"
 [ -f "$HOME/.config/.github-token" ] && command -v git >/dev/null && source "$HOME/.config/.github-token"
-command -v terraform >/dev/null && export TF_CLI_CONFIG_FILE="$HOME/.config/.terraformrc"
 
 # Completions
-autoload -U +X compinit && compinit
-autoload -U +X bashcompinit && bashcompinit
+autoload -Uz +X compinit && compinit
+autoload -Uz +X bashcompinit && bashcompinit
 
-[ -f /etc/bash_completion.d/azure-cli ] && source /etc/bash_completion.d/azure-cli
-command -v aws_completer >/dev/null && complete -C "$(command -v aws_completer)" aws
-command -v minikube >/dev/null && source <(minikube completion zsh)
-command -v kubectl >/dev/null && source <(kubectl completion zsh)
-command -v fx >/dev/null && source <(fx --comp zsh)
 [ ! "$CONTAINER_ID" ] && command -v pipx >/dev/null && command -v register-python-argcomplete >/dev/null && eval "$(register-python-argcomplete pipx)"
-command -v tenv >/dev/null && tenv completion zsh > "$ZSH/custom/completions/_tenv"
-command -v trivy >/dev/null && trivy completion zsh > "$ZSH/custom/completions/_trivy"
-command -v terraform >/dev/null && complete -o nospace -C "$(command -v terraform)" terraform
-command -v packer >/dev/null && complete -o nospace -C "$(command -v packer)" packer
-command -v terramate >/dev/null && complete -o nospace -C "$(command -v terramate)" terramate
 command -v zoxide &>/dev/null && eval "$(zoxide init zsh)"
-command -v uv &>/dev/null && eval "$(uv generate-shell-completion zsh)"
-command -v uvx &>/dev/null && eval "$(uvx --generate-shell-completion zsh)"
 command -v update-tools.py &>/dev/null && complete -C "update-tools.py -l | tail -n +2" update-tools.py
 [ -f /usr/share/google-cloud-sdk/completion.zsh.inc ] && source /usr/share/google-cloud-sdk/completion.zsh.inc
 
