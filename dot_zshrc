@@ -60,7 +60,7 @@ if command -v "$BREW_CMD" >/dev/null; then
   fpath=(${HOMEBREW_PREFIX}/share/zsh/site-functions $fpath)
 fi
 
-command -v mise &>/dev/null && export MISE_DEFAULT_CONFIG_FILENAME=mise.local.toml
+command -v mise &>/dev/null && export MISE_DEFAULT_CONFIG_FILENAME=mise.local.toml && eval "$(mise activate zsh)"
 command -v terraform >/dev/null && export TF_CLI_CONFIG_FILE="$HOME/.config/.terraformrc"
 
 # docker
