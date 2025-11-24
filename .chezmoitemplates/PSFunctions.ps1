@@ -1,4 +1,20 @@
-{{ if eq .chezmoi.os "windows" -}}
+{{ if eq .chezmoi.os "windows" }}
+if ((Get-Command -Name "scoop" -ErrorAction SilentlyContinue)) {
+
+    function sus {
+        scoop update
+        scoop status
+    }
+
+    function sua {
+        scoop update -a
+        scoop cleanup -a
+        scoop cache rm -a
+    }
+}
+
+{{ end -}}
+
 function _resolvePaths {
     $parsed_args = @()
     $args | ForEach-Object {
@@ -151,23 +167,6 @@ if ((Get-Command -Name "eza" -ErrorAction SilentlyContinue)) {
 
     Set-Alias -Name ls -Value _ls -Force -Option AllScope
 }
-
-if ((Get-Command -Name "scoop" -ErrorAction SilentlyContinue)) {
-
-    function sus {
-        scoop update
-        scoop status
-    }
-
-    function sua {
-        scoop update -a
-        scoop cleanup -a
-        scoop cache rm -a
-    }
-}
-
-{{ end -}}
-
 
 if ((Get-Module -Name 'Microsoft.PowerShell.ConsoleGuiTools' -ListAvailable) -and (Get-Module -Name 'Az.Accounts' -ListAvailable)) {
     function Set-AzSub {
