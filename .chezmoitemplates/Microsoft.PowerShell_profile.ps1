@@ -1,5 +1,9 @@
 $env:POSH_SESSION_DEFAULT_USER = "{{ .chezmoi.username }}"
 
+{{ if eq .chezmoi.os "darwin" -}}
+$env:TEMP = $env:TMPDIR
+{{ end -}}
+
 {{ if eq .chezmoi.os "windows" -}}
 $env:PATH = "{{ .chezmoi.homeDir }}/.local/bin;{{ .chezmoi.homeDir }}/bin;$($env:PATH)"
 
