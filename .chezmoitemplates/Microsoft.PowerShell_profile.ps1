@@ -1,16 +1,15 @@
-$env:POSH_SESSION_DEFAULT_USER = "{{ .chezmoi.username }}"
-
 {{ if eq .chezmoi.os "darwin" -}}
 $env:TEMP = $env:TMPDIR
 {{ end -}}
 
+$env:POSH_SESSION_DEFAULT_USER = "{{ .chezmoi.username }}"
 {{ if eq .chezmoi.os "windows" -}}
 $env:PATH = "{{ .chezmoi.homeDir }}/.local/bin;{{ .chezmoi.homeDir }}/bin;$($env:PATH)"
 
 oh-my-posh init pwsh --config "{{ .chezmoi.homeDir }}/Documents/Powershell/myparadox.omp.yaml" | Invoke-Expression
-{{ else -}}
+{{- else }}
 oh-my-posh init pwsh --config {{ .chezmoi.homeDir }}/.config/powershell/myparadox.omp.yaml | Invoke-Expression
-{{ end -}}
+{{- end }}
 
 if (Get-Module -Name 'Terminal-Icons' -ListAvailable) {
     Import-Module -Name Terminal-Icons
@@ -28,12 +27,6 @@ if (Get-Module -Name 'PSFzf' -ListAvailable) {
     Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory 'Ctrl+r'
 }
 $env:FZF_DEFAULT_OPTS = '--height 40% --layout=reverse --border'
-
-# if (Get-Module -Name 'VMware.VimAutomation.Core' -ListAvailable) {
-#     if ((Get-PowerCLIConfiguration -Scope User).ParticipateInCEIP) {
-#         Set-PowerCLIConfiguration -Scope User -ParticipateInCEIP $false -Confirm:$false | Out-Null
-#     }
-# }
 
 if (Get-Command -Name 'mise' -ErrorAction SilentlyContinue) {
     $env:MISE_DEFAULT_CONFIG_FILENAME = 'mise.local.toml'
