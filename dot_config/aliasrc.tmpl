@@ -77,8 +77,10 @@ unsource() {
     if [[ "$line" =~ ^[[:space:]]*export[[:space:]]+ ]]; then
       local exports="${line#*export }"
       exports="${exports%%=*}"
-
       eval "unset $exports"
+    elif [[ "$line" =~ ^[[:space:]]*unset[[:space:]]+ ]]; then
+      local unsets="${line}"
+      eval "unset $unsets"
     fi
   done <"$file"
 }
