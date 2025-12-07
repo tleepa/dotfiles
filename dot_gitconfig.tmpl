@@ -64,4 +64,7 @@
     path = .gitconfig-prv
 [includeIf "gitdir/i:chezmoi/"]
     path = .gitconfig-prv
-
+{{- if eq .chezmoi.os "linux" }}
+[includeIf "gitdir/i:/home/linuxbrew/.linuxbrew/Homebrew/Library/Taps/"]
+    path = .gitconfig-prv
+{{- end }}
