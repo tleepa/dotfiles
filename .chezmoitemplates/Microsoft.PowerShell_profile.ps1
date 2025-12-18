@@ -39,7 +39,7 @@ Set-PSReadLineKeyHandler -Chord 'Ctrl+LeftArrow' -Function BackwardWord
 Set-PSReadLineKeyHandler -Chord 'Alt+Backspace' -Function BackwardKillWord
 Set-PSReadLineKeyHandler -Key Tab -Function Complete
 Set-PSReadLineKeyHandler -Key Alt+f -Function ForwardWord
-Set-PSReadLineKeyHandler -Key Alt+b -Function Undo
+Set-PSReadLineKeyHandler -Key Alt+b -Function BackwardWord
 
 # Search auto-completion from history
 Set-PSReadLineOption -HistorySearchCursorMovesToEnd
