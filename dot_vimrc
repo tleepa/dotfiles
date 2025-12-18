@@ -55,5 +55,7 @@ augroup numbertoggle
   autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
 augroup END
 
+autocmd FileType toml setlocal commentstring=#\ %s
+
 colorscheme dracula
 
