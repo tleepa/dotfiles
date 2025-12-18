@@ -3,7 +3,7 @@ param (
     [switch] $Noop
 )
 
-$Modules = Get-InstalledModule | Where-Object { $_.Name -notmatch '^Az' -and $_.Name -notmatch 'VMWare\.' -or $_.Name -match 'VMWare\.PowerCLI' }
+$Modules = Get-InstalledModule | Where-Object { $_.Name -notmatch '^Az\.' -and $_.Name -notmatch 'VMWare\.' -or $_.Name -match 'VMWare\.PowerCLI' }
 # $Modules.Count
 
 if (Get-InstalledModule -Name 'Az.Tools.Installer') {
