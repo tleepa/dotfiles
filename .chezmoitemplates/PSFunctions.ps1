@@ -157,6 +157,10 @@ if ((Get-Command -Name "eza" -ErrorAction SilentlyContinue)) {
         ll -T @args
     }
 
+    function lat {
+        la -T @args
+    }
+
     function llg {
         ll --git @args
     }
