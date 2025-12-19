@@ -34,6 +34,7 @@ setopt extended_glob
 export SHELL=/bin/zsh
 export EDITOR=vim
 export PAGER=less
+export ZLE_REMOVE_SUFFIX_CHARS=$' \t\n;&'
 
 export MANPAGER="/usr/bin/less -s -M +Gg"
 export MANROFFOPT=-c
