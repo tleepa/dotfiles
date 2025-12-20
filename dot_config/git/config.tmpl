@@ -58,12 +58,12 @@
     rank = "shortlog -s -n --no-merges"
 
 [includeIf "gitdir/i:Repos/Work/"]
-    path = .gitconfig-work
+    path = config-work
 [includeIf "gitdir/i:Repos/_{{ keepassxcAttribute "Google prv" "name" }}/"]
-    path = .gitconfig-prv
+    path = config-prv
 [includeIf "gitdir/i:chezmoi/"]
-    path = .gitconfig-prv
+    path = config-prv
 {{- if eq .chezmoi.os "linux" }}
 [includeIf "gitdir/i:/home/linuxbrew/.linuxbrew/Homebrew/Library/Taps/"]
-    path = .gitconfig-prv
+    path = config-prv
 {{- end }}
