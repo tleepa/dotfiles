@@ -13,13 +13,11 @@ README.md
 .p10k.zsh
 .zshrc
 .zprofile
-.nass.credentials
 bin/*.sh
 bin/msysgit2unix*
 {{- else if eq .chezmoi.os "linux" }}
 {{-   if and (index .chezmoi.kernel "osrelease") (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}{{/* WSL */}}
 .mozilla
-.nass.credentials
 {{-   end }}
 **/*.zwc
 AppData
