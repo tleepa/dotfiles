@@ -6,6 +6,7 @@ README.md
 .config/ansible.cfg
 .config/.ansible*
 .config/btop
+.config/helix
 .config/powershell
 .config/terraformrc
 .oh-my-zsh/
