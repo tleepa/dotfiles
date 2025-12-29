@@ -26,4 +26,5 @@
 
 --map-syntax "**/.ssh/conf.d/*:SSH Config"
 --map-syntax "**/*ssh_config*:SSH Config"
+--map-syntax "*.conf:ini"
 
