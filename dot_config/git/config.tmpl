@@ -56,7 +56,7 @@
 
 [alias]
     rank = "shortlog -s -n --no-merges"
-    tag-date = "!git show --quiet $1 | awk '/Date:/{ print substr($0, index($0,$3)) }' #"
+    tag-date = "!git show --quiet $1 | awk '/Date:/{ print substr($0, index($0,$3)) }' | head -1 #"
     tag-message = "!git tag -l --format='%(contents)' $1 #"
     tagm = "!GIT_TAG_MESSAGE=$(git tag-message $1) && GIT_COMMITTER_DATE=$(git tag-date $1) && git tag-message $1 && git tag -d $1 && git tag -a $1 $2 -m \"$GIT_TAG_MESSAGE\" #"
     tagmp = "!git tagm $1 $2 && git push --delete origin tags/$1 && git push origin tags/$1 #"
