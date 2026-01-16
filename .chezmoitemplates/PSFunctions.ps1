@@ -195,43 +195,104 @@ function Get-SshSessions {
     | Select-Object -Property Id, Name, CommandLine
 }
 
-function Update-AllModules {
-    param (
-        [switch] $Noop
-    )
-
-    $Modules = Get-InstalledModule | Where-Object { $_.Name -notmatch '^Az\.' -and $_.Name -notmatch 'VMWare\.' -or $_.Name -match 'VMWare\.PowerCLI' }
-    # $Modules.Count
-
-    if (Get-InstalledModule -Name 'Az.Tools.Installer') {
-        Write-Host "Processing AZ modules..."
-        Update-AzModule -Repository PSGallery -WhatIf:$Noop
+function Load-PSResourceGetModule {
+    $prgModuleName = "Microsoft.PowerShell.PSResourceGet"
+    $prgModule = Get-Module -Name $prgModuleName -ListAvailable -ErrorAction SilentlyContinue
+    if ($prgModule) {
+        $prgInstalledVersion = $prgModule | Sort-Object -Property Version | Select-Object -Last 1 | Select-Object -ExpandProperty Version
     } else {
-        $Modules += Get-InstalledModule | Where-Object { $_.Name -eq 'Az' }
+        $prgInstalledVersion = [Version]"0.0.0"
+    }
+    $prgRequiredVersion = [System.Management.Automation.SemanticVersion]"1.2.0-rc1"
+    if ($prgInstalledVersion -lt $prgRequiredVersion) {
+        $prgGalleryVersion = Find-PSResource -Name $prgModuleName | Select-Object -ExpandProperty Version
+        $installArgs = @{
+            Name            = $prgModuleName
+            TrustRepository = $true
+        }
+        if ($prgGalleryVersion -lt $prgRequiredVersion) {
+            $installArgs.Prerelease = $true
+        }
+        Install-PSResource @installArgs
+    }
+    Import-Module -Name $prgModuleName -Force
+}
+
+function Update-AllModules {
+    [CmdletBinding(SupportsShouldProcess)]
+    param()
+
+    Load-PSResourceGetModule
+
+    $Modules = Get-InstalledModule | Select-Object -ExpandProperty Name | Sort-Object -Unique
+    $ModulesToUpdate = $Modules
+
+    if ($Modules -match "^Az\." -and ($Modules -match "Az\.").Count -gt 1) {
+        $ModulesToUpdate = $ModulesToUpdate | Where-Object { $_ -notmatch "^Az\." }
+        if (Get-InstalledModule -Name "Az.Tools.Installer" -ErrorAction SilentlyContinue) {
+            Write-Host "Processing Az.* modules..."
+            Update-AzModule -WhatIf:$WhatIfPreference
+        } else {
+            if ($ModulesToUpdate -notcontains "Az") {
+                $ModulesToUpdate += "Az"
+            }
+        }
     }
 
-    Write-Host "Processing modules..."
-    $Modules | ForEach-Object {
-        $ModName = $_.Name
-        Write-Progress -Activity $ModName -PercentComplete (($Modules.IndexOf($_) + 1) / $Modules.Count * 100)
-        Update-Module -Name $ModName -Scope CurrentUser -WhatIf:$Noop
+    if ($Modules -match "^VMWare\.") {
+        $ModulesToUpdate = $ModulesToUpdate | Where-Object { $_ -notmatch "^VMWare\." }
+        $ModulesToUpdate += "VMWare.PowerCLI"
+    }
+
+    if ($Modules -match "^Microsoft.Entra") {
+        $ModulesToUpdate = $ModulesToUpdate | Where-Object { $_ -notmatch "^Microsoft.Entra" }
+        $ModulesToUpdate += "Microsoft.Entra"
+    }
+
+    Write-Host "Processing modules $($ModulesToUpdate -join ", ")..."
+    if ($ModulesToUpdate.Count -eq 0) {
+        Write-Host "No modules to update."
+        return
+    } else {
+        Update-PSResource -Name $ModulesToUpdate -TrustRepository -Force -WhatIf:$WhatIfPreference
     }
 }
 
 function Cleanup-AllModules {
-    param (
-        [switch] $Noop
-    )
+    [CmdletBinding(SupportsShouldProcess)]
+    param ()
 
-    $Modules = Get-InstalledModule
+    Load-PSResourceGetModule
+
+    $Modules = Get-Module -ListAvailable
+    $InstalledModules = Get-InstalledModule
+    $UserModulePaths = $InstalledModules | ForEach-Object { $_.InstalledLocation } | Sort-Object -Unique
+
+    $Modules = $Modules | Where-Object {
+        $modulePath = $_.ModuleBase
+        $UserModulePaths | Where-Object { $modulePath -match "^$_" }
+    }
+
+    $ModuleNames = $Modules |
+        Select-Object -ExpandProperty Name |
+        Sort-Object -Unique
 
     Write-Host "Processing modules..."
-    $Modules | ForEach-Object -ThrottleLimit 10 -Parallel {
-        $ModName = $_.Name
-        Write-Progress -Activity $ModName -PercentComplete (($($using:Modules).IndexOf($_) + 1) / $($using:Modules).Count * 100)
-        $CurModule = Get-InstalledModule -Name $ModName -AllVersions | Sort-Object -Property { [Version]$_.Version } | Select-Object -SkipLast 1 | ForEach-Object {
-            Uninstall-Module -Name $ModName -RequiredVersion $_.Version -Force -WhatIf:$using:Noop
-        }
-    }
+    $ModuleNames |
+        ForEach-Object -ThrottleLimit 10 -Parallel {
+            $ModName = $_
+            Write-Progress -Activity $ModName -PercentComplete (($($using:ModuleNames).IndexOf($_) + 1) / $($using:ModuleNames).Count * 100)
+            $Using:Modules | Where-Object { $_.Name -eq $ModName } |
+                Sort-Object -Property Version |
+                Select-Object -SkipLast 1 |
+                ForEach-Object {
+                    if ($using:WhatIfPreference) {
+                        Write-Host "What if: Performing the operation 'Uninstall-PSResource' on target '$ModName', version: '$($_.Version)'"
+                    } else {
+                        Write-Host "Uninstalling module: '$ModName', version: '$($_.Version)'"
+                    }
+                    Uninstall-PSResource -Name $ModName -Version $_.Version -SkipDependencyCheck -WarningAction SilentlyContinue -WhatIf:$using:WhatIfPreference
+                }
+            }
 }
 
