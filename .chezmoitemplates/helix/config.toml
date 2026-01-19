@@ -3,3 +3,6 @@ theme = "dracula"
 [editor]
 true-color = true
 
+[editor.indent-guides]
+render = true
+rainbow-option = "dim"
