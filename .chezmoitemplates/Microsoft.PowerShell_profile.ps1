@@ -11,28 +11,6 @@ oh-my-posh init pwsh --config "{{ .chezmoi.homeDir }}/Documents/Powershell/mypar
 oh-my-posh init pwsh --config {{ .chezmoi.homeDir }}/.config/powershell/myparadox.omp.yaml | Invoke-Expression
 {{- end }}
 
-if (Get-Module -Name 'Terminal-Icons' -ListAvailable) {
-    Import-Module -Name Terminal-Icons
-}
-
-if (Get-Module -Name 'git-aliases' -ListAvailable) {
-    Import-Module -Name git-aliases -WarningAction SilentlyContinue
-}
-
-if (Get-Command -Name 'zoxide' -ErrorAction SilentlyContinue) {
-    Invoke-Expression (& { (zoxide init --cmd cd powershell | Out-String) })
-}
-
-if (Get-Module -Name 'PSFzf' -ListAvailable) {
-    Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory 'Ctrl+r'
-}
-$env:FZF_DEFAULT_OPTS = '--height 40% --layout=reverse --border'
-
-if (Get-Command -Name 'mise' -ErrorAction SilentlyContinue) {
-    $env:MISE_DEFAULT_CONFIG_FILENAME = 'mise.local.toml'
-    mise activate --shims pwsh | Invoke-Expression
-}
-
 Set-PSReadLineKeyHandler -Chord 'Ctrl+RightArrow' -Function ForwardWord
 Set-PSReadLineKeyHandler -Chord 'Ctrl+LeftArrow' -Function BackwardWord
 
@@ -60,6 +38,29 @@ Set-PSReadlineOption -Color @{
     Type             = [ConsoleColor]::Cyan
     Comment          = [ConsoleColor]::DarkCyan
     InlinePrediction = "#6272A4"
+}
+
+if (Get-Module -Name 'Terminal-Icons' -ListAvailable) {
+    Import-Module -Name Terminal-Icons
+}
+
+if (Get-Module -Name 'git-aliases' -ListAvailable) {
+    Import-Module -Name git-aliases -WarningAction SilentlyContinue
+}
+
+if (Get-Command -Name 'zoxide' -ErrorAction SilentlyContinue) {
+    Invoke-Expression (& { (zoxide init --cmd cd powershell | Out-String) })
+}
+
+if (Get-Module -Name 'PSFzf' -ListAvailable) {
+    Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory 'Ctrl+r'
+    Set-PSReadLineKeyHandler -Key Tab -ScriptBlock { Invoke-FzfTabCompletion }
+}
+$env:FZF_DEFAULT_OPTS = '--height 40% --layout=reverse --border'
+
+if (Get-Command -Name 'mise' -ErrorAction SilentlyContinue) {
+    $env:MISE_DEFAULT_CONFIG_FILENAME = 'mise.local.toml'
+    mise activate --shims pwsh | Invoke-Expression
 }
 
 if (Test-Path -Path "{{ .chezmoi.homeDir }}/bin/PSCompletions.ps1") {
