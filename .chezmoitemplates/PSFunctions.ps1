@@ -207,13 +207,15 @@ function Load-PSResourceGetModule {
     if ($prgInstalledVersion -lt $prgRequiredVersion) {
         $prgGalleryVersion = Find-PSResource -Name $prgModuleName | Select-Object -ExpandProperty Version
         $installArgs = @{
-            Name            = $prgModuleName
-            TrustRepository = $true
+            Name   = $prgModuleName
+            Scope  = 'CurrentUser'
+            Force  = $true
+            WhatIf = $false
         }
         if ($prgGalleryVersion -lt $prgRequiredVersion) {
-            $installArgs.Prerelease = $true
+            $installArgs.AllowPrerelease = $true
         }
-        Install-PSResource @installArgs
+        Install-Module @installArgs
     }
     Import-Module -Name $prgModuleName -Force
 }
