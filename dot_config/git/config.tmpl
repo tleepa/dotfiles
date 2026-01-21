@@ -60,6 +60,21 @@
     tag-message = "!git tag -l --format='%(contents)' $1 #"
     tagm = "!GIT_TAG_MESSAGE=$(git tag-message $1) && GIT_COMMITTER_DATE=$(git tag-date $1) && git tag-message $1 && git tag -d $1 && git tag -a $1 $2 -m \"$GIT_TAG_MESSAGE\" #"
     tagmp = "!git tagm $1 $2 && git push --delete origin tags/$1 && git push origin tags/$1 #"
+    worktree-add = "!f() { \
+        BRANCH_NAME=${2:-${1}}; \
+        git fetch origin -q && \
+        git worktree add $1 $BRANCH_NAME && \
+        git -C $1 branch --set-upstream-to=origin/$BRANCH_NAME; \
+    }; f"
+    worktree-clone = "!f() { \
+        BASENAME=${1##*/}; DIRNAME=${2:-${BASENAME%.*}}; \
+        mkdir $DIRNAME && \
+        git -C $DIRNAME clone --bare $1 .bare && \
+        echo 'gitdir: ./.bare' > $DIRNAME/.git && \
+        git -C $DIRNAME config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*' && \
+        DEFAULT_BRANCH=$(git -C $DIRNAME remote show origin | awk '/HEAD branch/ {print $3}') && \
+        git -C $NAME worktree-add $DEFAULT_BRANCH; \
+    }; f"
 
 [includeIf "gitdir/i:Repos/Work/"]
     path = config-work

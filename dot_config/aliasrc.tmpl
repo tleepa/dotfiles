@@ -33,16 +33,21 @@ alias scptmp='scp -o "UserKnownHostsFile /dev/null" -o "StrictHostKeyChecking no
 alias sftptmp='sftp -o "UserKnownHostsFile /dev/null" -o "StrictHostKeyChecking no"'
 alias keys='ssh-add -l | sort -k 3'
 
-command -v bat >/dev/null && alias cat='bat -p'
-command -v most >/dev/null && alias man='man -P most'
-command -v delta >/dev/null && alias diff='delta'
-command -v duf >/dev/null && alias duf='duf -hide special'
-command -v watch >/dev/null && alias watch='watch -c'
-command -v ip >/dev/null && alias ip='ip -c'
-command -v pwsh >/dev/null && alias pwsh='pwsh -NoLogo'
-command -v gdu-go >/dev/null && alias gdu='gdu-go'
+command -v bat &>/dev/null && alias cat='bat -p'
+command -v most &>/dev/null && alias man='man -P most'
+command -v delta &>/dev/null && alias diff='delta'
+command -v duf &>/dev/null && alias duf='duf -hide special'
+command -v watch &>/dev/null && alias watch='watch -c'
+command -v ip &>/dev/null && alias ip='ip -c'
+command -v pwsh &>/dev/null && alias pwsh='pwsh -NoLogo'
+command -v gdu-go &>/dev/null && alias gdu='gdu-go'
 
-if command -v eza >/dev/null; then
+if command -v git &>/dev/null; then
+  alias gwtcl='git worktree-clone'
+  alias gwta='git worktree-add'
+fi
+
+if command -v eza &>/dev/null; then
   alias ls='eza --group-directories-first --color-scale all'
   alias la='ls -ablg --icons=auto'
   alias ll='ls -blg --icons=auto'
@@ -53,7 +58,7 @@ if command -v eza >/dev/null; then
   alias lag='la --git'
 fi
 
-if command -v z >/dev/null; then
+if command -v z &>/dev/null; then
   alias cd='z'
   alias zz='z -'
 fi
