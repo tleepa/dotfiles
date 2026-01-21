@@ -16,7 +16,6 @@ command -v fzf &> /dev/null && plugins+=('fzf')
 command -v git &> /dev/null && plugins+=('git')
 [ -d "$ZSH/custom/plugins/zsh-autosuggestions" ] && plugins+=('zsh-autosuggestions')
 [ -d "$ZSH/custom/plugins/zsh-syntax-highlighting" ] && plugins+=('zsh-syntax-highlighting')
-command -v fzf &> /dev/null && [ -d "$ZSH/custom/plugins/fzf-tab" ] && plugins+=('fzf-tab')
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
