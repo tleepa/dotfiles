@@ -86,7 +86,7 @@
 [includeIf "gitdir/i:/home/linuxbrew/.linuxbrew/Homebrew/Library/Taps/"]
     path = config-prv
 {{- end }}
-{{ if eq .chezmoi.os "darwin" }}
+{{ if eq .hostType "work" }}
 [url "bay.github.com:{{ keepassxcAttribute "_bay GitHub" "gh_org" }}"]
     insteadOf = git@github.com:{{ keepassxcAttribute "_bay GitHub" "gh_org" }}
 {{- end }}

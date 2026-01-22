@@ -1,5 +1,10 @@
 {{ $keepassXcDbPath := promptString "path to KeePassXC database" -}}
 {{ $keepassXcKeyFilePath := promptString "path to KeePassXC key file" -}}
+{{- $choices := list "prv" "work" -}}
+{{- $hostType := promptChoice "type of host" $choices -}}
+[data]
+    hostType = {{ $hostType | quote }}
+
 [diff]
     pager = "delta"
 

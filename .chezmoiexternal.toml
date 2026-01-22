@@ -1,3 +1,4 @@
+{{- if ne .hostType "work" -}}
 ["bin/pynapi.py"]
     type = "file"
     executable = true
@@ -8,6 +9,7 @@
     executable = true
     url = "https://gist.github.com/tleepa/72a11fec0071e78b61f58d8e5768af99/raw"
     refreshPeriod = "168h"
+{{- end }}
 [".vim/pack/plugins/start/dracula-theme"]
     type = "archive"
     url = "https://github.com/dracula/vim/archive/master.tar.gz"
@@ -74,7 +76,8 @@
     type = "file"
     url = "https://raw.githubusercontent.com/romainl/vim-cool/master/plugin/cool.vim"
     refreshPeriod = "168h"
-{{ if ne .chezmoi.os "windows" -}}
+{{- if ne .chezmoi.os "windows" }}
+{{   if ne .hostType "work" -}}
 ["bin"]
     type = "archive"
     url = "https://github.com/tleepa/update-tools/archive/main.tar.gz"
@@ -86,6 +89,7 @@
     executable = true
     url = "https://raw.githubusercontent.com/tleepa/libvirt-inventory/master/libvirt-inventory.py"
     refreshPeriod = "168h"
+{{-   end }}
 [".oh-my-zsh"]
     type = "archive"
     url = "https://github.com/ohmyzsh/ohmyzsh/archive/master.tar.gz"

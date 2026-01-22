@@ -1,6 +1,12 @@
 LICENSE.md
 README.md
 
+{{- if eq .hostType "work" }}
+.config/.github-token
+bin/apk-info.sh
+bin/ffmpeg_convert.sh
+bin/remux.sh
+bin/subconv.sh{{ end }}
 {{- if eq .chezmoi.os "windows" }}
 .config/aliasrc
 .config/ansible.cfg
@@ -24,6 +30,7 @@ AppData
 Documents
 {{- else if eq .chezmoi.os "darwin" }}
 **/*.zwc
+bin/disable-screenlock.py
 AppData
 Documents
 {{- end -}}

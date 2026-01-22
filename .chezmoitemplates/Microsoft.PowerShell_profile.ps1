@@ -69,4 +69,3 @@ if (Test-Path -Path "{{ .chezmoi.homeDir }}/bin/PSCompletions.ps1") {
 {{ template "PSFunctions.ps1" . }}
 
 {{ template "PSAliases.ps1" . }}
-
