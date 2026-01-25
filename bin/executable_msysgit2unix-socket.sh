@@ -9,7 +9,7 @@ exitmsg(){
   exit "$exit_code"
 }
 
-usage=$(cat << EOF
+usage=$(cat <<EOF
 
 Usage: ${0##*/} source:destination [source:destination]
 

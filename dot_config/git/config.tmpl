@@ -70,7 +70,7 @@
         BASENAME=${1##*/}; DIRNAME=${2:-${BASENAME%.*}}; \
         mkdir $DIRNAME && \
         git -C $DIRNAME clone --bare $1 .bare && \
-        echo 'gitdir: ./.bare' > $DIRNAME/.git && \
+        echo 'gitdir: ./.bare' >$DIRNAME/.git && \
         git -C $DIRNAME config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*' && \
         DEFAULT_BRANCH=$(git -C $DIRNAME remote show origin | awk '/HEAD branch/ {print $3}') && \
         git -C $NAME worktree-add $DEFAULT_BRANCH; \

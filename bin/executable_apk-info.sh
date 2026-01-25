@@ -14,7 +14,7 @@ exitmsg() {
 }
 
 usage() {
-  cat << EOF
+  cat <<EOF
 Shows basic info on Android apk file.
 
 Usage: ${0##*/} [FLAGS] FILE
@@ -68,10 +68,10 @@ collect_info() {
 
   badging=$(aapt2 dump badging "$1" 2>/dev/null)
 
-  appName=$(grep -oP "application-label:'\K(.*)(?=')" <<< "$badging")
-  packageName=$(grep -oP "package: name='\K(.*?)(?=')" <<< "$badging")
-  versionName=$(grep -oP "versionName='\K(.*?)(?=')" <<< "$badging")
-  versionCode=$(grep -oP "versionCode='\K([\d]+)(?=')" <<< "$badging")
+  appName=$(grep -oP "application-label:'\K(.*)(?=')" <<<"$badging")
+  packageName=$(grep -oP "package: name='\K(.*?)(?=')" <<<"$badging")
+  versionName=$(grep -oP "versionName='\K(.*?)(?=')" <<<"$badging")
+  versionCode=$(grep -oP "versionCode='\K([\d]+)(?=')" <<<"$badging")
   renameTo="$appName $versionName.apk"
   if [[ ${INCLUDE_BUILD:-0} == 1 ]]; then
     renameTo="${renameTo%.*}.$versionCode.apk"
