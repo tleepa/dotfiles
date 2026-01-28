@@ -64,7 +64,7 @@ if command -v "$BREW_CMD" &>/dev/null; then
 fi
 
 command -v mise &>/dev/null && export MISE_DEFAULT_CONFIG_FILENAME=mise.local.toml && eval "$(mise activate zsh)"
-command -v terraform &>/dev/null && export TF_CLI_CONFIG_FILE="$HOME/.config/.terraformrc"
+(command -v terraform &>/dev/null || mise list terraform &>/dev/null) && export TF_CLI_CONFIG_FILE="$HOME/.config/.terraformrc"
 
 # docker
 command -v systemctl &>/dev/null && systemctl status systemd-logind &>/dev/null && [ ! "$CONTAINER_ID" ] && systemctl --user is-active podman.socket &>/dev/null && export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/podman/podman.sock
