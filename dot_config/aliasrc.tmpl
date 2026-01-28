@@ -92,3 +92,16 @@ unsource() {
   done <"$file"
 }
 
+{{ if eq .hostType "work" -}}
+gh_cli=$(type -a gh | awk '! /function/ {print $3; exit}')
+if [[ "${gh_cli:-null}" != "null" ]]; then
+  gh() {
+    if [[ "$PWD" == *{{ keepassxcAttribute "GitHub" "account_name" }}* ]]; then
+      $gh_cli auth switch -u {{ keepassxcAttribute "GitHub" "account_name" }} &>/dev/null
+    else
+      $gh_cli auth switch -u {{ keepassxcAttribute "_bay GitHub" "account_name" }} &>/dev/null
+    fi
+    $gh_cli "$@"
+  }
+fi
+{{ end -}}
