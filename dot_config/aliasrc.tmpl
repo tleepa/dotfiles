@@ -43,8 +43,9 @@ command -v pwsh &>/dev/null && alias pwsh='pwsh -NoLogo'
 command -v gdu-go &>/dev/null && alias gdu='gdu-go'
 
 if command -v git &>/dev/null; then
-  alias gwtcl='git worktree-clone'
+  alias gci='git check-ignore -v'
   alias gwta='git worktree-add'
+  alias gwtcl='git worktree-clone'
 fi
 
 if command -v eza &>/dev/null; then
