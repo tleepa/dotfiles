@@ -25,10 +25,12 @@ url-prefix("chrome:") {
         --uc-my-color: rgb(189, 147, 249);
         --uc-my-color-hover: rgb(214, 172, 255);
         --uc-my-color-active: rgb(214, 172, 255);
+        --uc-my-color-selected: rgb(189, 147, 249);
 
         --color-accent-primary: var(--uc-my-color) !important;
         --color-accent-primary-hover: var(--uc-my-color-hover) !important;
         --color-accent-primary-active: var(--uc-my-color-active) !important;
+        --color-accent-primary-selected: var(--uc-my-color-selected) !important;
 
         --in-content-primary-button-background: var(--uc-my-color) !important;
         --in-content-primary-button-background-hover: var(--uc-my-color-hover) !important;
