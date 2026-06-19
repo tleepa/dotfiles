@@ -1,0 +1,12 @@
+{{ if lookPath "sdl-freerdp" -}}
+#compdef srdp
+
+_srdp() {
+  local dir="$HOME/.config/freerdp"
+  local -a profiles
+  profiles=("$dir"/*.args(N:t:r))
+
+  _describe 'RDP profiles' profiles
+}
+
+{{ end }}

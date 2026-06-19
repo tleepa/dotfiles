@@ -104,4 +104,19 @@ if [[ "${gh_cli:-null}" != "null" ]]; then
     $gh_cli "$@"
   }
 fi
+
+{{ end -}}
+
+{{ if lookPath "sdl-freerdp" -}}
+srdp() {
+  local dir="$HOME/.config/freerdp"
+  if [[ -z "$1" ]]; then
+    echo "Usage: srdp <profile>"
+    return 1
+  fi
+  local f="$dir/$1.args"
+  [[ -r "$f" ]] || { echo "No such profile: $1"; return 1; }
+  echo sdl-freerdp /args-from:file:"$f"
+}
+
 {{ end -}}
