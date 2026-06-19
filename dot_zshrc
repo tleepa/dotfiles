@@ -84,7 +84,6 @@ autoload -Uz +X bashcompinit && bashcompinit
 
 [ ! "$CONTAINER_ID" ] && command -v pipx &>/dev/null && command -v register-python-argcomplete &>/dev/null && eval "$(register-python-argcomplete pipx)"
 command -v zoxide &>/dev/null && eval "$(zoxide init zsh)"
-command -v update-tools.py &>/dev/null && complete -C "update-tools.py -l | tail -n +2" update-tools.py
 [ -f /usr/share/google-cloud-sdk/completion.zsh.inc ] && source /usr/share/google-cloud-sdk/completion.zsh.inc
 
 # Aliases

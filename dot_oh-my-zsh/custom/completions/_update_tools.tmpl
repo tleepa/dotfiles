@@ -1,0 +1,9 @@
+{{ if lookPath "update-tools.py" -}}
+#compdef update-tools.py
+
+local -a tools
+tools=(${(f)"$(update-tools.py -l | tail -n +2 | awk '{$1=$1;print}')"})
+
+_describe 'Supported tools' tools
+
+{{ end }}
