@@ -1,2 +1,3 @@
+{{- if lookPath "ansible" -}}
 {{ (keepassxc "Ansible Vault").Password }}
-
+{{- end -}}
