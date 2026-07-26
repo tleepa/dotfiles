@@ -1,0 +1,10 @@
+[[plugin.deps]]
+use = "yazi-rs/plugins:chmod"
+
+{{ if lookPath "lazygit" -}}
+[[plugin.deps]]
+use = "Lil-Dank/lazygit"
+{{- end }}
+
+[[flavor.deps]]
+use = "yazi-rs/flavors:dracula"

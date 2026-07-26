@@ -1,6 +1,14 @@
 LICENSE.md
 README.md
 
+{{- if not (lookPath "firefox") }}
+.mozilla
+{{- end }}
+
+{{- if not (lookPath "yazi") }}
+.config/yazi
+{{- end }}
+
 {{- if eq .hostType "work" }}
 .config/.github-token
 bin/apk-info.sh

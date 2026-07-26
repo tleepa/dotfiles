@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# package.toml hash: {{ include "dot_config/yazi/package.toml.tmpl" | sha256sum }}
+
+if command -v ya &> /dev/null; then
+    echo "Updating/syncing Yazi packages..."
+    ya pkg install
+fi
