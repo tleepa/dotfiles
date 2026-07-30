@@ -41,3 +41,9 @@ indent = { tab-width = 4, unit = " " }
 command = "dotnet"
 args = ["/opt/bicep-langserver/Bicep.LangServer.dll"]
 {{- end }}
+
+{{ if and (ne .chezmoi.os "windows") (lookPath "podman") -}}
+[language-server.yaml-language-server]
+command = "podman"
+args = ["run", "--rm", "quay.io/redhat-developer/yaml-language-server"]
+{{- end }}
