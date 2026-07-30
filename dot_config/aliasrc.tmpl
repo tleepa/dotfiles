@@ -116,7 +116,7 @@ srdp() {
   fi
   local f="$dir/$1.args"
   [[ -r "$f" ]] || { echo "No such profile: $1"; return 1; }
-  echo sdl-freerdp /args-from:file:"$f"
+  sdl-freerdp /args-from:file:"$f"
 }
 
 {{ end -}}
