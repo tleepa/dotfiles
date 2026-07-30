@@ -120,3 +120,22 @@ srdp() {
 }
 
 {{ end -}}
+
+{{ if lookPath "pinact" -}}
+pinact() {
+  if [ -n "${GITHUB_TOKEN+x}" ]; then
+    command pinact "$@"
+    return $?
+  fi
+  if command -v gh >/dev/null 2>&1; then
+    local _gh_token
+    _gh_token="$(gh auth token 2>/dev/null)" || _gh_token=""
+    if [ -n "$_gh_token" ]; then
+      PINACT_GITHUB_TOKEN="$_gh_token" command pinact "$@"
+      return $?
+    fi
+  fi
+  command pinact "$@"
+}
+
+{{ end -}}
