@@ -26,6 +26,7 @@ file-types = [
   { glob = ".aws/config" },
   "properties",
   "cfg",
+  "conf",
   "directory",
   { glob = ".wslconfig" },
   # Custom
