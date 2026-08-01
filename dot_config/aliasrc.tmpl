@@ -24,6 +24,7 @@ ex ()
 }
 
 alias zshrc='${=EDITOR} ~/.zshrc' # Quick access to the ~/.zshrc file
+alias sudo='sudo '
 
 {{ if eq .chezmoi.os "windows" -}}
 alias killsshsocket="kill $(pgrep -f ssh-auth-sock)"
