@@ -43,6 +43,11 @@ command -v ip &>/dev/null && alias ip='ip -c'
 command -v pwsh &>/dev/null && alias pwsh='pwsh -NoLogo'
 command -v gdu-go &>/dev/null && alias gdu='gdu-go'
 
+if command -v brew &>/dev/null; then
+  alias bo='brew update && brew outdated'
+  alias bu='brew upgrade && brew cleanup --prune=all'
+fi
+
 if command -v git &>/dev/null; then
   alias gci='git check-ignore -v'
   alias gwta='git worktree-add'
