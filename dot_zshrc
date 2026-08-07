@@ -45,9 +45,9 @@ setopt extended_glob
 [ -f ~/.p10k.zsh ] && source ~/.p10k.zsh
 
 export SHELL=/bin/zsh
-export EDITOR=vim
 export PAGER=less
 export ZLE_REMOVE_SUFFIX_CHARS=$' \t\n;'
+command -v hx &>/dev/null && export EDITOR=hx || export EDITOR=vim
 
 export MANPAGER="/usr/bin/less -s -M +Gg"
 export MANROFFOPT=-c
