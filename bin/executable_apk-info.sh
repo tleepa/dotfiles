@@ -50,18 +50,12 @@ parse_commandline() {
       INCLUDE_BUILD=1
       ;;
     *)
-      files_to_process+=("$1")
+      [[ -f "$1" ]] && files_to_process+=("$1") || echo "$1 not found!"
       ;;
     esac
     shift
   done
 }
-
-if ! command -v aapt2 >/dev/null; then
-  exitmsg 1 "'aapt2' is required!"
-fi
-
-[[ -f "$1" ]] || exitmsg 1 "$1 not found!"
 
 collect_info() {
   currentName=${1##*/}
@@ -101,6 +95,10 @@ rename_apk() {
 
 main() {
   parse_commandline "$@"
+
+  if ! command -v aapt2 >/dev/null; then
+    exitmsg 1 "'aapt2' is required!"
+  fi
 
   for file in "${files_to_process[@]}"; do
     collect_info "$file"
