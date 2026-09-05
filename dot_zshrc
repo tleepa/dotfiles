@@ -60,7 +60,7 @@ export LESS_TERMCAP_se=$'\e[0m'         # reset reverse video
 export LESS_TERMCAP_ue=$'\e[0m'         # reset underline
 
 export FZF_DEFAULT_OPTS='--color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9 --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6 --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4'
-export DBX_CONTAINER_NAME=fedora-toolbox-39
+# export DBX_CONTAINER_NAME=fedora-toolbox
 # export DISPLAY=127.0.0.1:0
 
 command -v mise &>/dev/null && export MISE_DEFAULT_CONFIG_FILENAME=mise.local.toml && eval "$(mise activate zsh)"
