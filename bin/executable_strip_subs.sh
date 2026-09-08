@@ -7,6 +7,24 @@ DEST="$HOME/Videos"
 POSITIONAL_ARGS=()
 DEPS=("jq" "mediainfo" "mkvmerge")
 
+ESC="$(printf '\033')"
+if [ -t 1 ] && [ "${TERM:-}" != "dumb" ] && [ -z "${NO_COLOR:-}" ]; then
+  BOLD="${ESC}[1m" DIM="${ESC}[2m" RED="${ESC}[31m" GREEN="${ESC}[32m"
+  YELLOW="${ESC}[33m" RESET="${ESC}[0m"
+else
+  BOLD="" DIM="" RED="" GREEN="" YELLOW="" RESET=""
+fi
+
+title() { printf '%s\n' "${BOLD}$*${RESET}"; }
+say() { printf '%s\n' "$*"; }
+ok() { printf '%s\n' "${GREEN}✓${RESET} $*"; }
+warn() { printf '%s\n' "${YELLOW}!${RESET} $*"; }
+fail() { printf '%s\n' "${RED}error:${RESET} $*" >&2; }
+die() {
+  fail "$@"
+  exit 1
+}
+
 usage() {
   cat 1>&2 <<EOF
 Strips subtitles other than provided language
@@ -24,56 +42,24 @@ NOTES:
 EOF
 }
 
-output() {
-  MESSAGES=()
-  NOEXIT=""
-  while test $# -gt 0; do
-    key="$1"
-    case "$key" in
-      -t | --type)
-        if [[ -n $2 && $2 != -* ]]; then
-          TYPE="$2"
-          shift 2
-        else
-          output -t ERRR "'-t/--type' requires an argument" >&2
-          exit 1
-        fi
-        ;;
-      -n | --no-exit)
-        NOEXIT="yes"
-        shift
-        ;;
-      *)
-        MESSAGES+=("$1")
-        shift
-        ;;
-    esac
-  done
-
-  for MSG in "${MESSAGES[@]}"; do
-    echo "${TYPE}: ${MSG}"
-  done
-  if [[ -z $NOEXIT ]]; then
-    exit 1
-  fi
-}
-
 parse_commandline() {
   if [ $# == 0 ]; then
     usage
     exit 0
   fi
 
-  while test $# -gt 0; do
-    key="$1"
-    case "$key" in
+  while [ $# -gt 0 ]; do
+    case "$1" in
+      -h | --help)
+        usage
+        exit 0
+        ;;
       -l | --lang)
         if [[ -n $2 && $2 != -* ]]; then
           LANG="$2"
           shift 2
         else
-          output -t ERRR "'-l/--lang' requires an argument" >&2
-          exit 1
+          die "'-l/--lang' requires an argument"
         fi
         ;;
       -d | --dest)
@@ -81,17 +67,11 @@ parse_commandline() {
           DEST="$2"
           shift 2
         else
-          output -t ERRR "'-d/--dest' requires an argument" >&2
-          exit 1
+          die "'-d/--dest' requires an argument"
         fi
         ;;
-      -h | --help)
-        usage
-        exit 0
-        ;;
       -*)
-        output -t ERRR "Unknown option '$1'" >&2
-        exit 1
+        die "Unknown option '$1'"
         ;;
       *)
         POSITIONAL_ARGS+=("$1")
@@ -105,7 +85,7 @@ check_deps() {
   CHECK_DEPS=true
   for DEP in "${DEPS[@]}"; do
     if ! command -v "$DEP" >/dev/null; then
-      output -t ERRR -n "dependency '$DEP' not found"
+      fail "dependency '$DEP' not found"
       CHECK_DEPS=false
     fi
   done
@@ -117,15 +97,15 @@ check_deps() {
 
 process_files() {
   for ARG in "${POSITIONAL_ARGS[@]}"; do
-    [ -e "$ARG" ] || output -t ERRR "file '$ARG' not found"
+    [ -e "$ARG" ] || die "file '$ARG' not found"
     FILENAME=${ARG##*/}
     FILE_INFO=$(mediainfo --Output=JSON "$ARG")
     LANG_ALL=$(jq '[.media.track[] | select(.["@type"]=="Text")]' <<<"$FILE_INFO")
     LANG_ITEMS=$(jq --arg LANG "$LANG" '[.[] | select(.Language==$LANG)]' <<<"$LANG_ALL")
 
     if [ "$LANG_ITEMS" == "[]" ]; then
-      output -t ERRR -n "language '$LANG' not found"
-      output -t INFO -n "list of available languages:" "$(jq -r '[.[].Language] | sort | unique | join(", ")' <<<"$LANG_ALL")"
+      fail "language '$LANG' not found"
+      say "list of available languages:" "$(jq -r '[.[].Language] | sort | unique | join(", ")' <<<"$LANG_ALL")"
       exit 1
     fi
     LANG_IDXS=$(jq -r '[.[].StreamOrder] | join(",")' <<<"$LANG_ITEMS")
