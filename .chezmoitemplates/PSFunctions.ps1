@@ -142,11 +142,11 @@ if ((Get-Command -Name "eza" -ErrorAction SilentlyContinue)) {
     }
 
     function la {
-        _ls -ablg --icons @args
+        _ls -ablg --icons=auto @args
     }
 
     function ll {
-        _ls -blg --icons @args
+        _ls -blg --icons=auto @args
     }
 
     function lt {
